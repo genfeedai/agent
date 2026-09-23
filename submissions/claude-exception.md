@@ -3,6 +3,9 @@
 Status: prepared for the owner to send; no exception has been requested or granted.
 Use the current submission portal or its review contact. Do not send account secrets.
 
+Recipient: mcp-review@anthropic.com (official connector review contact).
+Publisher: Decoders Labs Ltd, Malta. The owner sends this from the review contact.
+
 Subject: Genfeed connector — request for AI media-generation eligibility review
 
 We maintain Genfeed, a content-operations service at https://genfeed.ai, and its public

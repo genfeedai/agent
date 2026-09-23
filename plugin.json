@@ -21,7 +21,7 @@
     "com.openai": {
       "interface": {
         "displayName": "Genfeed",
-        "shortDescription": "Create and schedule content from your AI assistant.",
+        "shortDescription": "Create and schedule content",
         "longDescription": "Connect your Genfeed workspace to inspect brands and channels, prepare content, generate media, request scheduled releases, and review analytics. OAuth sign-in is required. Generation can consume Genfeed credits; writes may require a separate Genfeed approval.",
         "developerName": "Decoders Labs Ltd",
         "category": "Productivity",

@@ -19,6 +19,9 @@ client acceptance results, or an approved marketplace listing.
 [listing.json](listing.json) contains ready-to-copy product copy and public URLs.
 Use [reviewer setup](reviewer-setup.md), [acceptance cases](test-cases.md),
 [data-handling notes](data-handling.md), and the [Claude exception draft](claude-exception.md).
+Use [portal copy](form-copy.md), the [recording script](demo-script.md), and the
+[per-tool worksheet](tool-acceptance.csv). The worksheet is seeded from the repository
+catalog; add/remove rows to match the authenticated scan before every-tool testing.
 Existing [brand assets](../assets/README.md) are included.
 
 ## Build deliverables

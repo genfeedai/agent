@@ -2,6 +2,8 @@
 
 ## 0.1.2 - 2026-09-23
 
+- Enforce stricter OpenAI final listing lengths and supply a recording script, portal copy and per-tool evidence worksheet.
+
 - Correct portable and Claude component declarations; add Codex marketplace discovery.
 - Use standard skill metadata and keep optional CLI installation in the setup documentation.
 - Include deployed onboarding tools in the shared connection profile.

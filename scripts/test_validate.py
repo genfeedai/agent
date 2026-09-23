@@ -72,6 +72,22 @@ class PackageValidationTests(unittest.TestCase):
         path.write_text(path.read_text().replace('metadata:', 'metadata: [unterminated'))
         self.assertIn('SKILL.md: invalid YAML frontmatter', validate(self.root))
 
+    def test_openai_final_limits_stricter_than_upload(self):
+        for field, limit in (('displayName', 30), ('shortDescription', 30),
+                             ('longDescription', 4000), ('developerName', 80)):
+            with self.subTest(field=field):
+                original = (self.root / 'plugin.json').read_text()
+                self.change('plugin.json', lambda d: d['extensions']['com.openai']['interface'].update({field: 'x' * (limit + 1)}))
+                self.assertIn(f'OpenAI final submission: {field} must be 1-{limit} characters', validate(self.root))
+                (self.root / 'plugin.json').write_text(original)
+
+    def test_openai_short_description_boundary(self):
+        self.change('plugin.json', lambda d: d['extensions']['com.openai']['interface'].update(shortDescription='x' * 30))
+        self.change('submissions/listing.json', lambda d: d.update(tagline='x' * 30))
+        self.assertEqual([], validate(self.root))
+        self.change('plugin.json', lambda d: d['extensions']['com.openai']['interface'].update(shortDescription='First line\nSecond line'))
+        self.assertIn('OpenAI final submission: shortDescription must be one line', validate(self.root))
+
     def test_package_passes(self):
         self.assertEqual([], validate(self.root))
 

@@ -164,6 +164,17 @@ def validate(root=ROOT):
     if len(listing['tagline']) > 55 or len(listing['description']) > 2000:
         errors.append('listing copy exceeds Claude limits')
     interface = docs['plugin.json']['extensions']['com.openai']['interface']
+    # Final directory limits are stricter than the portable package schema.
+    # https://developers.openai.com/plugins/deploy/submission-errors
+    for field, limit in (('displayName', 30), ('shortDescription', 30),
+                         ('longDescription', 4000), ('developerName', 80)):
+        value = interface.get(field)
+        if not isinstance(value, str) or not value.strip() or len(value) > limit:
+            errors.append(f'OpenAI final submission: {field} must be 1-{limit} characters')
+        elif field != 'longDescription' and len(value.splitlines()) != 1:
+            errors.append(f'OpenAI final submission: {field} must be one line')
+    if listing['tagline'] != interface.get('shortDescription'):
+        errors.append('submission tagline differs from OpenAI short description')
     if docs['plugin.json']['author']['name'] != listing['publisherLegalName'] or interface['developerName'] != listing['publisherLegalName']:
         errors.append('publisher identity differs across manifest and listing')
     if listing['mcpUrl'] != expected_url:

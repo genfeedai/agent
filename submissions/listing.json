@@ -1,6 +1,6 @@
 {
   "name": "Genfeed",
-  "tagline": "Create and schedule content from your AI assistant.",
+  "tagline": "Create and schedule content",
   "description": "Connect your AI assistant to your Genfeed workspace. Inspect brands and connected channels, prepare content drafts, generate images, video or voice, request scheduled releases, and review content performance. Genfeed runs the content jobs and scheduler behind your assistant. Sign in with Genfeed OAuth; a Genfeed account and the relevant workspace permissions are required. Generation can consume Genfeed credits. Drafting and scheduling can create pending approvals; an authorized Genfeed reviewer must approve them before execution. Browser authorization is required when linking social accounts. This connector does not bypass platform permissions or guarantee unattended publishing.",
   "category": "Productivity",
   "websiteUrl": "https://genfeed.ai",
