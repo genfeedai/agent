@@ -3,7 +3,7 @@
   "name": "io.github.genfeedai/genfeed",
   "title": "Genfeed",
   "description": "Hosted Genfeed MCP server for brands, content, generation, scheduling, and analytics.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "websiteUrl": "https://genfeed.ai",
   "repository": {
     "url": "https://github.com/genfeedai/agent",
@@ -12,7 +12,7 @@
   "remotes": [
     {
       "type": "streamable-http",
-      "url": "https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,onboarding"
+      "url": "https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,brand"
     }
   ]
 }

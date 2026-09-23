@@ -31,6 +31,10 @@ jobs:
               "plugin.json",
               "mcp.json",
               "server.json",
+              ".mcp.json",
+              ".grok-plugin/plugin.json",
+              ".grok-plugin/mcp.json",
+              ".grok-plugin/marketplace.json",
           ]
           versions = {}
           for rel in json_files:
@@ -54,7 +58,7 @@ jobs:
               sys.exit("skills/genfeed/SKILL.md is missing a version field")
           versions["skills/genfeed/SKILL.md#version"] = match.group(1)
 
-          expected = "0.1.0"
+          expected = "0.1.1"
           mismatched = {key: value for key, value in versions.items() if value != expected}
           if mismatched:
               sys.exit("versions disagree:\n" + "\n".join(f"  {key}={value}" for key, value in sorted(mismatched.items())))
@@ -75,5 +79,12 @@ jobs:
           if failures:
               sys.exit("credential pattern in URL:\n" + "\n".join(failures))
 
-          print(f"ok {len(json_files)} manifests at {expected}")
+          urls = set()
+          for rel in json_files:
+              for url in url_pattern.findall((root / rel).read_text()):
+                  if url.startswith("https://mcp.genfeed.ai/mcp"):
+                      urls.add(url.rstrip('",'))
+          if len(urls) != 1:
+              sys.exit("manifests disagree on the connect URL: " + ", ".join(sorted(urls)))
+          print(f"ok {len(json_files)} manifests at {expected}, connect URL {urls.pop()}")
           PY

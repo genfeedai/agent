@@ -1,7 +1,7 @@
 {
   "name": "genfeed",
   "displayName": "Genfeed",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Genfeed playbook skill and hosted MCP server for brands, content, generation, scheduling, and analytics.",
   "author": {
     "name": "Genfeed",
