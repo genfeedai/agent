@@ -5,9 +5,9 @@ description: >-
   connecting an agent to Genfeed, drafting or scheduling posts, generating
   image, video, or voice, checking brands, credits, or channels, or handling
   a pending Genfeed approval.
-version: 0.1.1
 license: MIT
 metadata:
+  version: "0.1.2"
   openclaw:
     emoji: "✦"
     homepage: https://github.com/genfeedai/agent
@@ -31,17 +31,17 @@ The MCP server is hosted. This skill is the playbook. Tool names, arguments, and
 3. Before scheduling, call `get_scheduler_capability` for the platform and `validate_scheduler_target` for the proposed target. Do not schedule a target that comes back with errors.
 4. Headless publishing goes through `create_scheduled_release`, `get_scheduled_release`, and `control_scheduled_release`. `create_post` is a draft tool. Never set its `confirmed` flag. An MCP client does not render the publish card that flag expects.
 5. Media comes from `generate_image`, `generate_video`, or `generate_voice`, or from a URL the user already has. No local upload tool exists.
-6. A pending approval is the user's decision. Call `resolve_approval` only after they choose. The tool is admin-gated; if the call is rejected, stop and leave the decision in the product.
+6. A pending approval is the user's decision. Call `resolve_approval` only after they choose. First inspect its availability and required role with `describe_tool`. If it is unavailable to this account, or a call is rejected, stop and ask an authorized Genfeed reviewer to handle the approval. Never claim that a pending action has completed.
 7. Call `get_credits_balance` before batch generation or batch scheduling.
-8. Connect with `?toolsets=core,scheduler,content,generation,analytics,brand` on `https://mcp.genfeed.ai/mcp`. Add `onboarding` only once the server accepts it (`list_toolsets` shows it); an unknown toolset name is rejected before login. Use `list_toolsets`, `search_tools`, and `describe_tool` for anything outside that set. Do not guess a tool name.
+8. Connect with `?toolsets=core,scheduler,content,generation,analytics,brand,onboarding` on `https://mcp.genfeed.ai/mcp`. An unknown toolset name is rejected before login; inspect the public server card and report a deployment mismatch instead of silently widening access. Use `list_toolsets`, `search_tools`, and `describe_tool` for anything outside that set. Do not guess a tool name.
 
 ## Connect
 
 Streamable HTTP. Preferred URL:
 
-`https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,brand`
+`https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,brand,onboarding`
 
-The bare URL lists the full MCP catalog (about 120 tools). Prefer the toolset query. `list_toolsets` tells you which toolsets the connected server actually serves.
+The bare URL lists the full role-visible MCP catalog; the count changes with deployments. Prefer the toolset query. `list_toolsets` tells you which toolsets the connected server actually serves.
 
 OAuth, from the product connect helper:
 
@@ -58,7 +58,7 @@ API key, only when the client has no OAuth. The user runs `genfeed login`, then 
 3. `get_scheduler_capability` for the platform, then `validate_scheduler_target`.
 4. `get_credits_balance` when this is one of several posts.
 5. `create_scheduled_release` with `release.title`, `release.baseContent`, `release.timezone`, and `release.targets` (`credentialId`, `platform`). Pass `idempotencyKey` on retries.
-6. `get_scheduled_release` and read the state back.
+6. If the result is pending approval, report its approval ID and stop this sequence. After approval actually executes and returns a release ID, call `get_scheduled_release` and read the state back. A pending approval ID is not a release ID.
 7. `control_scheduled_release` only for cancel, pause, resume, or publish-now. `update_scheduled_release` for edits.
 
 `create_scheduled_release`, `update_scheduled_release`, and `control_scheduled_release` are approval-required. Tell the user a pending approval exists. Do not call `resolve_approval` until they decide.

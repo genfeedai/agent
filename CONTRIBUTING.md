@@ -1,33 +1,42 @@
 # Contributing
 
-This repo holds install manifests and the agent playbook. Product changes belong in `genfeedai/genfeed.ai`.
+This repo holds install manifests, the agent playbook and submission materials.
+Product changes belong in `genfeedai/genfeed.ai`.
 
-## Tool list
+## Tool catalog
 
-`skills/genfeed/references/tools.md` is generated from the monorepo:
+`skills/genfeed/references/tools.md` is generated from the monorepo curated MCP
+catalog, source definitions and mutation policy. Do not hand-edit rows or invent
+tools. Counts and permissions may differ by server revision and caller role;
+`tools/list` and `describe_tool` are authoritative for the active connection.
 
-- MCP rows are `CURATED_ACTION_CATALOG` entries whose `surfaces` include `mcp`.
-- Description and top-level `required` come from `packages/actions/src/registry/source/**`.
-- Approval is `MUTATION_POLICY_BY_NAME[name] === 'approval-required'`.
+## Release
 
-Regenerate that file when the catalog changes. Do not hand-edit a row to invent a tool.
+Use root `plugin.json` version as the authority. Update all client versions,
+marketplace versions, `server.json`, skill `metadata.version`, and CHANGELOG together.
+All manifests use the same URL, including `brand` and `onboarding` toolsets.
+Claude and Grok discover root `.mcp.json`; portable hosts discover `mcp.json`.
+Cursor's native manifest points to `.cursor-plugin/mcp.json`.
 
-## Versions
+## Verification and packaging
 
-Keep `0.1.0` (or the next release) identical in:
+On your authorized verification host:
 
-- `skills/genfeed/SKILL.md` frontmatter `version`
-- `.claude-plugin/marketplace.json` (`metadata.version` and the plugin `version`)
-- `.claude-plugin/plugin.json`
-- `.cursor-plugin/plugin.json`
-- `gemini-extension.json`
-- `plugin.json`
-- `server.json`
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install -r scripts/requirements.txt
+.venv/bin/python scripts/validate.py
+.venv/bin/python -m unittest discover -s scripts -p 'test_*.py'
+.venv/bin/python scripts/build_submission.py
+claude plugin validate .claude-plugin/plugin.json
+claude plugin validate .claude-plugin/marketplace.json
+```
 
-## Credentials
+CI runs schema and semantic validation, regression tests, and packaging. Its
+`genfeed-submission` artifact includes plugin and skills ZIPs, submission documents,
+and a commit-pinned Grok catalog entry. No package script signs in or publishes.
+Before a directory submission, run the manual acceptance cases in
+`submissions/test-cases.md`. A green packaging job is not authenticated acceptance.
 
-Connect URLs point at `https://mcp.genfeed.ai/mcp`. A toolset query is fine. A key, token, or secret in any URL is not. API keys travel in an `Authorization` header.
-
-## Checks
-
-Pull requests run `.github/workflows/validate.yml`: every JSON manifest parses, versions agree, and no URL contains a credential pattern.
+Refresh upstream schemas using `schemas/sources.json`; retain origin and digest.
+Never commit `.env` files, reviewer credentials, private test reports or auth logs.

@@ -1,14 +1,45 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "genfeed",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Genfeed playbook skill and hosted MCP server for brands, content, generation, scheduling, and analytics.",
   "author": {
-    "name": "Genfeed"
+    "name": "Genfeed",
+    "url": "https://genfeed.ai"
   },
   "license": "MIT",
-  "keywords": ["genfeed", "mcp", "social", "content", "scheduler"],
+  "keywords": [
+    "genfeed",
+    "mcp",
+    "social",
+    "content",
+    "scheduler"
+  ],
   "homepage": "https://github.com/genfeedai/agent",
   "repository": "https://github.com/genfeedai/agent",
-  "skills": "./skills"
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Genfeed",
+        "shortDescription": "Create and schedule content from your AI assistant.",
+        "longDescription": "Connect your Genfeed workspace to inspect brands and channels, prepare content, generate media, request scheduled releases, and review analytics. OAuth sign-in is required. Generation can consume Genfeed credits; writes may require a separate Genfeed approval.",
+        "developerName": "Genfeed",
+        "category": "Productivity",
+        "capabilities": [
+          "Read",
+          "Write"
+        ],
+        "websiteURL": "https://genfeed.ai",
+        "privacyPolicyURL": "https://genfeed.ai/privacy",
+        "termsOfServiceURL": "https://genfeed.ai/terms",
+        "defaultPrompt": [
+          "List my Genfeed brands and check their publishing readiness.",
+          "Prepare a LinkedIn draft for my selected brand without publishing it.",
+          "Show my content calendar and recent performance."
+        ],
+        "logo": "./assets/logo.jpg",
+        "composerIcon": "./assets/logo.jpg"
+      }
+    }
+  }
 }

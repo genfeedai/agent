@@ -2,7 +2,7 @@
   "mcpServers": {
     "genfeed": {
       "type": "http",
-      "url": "https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,brand"
+      "url": "https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,brand,onboarding"
     }
   }
 }
