@@ -2,9 +2,11 @@
 
 Public package for connecting an AI agent to [Genfeed](https://genfeed.ai). The playbook skill, client manifests, and MCP Registry entry live here. The MCP server stays in the [genfeed.ai](https://github.com/genfeedai/genfeed.ai) monorepo (`apps/server/mcp`) and is hosted at `https://mcp.genfeed.ai/mcp`.
 
-Connect with the distribution toolset profile so clients are not handed the full 123-tool catalog:
+Connect with the distribution toolset profile so clients are not handed the full catalog (about 120 tools):
 
-`https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,onboarding`
+`https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,brand`
+
+That profile lists about 50 tools and is accepted by production today. The `onboarding` toolset (`connect_social_account`, `get_connection_status`, `initiate_oauth_connect`) is on `master` but not yet deployed; production rejects `toolsets=...,onboarding` with `Unknown toolset(s)` until the next deploy. Add it after that. Unknown toolset names fail before login, so a wrong profile looks like a broken server.
 
 ## Authentication
 
@@ -37,13 +39,13 @@ Do not put the key in the URL. On HTTP 401, stop and ask the user to sign in. Do
 Or add the server directly, then authenticate with `/mcp`:
 
 ```bash
-claude mcp add --transport http genfeed --scope user "https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,onboarding"
+claude mcp add --transport http genfeed --scope user "https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,brand"
 ```
 
 ### Codex
 
 ```bash
-codex mcp add genfeed --url "https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,onboarding"
+codex mcp add genfeed --url "https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,brand"
 codex mcp login genfeed
 ```
 
@@ -73,9 +75,13 @@ Root `plugin.json` and `mcp.json` are the Agent Plugins 1.0.0 layout. `skills/ge
 
 The skill is `skills/genfeed` (`name: genfeed`, `metadata.openclaw` install block for the optional CLI). Point an existing OpenClaw install of `openclaw-integration` at this repository. Hosted MCP URL above. OAuth first.
 
+### Grok
+
+Grok Build reads `.grok-plugin/` (plugin, `mcp.json`, marketplace entry) and also the root `.mcp.json`. Consumer Grok: grok.com → Connectors → Custom, paste the MCP URL, choose OAuth. Listing in xAI's catalog is a pull request to `xai-org/plugin-marketplace` with this repo pinned to a commit SHA; not submitted yet.
+
 ### MCP Registry
 
-`server.json` publishes `io.github.genfeedai/genfeed` as a remote `streamable-http` server. Publishing to the registry is a separate step from this repository.
+`server.json` publishes `io.github.genfeedai/genfeed` as a remote `streamable-http` server. Publishing to the registry is a separate step from this repository and has not been done yet; the same is true for the Claude, Cursor, ClawHub and Grok directories.
 
 ## What the agent should do
 
