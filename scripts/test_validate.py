@@ -49,5 +49,10 @@ class PackageValidationTests(unittest.TestCase):
         self.assertTrue(any('credential-like' in e for e in errors))
         self.assertNotIn(secret, '\n'.join(errors))
 
+    def test_nonportable_skill_metadata_rejected(self):
+        path = self.root / 'skills/genfeed/SKILL.md'
+        path.write_text(path.read_text().replace('metadata:\n', 'metadata:\n  nested: {value: bad}\n'))
+        self.assertTrue(any('metadata must' in e for e in validate(self.root)))
+
     def test_package_passes(self):
         self.assertEqual([], validate(self.root))

@@ -104,8 +104,8 @@ npx skills add genfeedai/agent
 
 This installs the playbook into supported agents. It does **not** register the MCP
 server, authenticate, or publish a marketplace listing. Configure the connector
-separately. OpenClaw can use the same skill and hosted connector; its optional CLI
-install metadata is included in the skill.
+separately. OpenClaw can use the same skill and hosted connector; configure its connection
+explicitly. The optional CLI setup is described below.
 
 ## API-key fallback
 

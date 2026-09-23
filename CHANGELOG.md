@@ -3,6 +3,7 @@
 ## 0.1.2 - 2026-09-23
 
 - Correct portable and Claude component declarations; add Codex marketplace discovery.
+- Use standard skill metadata and keep optional CLI installation in the setup documentation.
 - Include deployed onboarding tools in the shared connection profile.
 - Add brand assets and platform submission materials, including honest acceptance and policy gates.
 - Validate official schema snapshots, paths, versions and connection consistency; build submission archives in CI.

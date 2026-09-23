@@ -28,28 +28,31 @@ def main():
     sha = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
     version = json.loads((ROOT / 'plugin.json').read_text())['version']
     output = ROOT / 'build'
-    output.mkdir(exist_ok=True)
+    if output.exists():
+        shutil.rmtree(output)
+    output.mkdir()
     files = [ROOT / name for name in (
         'plugin.json', 'mcp.json', '.mcp.json', 'server.json', 'gemini-extension.json',
-        'GEMINI.md', 'README.md', 'LICENSE', 'CHANGELOG.md', 'llms-install.md',
+        'GEMINI.md', 'README.md', 'CONTRIBUTING.md', 'LICENSE', 'CHANGELOG.md', 'llms-install.md',
         '.claude-plugin/plugin.json', '.claude-plugin/marketplace.json',
         '.cursor-plugin/plugin.json', '.cursor-plugin/mcp.json',
         '.grok-plugin/plugin.json', '.grok-plugin/marketplace.json',
         '.agents/plugins/marketplace.json',
     )]
-    for folder in ('skills', 'assets', 'submissions'):
-        files.extend(p for p in (ROOT / folder).rglob('*') if p.is_file())
+    tracked = subprocess.check_output(['git', 'ls-files', '-z'], cwd=ROOT, text=True).split('\0')
+    for name in tracked:
+        if name and Path(name).parts[0] in {'skills', 'assets', 'submissions'}:
+            files.append(ROOT / name)
     archive(output / f'genfeed-{version}.zip', files)
     archive(output / f'genfeed-skills-{version}.zip', [p for p in files if p.is_relative_to(ROOT / 'skills')])
-    shutil.copytree(ROOT / 'submissions', output / 'submissions', dirs_exist_ok=True)
-    shutil.copytree(ROOT / 'assets', output / 'assets', dirs_exist_ok=True)
-    entry = {
-        'name': 'genfeed', 'description': 'Connect Grok Build to your Genfeed workspace for content, scheduling and analytics.',
-        'category': 'productivity',
-        'source': {'source': 'url', 'url': 'https://github.com/genfeedai/agent.git', 'sha': sha},
-        'homepage': 'https://genfeed.ai', 'keywords': ['genfeed', 'genfeed.ai'],
-        'domains': ['genfeed.ai', 'mcp.genfeed.ai'], 'version': version,
-    }
+    for file in files:
+        relative = file.relative_to(ROOT)
+        if relative.parts[0] in {'submissions', 'assets'}:
+            destination = output / relative
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(file, destination)
+    entry = json.loads((ROOT / '.grok-plugin/marketplace.json').read_text())['plugins'][0]
+    entry['source'] = {'source': 'url', 'url': 'https://github.com/genfeedai/agent.git', 'sha': sha}
     (output / 'grok-catalog-entry.json').write_text(json.dumps(entry, indent=2)+'\n')
     record = {'version': version, 'commit': sha, 'authenticatedAcceptance': 'not-attested-by-build', 'archives': {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in output.glob(f'*{version}.zip')}}
     (output / 'release.json').write_text(json.dumps(record, indent=2)+'\n')

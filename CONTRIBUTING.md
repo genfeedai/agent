@@ -40,3 +40,9 @@ Before a directory submission, run the manual acceptance cases in
 
 Refresh upstream schemas using `schemas/sources.json`; retain origin and digest.
 Never commit `.env` files, reviewer credentials, private test reports or auth logs.
+
+Schema checks cover Agent Plugins, portable MCP, Cursor and MCP Registry. Native
+Claude/Grok/Codex/Gemini formats also receive package-specific semantic checks;
+run each actual client rehearsal before submission rather than treating those
+checks as a complete vendor schema or runtime validation. Portable skill metadata
+follows https://agentskills.io/specification.

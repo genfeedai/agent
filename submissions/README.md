@@ -9,7 +9,7 @@ client acceptance results, or an approved marketplace listing.
 | Destination | Guide | Submission input |
 | --- | --- | --- |
 | Cursor Marketplace | [Cursor](cursor.md) | Public repository URL, listing copy and logo |
-| Claude Code community marketplace | [Claude](claude.md) | Plugin repository and client validation |
+| Claude Code community marketplace | [Claude](claude.md) | Plugin repository, client validation and media-policy clearance |
 | Claude Connectors Directory | [Claude](claude.md) | Remote endpoint; media-policy clearance required |
 | ChatGPT and Codex public directory | [OpenAI](openai.md) | With MCP submission plus skills archive |
 | Grok Build marketplace | [Grok](grok.md) | Generated SHA-pinned catalog entry and upstream PR |
@@ -26,7 +26,7 @@ Existing [brand assets](../assets/README.md) are included.
 After committing a clean revision, run `python3 scripts/build_submission.py` with
 `scripts/requirements.txt` installed, or download the `genfeed-submission` CI artifact:
 
-- `genfeed-<version>.zip`: portable plugin with client manifests, skill, references and assets.
+- `genfeed-<version>.zip`: portable plugin with client manifests, skill, references, assets and linked submission documentation.
 - `genfeed-skills-<version>.zip`: only the `skills/` tree for an MCP-backed OpenAI submission.
 - `grok-catalog-entry.json`: external marketplace entry pinned to the built commit.
 - `release.json`: version, source commit and archive hashes; not a test attestation.
@@ -52,3 +52,11 @@ A PR artifact is a review preview and may refer to GitHub's synthetic merge comm
 A public endpoint and passing package validation are not substitutes for these inputs.
 Do not mark the full connector ready for Claude directory submission while the
 media-policy question remains unresolved.
+
+## Public discovery evidence
+
+[public-endpoint-check.json](public-endpoint-check.json) records the public server
+card and the expected unauthenticated 401 for the full connection profile, including
+`onboarding`. It establishes that the earlier unknown-toolset rejection is resolved.
+The server exposes a protocol/service version, not a deployment commit; that field
+is null rather than guessed. This is not authenticated workflow evidence.
