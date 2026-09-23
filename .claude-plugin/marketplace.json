@@ -6,30 +6,14 @@
   },
   "metadata": {
     "description": "Genfeed for AI agents: playbook skill and hosted MCP connector.",
-    "version": "0.1.1"
+    "version": "0.1.2"
   },
   "plugins": [
     {
       "name": "genfeed",
       "source": "./",
       "description": "Genfeed playbook skill and hosted MCP server for brands, content, generation, scheduling, and analytics.",
-      "version": "0.1.1",
-      "author": {
-        "name": "Genfeed",
-        "url": "https://genfeed.ai"
-      },
-      "homepage": "https://github.com/genfeedai/agent",
-      "repository": "https://github.com/genfeedai/agent",
-      "license": "MIT",
-      "keywords": ["genfeed", "mcp", "social", "content", "scheduler"],
-      "strict": false,
-      "skills": "./skills/",
-      "mcpServers": {
-        "genfeed": {
-          "type": "http",
-          "url": "https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,brand"
-        }
-      }
+      "version": "0.1.2"
     }
   ]
 }

@@ -1,0 +1,124 @@
+{
+  "checkedAt": "2026-09-23T12:21:14.297708+00:00",
+  "scope": "Unauthenticated public discovery only; no client login or tools executed.",
+  "deploymentCommit": null,
+  "serverCard": {
+    "$schema": "https://static.modelcontextprotocol.io/schemas/mcp-server-card/v1.json",
+    "authentication": {
+      "required": true,
+      "schemes": [
+        "bearer",
+        "oauth2"
+      ]
+    },
+    "capabilities": {
+      "resources": {},
+      "tools": {}
+    },
+    "description": "Create, review, automate, and publish content through Genfeed.",
+    "documentationUrl": "https://docs.genfeed.ai/api-reference/mcp",
+    "iconUrl": "https://cdn.genfeed.ai/assets/branding/logo.jpg",
+    "name": "genfeed-mcp-server",
+    "protocolVersion": "2025-06-18",
+    "serverInfo": {
+      "name": "genfeed-mcp-server",
+      "title": "Genfeed MCP Server",
+      "version": "1.0.0"
+    },
+    "toolsets": [
+      {
+        "description": "Meta, Google, and TikTok ad account, campaign, and insight tools.",
+        "name": "ads",
+        "toolCount": 23
+      },
+      {
+        "description": "Chat with the account and coordinate work across agents: send messages, list and transfer conversations, and request assets from another agent.",
+        "name": "agent-chat",
+        "toolCount": 2
+      },
+      {
+        "description": "Performance, content, video, and LinkedIn analytics plus trend discovery.",
+        "name": "analytics",
+        "toolCount": 7
+      },
+      {
+        "description": "Brand identity, completeness, publishing readiness, and the brand interview flow.",
+        "name": "brand",
+        "toolCount": 5
+      },
+      {
+        "description": "Clip project creation, analysis, and highlight extraction from source video.",
+        "name": "clips",
+        "toolCount": 6
+      },
+      {
+        "description": "Posts, articles, the content calendar, repurposing, X post activity, and LinkedIn content generation.",
+        "name": "content",
+        "toolCount": 11
+      },
+      {
+        "description": "Account basics and tool discovery. Always included on every connection regardless of the requested toolsets.",
+        "name": "core",
+        "toolCount": 9
+      },
+      {
+        "description": "Image, video, music, voice, and avatar generation, plus listing generated media.",
+        "name": "generation",
+        "toolCount": 12
+      },
+      {
+        "description": "Instagram and TikTok inspiration and top-performer discovery.",
+        "name": "inspiration",
+        "toolCount": 3
+      },
+      {
+        "description": "Capture, search, and manage brand knowledge sources.",
+        "name": "knowledge",
+        "toolCount": 7
+      },
+      {
+        "description": "Brand setup, social account connection, and onboarding content generation.",
+        "name": "onboarding",
+        "toolCount": 3
+      },
+      {
+        "description": "Scheduled release lifecycle and channel scheduling capability discovery.",
+        "name": "scheduler",
+        "toolCount": 7
+      },
+      {
+        "description": "Verify and install entitled Skills Pro packs.",
+        "name": "skills-pro",
+        "toolCount": 2
+      },
+      {
+        "description": "Social conversation triage: replies, approvals, direct messages, and account activity.",
+        "name": "social-inbox",
+        "toolCount": 11
+      },
+      {
+        "description": "Workflow creation, execution, scheduling, and template management.",
+        "name": "workflows",
+        "toolCount": 14
+      }
+    ],
+    "transport": {
+      "endpoint": "https://mcp.genfeed.ai/mcp",
+      "type": "streamable-http"
+    },
+    "version": "1.0"
+  },
+  "connect": {
+    "url": "https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,brand,onboarding",
+    "status": 401,
+    "wwwAuthenticate": "Bearer resource_metadata=\"https://mcp.genfeed.ai/.well-known/oauth-protected-resource\", scope=\"videos:read videos:create images:read images:create prompts:read prompts:create articles:read articles:create brands:read credits:read posts:create posts:draft posts:schedule posts:approve analytics:read\"",
+    "body": {
+      "error": {
+        "code": -32001,
+        "message": "Unauthorized. Authorize this client with Genfeed OAuth, or send a Genfeed API key as a bearer token."
+      },
+      "id": null,
+      "jsonrpc": "2.0"
+    }
+  }
+}

@@ -1,16 +1,24 @@
 {
   "name": "genfeed",
-  "owner": { "name": "Genfeed", "url": "https://github.com/genfeedai" },
+  "owner": {
+    "name": "Genfeed",
+    "url": "https://github.com/genfeedai"
+  },
   "plugins": [
     {
       "name": "genfeed",
       "source": "./",
       "description": "Genfeed playbook skill and hosted MCP server for brands, content, generation, scheduling, and analytics.",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "category": "productivity",
       "homepage": "https://github.com/genfeedai/agent",
-      "keywords": ["genfeed", "mcp", "social", "content", "scheduler"],
-      "domains": ["genfeed.ai"]
+      "keywords": [
+        "genfeed",
+        "genfeed.ai"
+      ],
+      "domains": [
+        "genfeed.ai"
+      ]
     }
   ]
 }

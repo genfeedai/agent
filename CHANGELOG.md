@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.2 - 2026-09-23
+
+- Enforce stricter OpenAI final listing lengths and supply a recording script, portal copy and per-tool evidence worksheet.
+- Correct portable and Claude component declarations; add Codex marketplace discovery.
+- Use standard skill metadata and keep optional CLI installation in the setup documentation.
+- Include deployed onboarding tools in the shared connection profile.
+- Add brand assets and platform submission materials, including honest acceptance and policy gates.
+- Validate official schema snapshots, paths, versions and connection consistency; build submission archives in CI.
+- Clarify pending approvals and prevent treating approval IDs as completed release IDs.
+
 ## 0.1.1 - 2026-09-23
 
 - Connect URL profile is now `core,scheduler,content,generation,analytics,brand`. Production rejected the previous `onboarding` segment (`Unknown toolset(s): onboarding`) because that toolset has no deployed MCP tools yet; the new profile works on today's deploy and after the next one.

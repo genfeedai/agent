@@ -4,6 +4,7 @@ on:
   pull_request:
   push:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -13,78 +14,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Parse manifests, compare versions, reject credential URLs
-        run: |
-          python3 - <<'PY'
-          import json
-          import pathlib
-          import re
-          import sys
-
-          root = pathlib.Path(".")
-          json_files = [
-              ".claude-plugin/marketplace.json",
-              ".claude-plugin/plugin.json",
-              ".cursor-plugin/plugin.json",
-              ".cursor-plugin/mcp.json",
-              "gemini-extension.json",
-              "plugin.json",
-              "mcp.json",
-              "server.json",
-              ".mcp.json",
-              ".grok-plugin/plugin.json",
-              ".grok-plugin/mcp.json",
-              ".grok-plugin/marketplace.json",
-          ]
-          versions = {}
-          for rel in json_files:
-              path = root / rel
-              try:
-                  data = json.loads(path.read_text())
-              except json.JSONDecodeError as error:
-                  sys.exit(f"{rel} is not valid JSON: {error}")
-              if not isinstance(data, dict):
-                  sys.exit(f"{rel} must be a JSON object")
-              if rel == ".claude-plugin/marketplace.json":
-                  versions[f"{rel}#metadata.version"] = data["metadata"]["version"]
-                  for index, plugin in enumerate(data["plugins"]):
-                      versions[f"{rel}#plugins[{index}].version"] = plugin["version"]
-              elif "version" in data:
-                  versions[f"{rel}#version"] = data["version"]
-
-          skill = (root / "skills/genfeed/SKILL.md").read_text()
-          match = re.search(r"(?m)^version:\s*(\S+)\s*$", skill)
-          if match is None:
-              sys.exit("skills/genfeed/SKILL.md is missing a version field")
-          versions["skills/genfeed/SKILL.md#version"] = match.group(1)
-
-          expected = "0.1.1"
-          mismatched = {key: value for key, value in versions.items() if value != expected}
-          if mismatched:
-              sys.exit("versions disagree:\n" + "\n".join(f"  {key}={value}" for key, value in sorted(mismatched.items())))
-
-          url_pattern = re.compile(r"https?://[^\s)\]>\"'`]+")
-          credential_pattern = re.compile(
-              r"(gf_(?:live|test)_|api[_-]?key|access[_-]?token|refresh[_-]?token|(?:^|[?&#])(?:token|key|secret|password)=|://[^/\s:]+:[^/\s@]+@)",
-              re.IGNORECASE,
-          )
-          failures = []
-          for path in root.rglob("*"):
-              if not path.is_file() or ".git" in path.parts:
-                  continue
-              text = path.read_text(errors="replace")
-              for url in url_pattern.findall(text):
-                  if credential_pattern.search(url):
-                      failures.append(f"{path}: {url}")
-          if failures:
-              sys.exit("credential pattern in URL:\n" + "\n".join(failures))
-
-          urls = set()
-          for rel in json_files:
-              for url in url_pattern.findall((root / rel).read_text()):
-                  if url.startswith("https://mcp.genfeed.ai/mcp"):
-                      urls.add(url.rstrip('",'))
-          if len(urls) != 1:
-              sys.exit("manifests disagree on the connect URL: " + ", ".join(sorted(urls)))
-          print(f"ok {len(json_files)} manifests at {expected}, connect URL {urls.pop()}")
-          PY
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: scripts/requirements.txt
+      - run: python -m pip install -r scripts/requirements.txt
+      - name: Validate official schemas and package contracts
+        run: python scripts/validate.py
+      - name: Regression checks
+        run: python -m unittest discover -s scripts -p 'test_*.py'
+      - name: Build submission archives
+        run: python scripts/build_submission.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: genfeed-submission
+          path: build/
+          if-no-files-found: error

@@ -1,0 +1,26 @@
+[
+  {
+    "file": "agent-plugin.schema.json",
+    "source": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+    "retrieved": "2026-09-23",
+    "sha256": "0a4aad95ce337878ad38802ebf0daa3fde76abe3f65400c86bcbb1ec0b3ab883"
+  },
+  {
+    "file": "agent-mcp.schema.json",
+    "source": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+    "retrieved": "2026-09-23",
+    "sha256": "6539175bfcdf43085855183e86da40ea94b166547a72b47ae9a0a390516d3acb"
+  },
+  {
+    "file": "cursor-plugin.schema.json",
+    "source": "https://raw.githubusercontent.com/cursor/plugins/b42effe0aa50f59c693d7e2924714e015e00bf7c/schemas/plugin.schema.json",
+    "retrieved": "2026-09-23",
+    "sha256": "31db124b1c7e43c22abb13ebf7e7c74556482e480fd492b80638d815c85b96b1"
+  },
+  {
+    "file": "mcp-server.schema.json",
+    "source": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+    "retrieved": "2026-09-23",
+    "sha256": "3fba09590c99f61735d234822279f4223fab9e300c0a81e81c91ab62a4114de0"
+  }
+]
