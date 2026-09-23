@@ -46,10 +46,14 @@ class PackageValidationTests(unittest.TestCase):
 
     def test_credentials_redacted(self):
         secret = 'private-test-value'
-        (self.root / 'bad.md').write_text('https://example.com/?' + 'token=' + secret)
-        errors = validate(self.root)
-        self.assertTrue(any('credential-like' in e for e in errors))
-        self.assertNotIn(secret, '\n'.join(errors))
+        for extension in ('md', 'csv'):
+            with self.subTest(extension=extension):
+                path = self.root / f'bad.{extension}'
+                path.write_text('https://example.com/?' + 'token=' + secret)
+                errors = validate(self.root)
+                self.assertTrue(any('credential-like' in e for e in errors))
+                self.assertNotIn(secret, '\n'.join(errors))
+                path.unlink()
 
     def test_nonportable_skill_metadata_rejected(self):
         path = self.root / 'skills/genfeed/SKILL.md'
@@ -84,9 +88,18 @@ class PackageValidationTests(unittest.TestCase):
     def test_openai_short_description_boundary(self):
         self.change('plugin.json', lambda d: d['extensions']['com.openai']['interface'].update(shortDescription='x' * 30))
         self.change('submissions/listing.json', lambda d: d.update(tagline='x' * 30))
+        copy = self.root / 'submissions/form-copy.md'
+        copy.write_text(copy.read_text().replace('| Short description | Create and schedule content |', '| Short description | ' + 'x' * 30 + ' |'))
         self.assertEqual([], validate(self.root))
-        self.change('plugin.json', lambda d: d['extensions']['com.openai']['interface'].update(shortDescription='First line\nSecond line'))
-        self.assertIn('OpenAI final submission: shortDescription must be one line', validate(self.root))
+        for description in ('First line\nSecond line', 'One line\n', 'One line\r'):
+            self.change('plugin.json', lambda d: d['extensions']['com.openai']['interface'].update(shortDescription=description))
+            self.assertIn('OpenAI final submission: shortDescription must be one line', validate(self.root))
+
+    def test_submission_copy_drift_rejected(self):
+        self.change('submissions/listing.json', lambda d: d.update(tagline='Different tagline'))
+        errors = validate(self.root)
+        self.assertIn('submission tagline differs from OpenAI short description', errors)
+        self.assertIn('portal short description differs from listing', errors)
 
     def test_package_passes(self):
         self.assertEqual([], validate(self.root))

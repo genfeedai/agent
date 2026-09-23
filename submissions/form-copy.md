@@ -22,16 +22,18 @@ This document prepares fields; it is not a legal attestation or submission recei
 | Connection | Hosted remote MCP, Streamable HTTP, OAuth |
 | MCP URL | https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,brand,onboarding |
 
-Long description:
+Long description (same copy as listing.json; usable in both portal description fields):
 
-> Connect your AI assistant to your Genfeed workspace. Inspect brands and connected
-> channels, prepare content drafts, generate images, video or voice, request
-> scheduled releases, and review content performance. Sign in with Genfeed OAuth;
-> a Genfeed account and the relevant workspace permissions are required. Generation
-> can consume Genfeed credits. Drafting and scheduling can create pending approvals;
-> an authorized Genfeed reviewer must approve them before execution. Linking social
-> accounts requires browser authorization. Availability depends on connected
-> providers and permissions.
+> Connect your AI assistant to your Genfeed workspace. Inspect brands and
+> connected channels, prepare content drafts, generate images, video, voice or
+> music, request scheduled releases, and review content performance. Genfeed
+> runs the content jobs and scheduler behind your assistant. Sign in with
+> Genfeed OAuth; a Genfeed account and the relevant workspace permissions are
+> required. Generation can consume Genfeed credits. Drafting and scheduling
+> can create pending approvals; an authorized Genfeed reviewer must approve
+> them before execution. Browser authorization is required when linking social
+> accounts. This connector does not bypass platform permissions or guarantee
+> unattended publishing.
 
 Starter prompts:
 
@@ -100,7 +102,7 @@ Seven acknowledgement review notes:
 - First-party API: Genfeed operates the MCP/API; disclose downstream provider use.
 - Financial transactions: generation can consume credits. Check the scanned tools
   for billing, purchases or transfers; do not equate no checkout UI with no cost.
-- AI media generation: image, video and audio are core capabilities. Obtain express
+- AI media generation: image, video, voice and music are core capabilities. Obtain express
   written eligibility clearance using [the request draft](claude-exception.md).
 - Prompt injection: use the permission/isolation tests and server evidence. A skill
   instruction alone is not a security control or proof of compliance.
@@ -142,6 +144,8 @@ without confirming production settings. See [data-handling.md](data-handling.md)
 Record the final source commit and server revision (or explicitly unavailable),
 client/version, dated login/tool results, actual scan inventory, recording URL,
 private reviewer-access verification, policy decision, and final submission receipt.
+Keep completed evidence ledgers in private submission storage; never commit signed
+links, credentials or real customer outputs into the public worksheet.
 Package validation, native installation, OAuth login and completed workflows are
 different evidence. Leave not-run rows unfilled rather than manufacturing a pass.
 The board tracks owners and dates; this pack intentionally carries no completion claims.

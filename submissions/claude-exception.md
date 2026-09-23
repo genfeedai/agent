@@ -3,8 +3,10 @@
 Status: prepared for the owner to send; no exception has been requested or granted.
 Use the current submission portal or its review contact. Do not send account secrets.
 
-Recipient: mcp-review@anthropic.com (official connector review contact).
-Publisher: Decoders Labs Ltd, Malta. The owner sends this from the review contact.
+Recipient: mcp-review@anthropic.com, listed for escalation in the
+[official connector submission guide](https://claude.com/docs/connectors/building/submission#review-process).
+Publisher: Decoders Labs Ltd, Malta. Vincent sends this from his own review-contact
+email address to the recipient above; no request has been sent.
 
 Subject: Genfeed connector — request for AI media-generation eligibility review
 
@@ -14,7 +16,7 @@ remote MCP connector and a companion skill/plugin for Claude.
 
 The connector manages brand context, content drafts, social-account connections,
 scheduling requests and analytics. It also exposes standalone AI image, video and
-voice generation. Some batch and workflow tools can generate media as well. Generation
+voice and music generation. Some batch and workflow tools can generate media as well. Generation
 may consume Genfeed credits. We are not presenting these capabilities as exclusively
 slides, diagrams or another narrow design workflow.
 

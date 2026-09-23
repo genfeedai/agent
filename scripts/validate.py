@@ -137,7 +137,7 @@ def validate(root=ROOT):
                     target = (root / path).resolve()
                     if Path(path).is_absolute() or '..' in Path(path).parts or not target.is_relative_to(root.resolve()) or not target.exists():
                         errors.append(f'{filename}: invalid component path {path}')
-    for filename in ['README.md', 'llms-install.md', 'skills/genfeed/SKILL.md', 'GEMINI.md']:
+    for filename in ['README.md', 'llms-install.md', 'skills/genfeed/SKILL.md', 'GEMINI.md', 'submissions/form-copy.md']:
         urls = [u for u in URL_PATTERN.findall((root / filename).read_text()) if u.startswith('https://mcp.genfeed.ai/mcp?')]
         if not urls or any(u != expected_url for u in urls):
             errors.append(f'{filename}: missing or stale install URL')
@@ -148,7 +148,7 @@ def validate(root=ROOT):
         if path.is_symlink():
             errors.append(f'{relative}: symlinks are not packaged')
             continue
-        if path.suffix not in {'.json', '.md', '.yml', '.py', '.txt'}:
+        if path.suffix not in {'.json', '.md', '.yml', '.py', '.txt', '.csv'}:
             continue
         text = path.read_text()
         if any(CREDENTIAL_PATTERN.search(u) for u in URL_PATTERN.findall(text)):
@@ -171,8 +171,10 @@ def validate(root=ROOT):
         value = interface.get(field)
         if not isinstance(value, str) or not value.strip() or len(value) > limit:
             errors.append(f'OpenAI final submission: {field} must be 1-{limit} characters')
-        elif field != 'longDescription' and len(value.splitlines()) != 1:
+        elif field != 'longDescription' and ('\n' in value or '\r' in value):
             errors.append(f'OpenAI final submission: {field} must be one line')
+    if f"| Short description | {listing['tagline']} |" not in (root / 'submissions/form-copy.md').read_text():
+        errors.append('portal short description differs from listing')
     if listing['tagline'] != interface.get('shortDescription'):
         errors.append('submission tagline differs from OpenAI short description')
     if docs['plugin.json']['author']['name'] != listing['publisherLegalName'] or interface['developerName'] != listing['publisherLegalName']:
