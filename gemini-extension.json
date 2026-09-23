@@ -1,0 +1,11 @@
+{
+  "name": "genfeed",
+  "version": "0.1.0",
+  "description": "Genfeed playbook and hosted MCP server for brands, content, generation, scheduling, and analytics.",
+  "mcpServers": {
+    "genfeed": {
+      "httpUrl": "https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,onboarding"
+    }
+  },
+  "contextFileName": "GEMINI.md"
+}

@@ -1,0 +1,79 @@
+name: validate
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Parse manifests, compare versions, reject credential URLs
+        run: |
+          python3 - <<'PY'
+          import json
+          import pathlib
+          import re
+          import sys
+
+          root = pathlib.Path(".")
+          json_files = [
+              ".claude-plugin/marketplace.json",
+              ".claude-plugin/plugin.json",
+              ".cursor-plugin/plugin.json",
+              ".cursor-plugin/mcp.json",
+              "gemini-extension.json",
+              "plugin.json",
+              "mcp.json",
+              "server.json",
+          ]
+          versions = {}
+          for rel in json_files:
+              path = root / rel
+              try:
+                  data = json.loads(path.read_text())
+              except json.JSONDecodeError as error:
+                  sys.exit(f"{rel} is not valid JSON: {error}")
+              if not isinstance(data, dict):
+                  sys.exit(f"{rel} must be a JSON object")
+              if rel == ".claude-plugin/marketplace.json":
+                  versions[f"{rel}#metadata.version"] = data["metadata"]["version"]
+                  for index, plugin in enumerate(data["plugins"]):
+                      versions[f"{rel}#plugins[{index}].version"] = plugin["version"]
+              elif "version" in data:
+                  versions[f"{rel}#version"] = data["version"]
+
+          skill = (root / "skills/genfeed/SKILL.md").read_text()
+          match = re.search(r"(?m)^version:\s*(\S+)\s*$", skill)
+          if match is None:
+              sys.exit("skills/genfeed/SKILL.md is missing a version field")
+          versions["skills/genfeed/SKILL.md#version"] = match.group(1)
+
+          expected = "0.1.0"
+          mismatched = {key: value for key, value in versions.items() if value != expected}
+          if mismatched:
+              sys.exit("versions disagree:\n" + "\n".join(f"  {key}={value}" for key, value in sorted(mismatched.items())))
+
+          url_pattern = re.compile(r"https?://[^\s)\]>\"'`]+")
+          credential_pattern = re.compile(
+              r"(gf_(?:live|test)_|api[_-]?key|access[_-]?token|refresh[_-]?token|(?:^|[?&#])(?:token|key|secret|password)=|://[^/\s:]+:[^/\s@]+@)",
+              re.IGNORECASE,
+          )
+          failures = []
+          for path in root.rglob("*"):
+              if not path.is_file() or ".git" in path.parts:
+                  continue
+              text = path.read_text(errors="replace")
+              for url in url_pattern.findall(text):
+                  if credential_pattern.search(url):
+                      failures.append(f"{path}: {url}")
+          if failures:
+              sys.exit("credential pattern in URL:\n" + "\n".join(failures))
+
+          print(f"ok {len(json_files)} manifests at {expected}")
+          PY
