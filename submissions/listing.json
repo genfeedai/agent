@@ -23,8 +23,8 @@
     "Prepare a LinkedIn draft for my selected brand without publishing it.",
     "Show my content calendar and recent performance."
   ],
-  "publisherLegalName": null,
+  "publisherLegalName": "Decoders Labs Ltd",
   "reviewContactEmail": null,
   "launchCountries": null,
-  "ownerFieldsNote": "Complete private publisher fields in the portal after owner confirmation; null does not mean not applicable."
+  "ownerFieldsNote": "Publisher name is confirmed; verification is not attested. Complete private review-contact and country fields in the portal. Availability intent is all supported, legally serviceable markets; no explicit exclusions are selected."
 }

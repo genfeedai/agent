@@ -18,6 +18,12 @@ def archive(path, files):
             output.writestr(entry, file.read_bytes())
 
 
+def skill_package_files(files):
+    required = {'plugin.json', 'LICENSE'}
+    return [file for file in files if file.relative_to(ROOT).as_posix() in required
+            or file.relative_to(ROOT).parts[0] in {'skills', 'assets'}]
+
+
 def main():
     failures = validate()
     if failures:
@@ -44,7 +50,7 @@ def main():
         if name and Path(name).parts[0] in {'skills', 'assets', 'submissions'}:
             files.append(ROOT / name)
     archive(output / f'genfeed-{version}.zip', files)
-    archive(output / f'genfeed-skills-{version}.zip', [p for p in files if p.is_relative_to(ROOT / 'skills')])
+    archive(output / f'genfeed-skills-{version}.zip', skill_package_files(files))
     for file in files:
         relative = file.relative_to(ROOT)
         if relative.parts[0] in {'submissions', 'assets'}:

@@ -163,6 +163,9 @@ def validate(root=ROOT):
     listing = read_json(root, 'submissions/listing.json')
     if len(listing['tagline']) > 55 or len(listing['description']) > 2000:
         errors.append('listing copy exceeds Claude limits')
+    interface = docs['plugin.json']['extensions']['com.openai']['interface']
+    if docs['plugin.json']['author']['name'] != listing['publisherLegalName'] or interface['developerName'] != listing['publisherLegalName']:
+        errors.append('publisher identity differs across manifest and listing')
     if listing['mcpUrl'] != expected_url:
         errors.append('submission listing URL drift')
     return errors

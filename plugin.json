@@ -4,7 +4,7 @@
   "version": "0.1.2",
   "description": "Genfeed playbook skill and hosted MCP server for brands, content, generation, scheduling, and analytics.",
   "author": {
-    "name": "Genfeed",
+    "name": "Decoders Labs Ltd",
     "url": "https://genfeed.ai"
   },
   "license": "MIT",
@@ -23,7 +23,7 @@
         "displayName": "Genfeed",
         "shortDescription": "Create and schedule content from your AI assistant.",
         "longDescription": "Connect your Genfeed workspace to inspect brands and channels, prepare content, generate media, request scheduled releases, and review analytics. OAuth sign-in is required. Generation can consume Genfeed credits; writes may require a separate Genfeed approval.",
-        "developerName": "Genfeed",
+        "developerName": "Decoders Labs Ltd",
         "category": "Productivity",
         "capabilities": [
           "Read",

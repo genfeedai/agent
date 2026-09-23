@@ -6,7 +6,10 @@ Sources: [submission](https://developers.openai.com/plugins/deploy/submission),
 [server review](https://developers.openai.com/plugins/deploy/app-review).
 
 Choose **With MCP**, then the universal HTTPS URL in [listing.json](listing.json).
-Upload the built skills archive alongside the server. Root `plugin.json` uses the
+Add the packaged skills alongside the server, either through upload or MCP skill import.
+This repository builds an upload bundle with a root manifest, skill and referenced
+assets. MCP import is an alternative only when the deployed server implements
+OpenAI’s static-skills extension; the existing resource catalog alone does not prove it. Root `plugin.json` uses the
 portable format; `extensions.com.openai.interface` contains presentation metadata.
 The current official packaging guide (checked 2026-09-23) supports this layout
 for both ChatGPT and Codex: `skills/` and `mcp.json` are discovered from the root.
@@ -25,7 +28,10 @@ on the verified host. The portal issues the token; this repo cannot supply it.
 
 Scan tools and inspect titles, descriptions, schemas and `readOnlyHint`,
 `destructiveHint`, `openWorldHint`. Use [the five positive and three negative cases](test-cases.md).
-Provide observed results, not just expected outcomes. This connector has no custom
+Provide observed results, not just expected outcomes. Include a demo-recording URL
+showing the main workflows across the clients tested; redact credentials and use
+synthetic data. The recording is required even though this plugin has no custom UI.
+See the [final submission requirements](https://developers.openai.com/plugins/deploy/submission-errors). This connector has no custom
 UI, so do not fabricate UI screenshots or UI CSP settings. Publish only after review approval.
 
 ## Local rehearsal

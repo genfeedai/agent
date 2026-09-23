@@ -27,7 +27,7 @@ After committing a clean revision, run `python3 scripts/build_submission.py` wit
 `scripts/requirements.txt` installed, or download the `genfeed-submission` CI artifact:
 
 - `genfeed-<version>.zip`: portable plugin with client manifests, skill, references, assets and linked submission documentation.
-- `genfeed-skills-<version>.zip`: only the `skills/` tree for an MCP-backed OpenAI submission.
+- `genfeed-skills-<version>.zip`: a portable plugin manifest, `skills/`, referenced assets and license, without MCP configuration; attach it to the With MCP submission.
 - `grok-catalog-entry.json`: external marketplace entry pinned to the built commit.
 - `release.json`: version, source commit and archive hashes; not a test attestation.
 - `submissions/` and `assets/`: form copy and upload assets.

@@ -6,6 +6,8 @@ import tempfile
 import unittest
 
 from validate import ROOT, validate
+from build_submission import archive, skill_package_files
+import zipfile
 
 
 class PackageValidationTests(unittest.TestCase):
@@ -72,3 +74,18 @@ class PackageValidationTests(unittest.TestCase):
 
     def test_package_passes(self):
         self.assertEqual([], validate(self.root))
+
+
+class SubmissionArchiveTests(unittest.TestCase):
+    def test_skills_archive_has_plugin_root_assets_and_no_connection_config(self):
+        files = [ROOT / name for name in ('plugin.json', 'LICENSE', 'mcp.json', '.mcp.json',
+                 'skills/genfeed/SKILL.md', 'assets/logo.jpg')]
+        with tempfile.TemporaryDirectory() as directory:
+            target = Path(directory) / 'skills.zip'
+            archive(target, skill_package_files(files))
+            with zipfile.ZipFile(target) as package:
+                self.assertEqual(set(package.namelist()), {
+                    'plugin.json', 'LICENSE', 'skills/genfeed/SKILL.md', 'assets/logo.jpg'})
+                manifest = json.loads(package.read('plugin.json'))
+                self.assertEqual(manifest['name'], 'genfeed')
+                self.assertIn(manifest['extensions']['com.openai']['interface']['logo'].removeprefix('./'), package.namelist())
