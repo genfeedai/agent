@@ -1,0 +1,18 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.genfeedai/genfeed",
+  "title": "Genfeed",
+  "description": "Hosted Genfeed MCP server for brands, content, generation, scheduling, and analytics.",
+  "version": "0.1.0",
+  "websiteUrl": "https://genfeed.ai",
+  "repository": {
+    "url": "https://github.com/genfeedai/agent",
+    "source": "github"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,onboarding"
+    }
+  ]
+}

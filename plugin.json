@@ -1,0 +1,14 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "genfeed",
+  "version": "0.1.0",
+  "description": "Genfeed playbook skill and hosted MCP server for brands, content, generation, scheduling, and analytics.",
+  "author": {
+    "name": "Genfeed"
+  },
+  "license": "MIT",
+  "keywords": ["genfeed", "mcp", "social", "content", "scheduler"],
+  "homepage": "https://github.com/genfeedai/agent",
+  "repository": "https://github.com/genfeedai/agent",
+  "skills": "./skills"
+}
