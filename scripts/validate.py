@@ -74,18 +74,27 @@ def validate(root=ROOT):
                 errors.append(f'{filename}: version {value} differs from {version}')
     skill = root / 'skills/genfeed/SKILL.md'
     parts = skill.read_text().split('---', 2)
-    front = yaml.safe_load(parts[1]) if len(parts) == 3 and not parts[0].strip() else {}
+    try:
+        front = yaml.safe_load(parts[1]) if len(parts) == 3 and not parts[0].strip() else {}
+    except yaml.YAMLError:
+        errors.append('SKILL.md: invalid YAML frontmatter')
+        front = {}
+    if not isinstance(front, dict):
+        errors.append('SKILL.md: frontmatter must be a mapping')
+        front = {}
     allowed_frontmatter = {'name', 'description', 'license', 'compatibility', 'metadata', 'allowed-tools'}
     if set(front) - allowed_frontmatter:
         errors.append('SKILL.md: unsupported portable frontmatter field')
     metadata = front.get('metadata', {})
     if not isinstance(metadata, dict) or any(not isinstance(k, str) or not isinstance(v, str) for k, v in metadata.items()):
         errors.append('SKILL.md: metadata must map strings to strings')
+    if not isinstance(metadata, dict):
+        metadata = {}
     if not isinstance(front.get('description'), str) or not 1 <= len(front['description']) <= 1024:
         errors.append('SKILL.md: description must be 1-1024 characters')
     if front.get('name') != 'genfeed' or not front.get('description'):
         errors.append('SKILL.md: name and description required')
-    if str(front.get('metadata', {}).get('version')) != version:
+    if str(metadata.get('version')) != version:
         errors.append('SKILL.md: metadata.version differs from release')
     expected_url = docs['mcp.json']['mcpServers']['genfeed']['url']
     parsed = urlsplit(expected_url)

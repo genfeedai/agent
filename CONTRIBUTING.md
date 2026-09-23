@@ -15,7 +15,7 @@ tools. Counts and permissions may differ by server revision and caller role;
 Use root `plugin.json` version as the authority. Update all client versions,
 marketplace versions, `server.json`, skill `metadata.version`, and CHANGELOG together.
 All manifests use the same URL, including `brand` and `onboarding` toolsets.
-Claude and Grok discover root `.mcp.json`; portable hosts discover `mcp.json`.
+Claude and Grok discover root `.mcp.json`; Codex and other portable hosts discover `mcp.json`.
 Cursor's native manifest points to `.cursor-plugin/mcp.json`.
 
 ## Verification and packaging

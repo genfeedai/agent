@@ -8,6 +8,11 @@ Sources: [submission](https://developers.openai.com/plugins/deploy/submission),
 Choose **With MCP**, then the universal HTTPS URL in [listing.json](listing.json).
 Upload the built skills archive alongside the server. Root `plugin.json` uses the
 portable format; `extensions.com.openai.interface` contains presentation metadata.
+The current official packaging guide (checked 2026-09-23) supports this layout
+for both ChatGPT and Codex: `skills/` and `mcp.json` are discovered from the root.
+`.codex-plugin/plugin.json` is an optional compatibility fallback, not a required
+second manifest. Client installation and authenticated acceptance still need the
+observed results described below.
 An MCP-only submission is possible, but omits the packaged playbook.
 
 ## Portal preparation

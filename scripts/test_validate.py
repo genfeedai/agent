@@ -54,5 +54,21 @@ class PackageValidationTests(unittest.TestCase):
         path.write_text(path.read_text().replace('metadata:\n', 'metadata:\n  nested: {value: bad}\n'))
         self.assertTrue(any('metadata must' in e for e in validate(self.root)))
 
+    def test_empty_skill_frontmatter_rejected(self):
+        path = self.root / 'skills/genfeed/SKILL.md'
+        body = path.read_text().split('---', 2)[2]
+        path.write_text('---\n---' + body)
+        self.assertIn('SKILL.md: frontmatter must be a mapping', validate(self.root))
+
+    def test_scalar_skill_metadata_rejected(self):
+        path = self.root / 'skills/genfeed/SKILL.md'
+        path.write_text(path.read_text().replace('metadata:\n  version: "0.1.2"', 'metadata: invalid'))
+        self.assertIn('SKILL.md: metadata must map strings to strings', validate(self.root))
+
+    def test_invalid_yaml_rejected(self):
+        path = self.root / 'skills/genfeed/SKILL.md'
+        path.write_text(path.read_text().replace('metadata:', 'metadata: [unterminated'))
+        self.assertIn('SKILL.md: invalid YAML frontmatter', validate(self.root))
+
     def test_package_passes(self):
         self.assertEqual([], validate(self.root))
