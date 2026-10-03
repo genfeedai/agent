@@ -1,7 +1,7 @@
 {
   "mcpServers": {
     "genfeed": {
-      "url": "https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,brand,onboarding"
+      "url": "https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,brand,knowledge,onboarding"
     }
   }
 }

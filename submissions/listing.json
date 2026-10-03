@@ -10,7 +10,7 @@
   "supportEmail": "support@genfeed.ai",
   "privacyPolicyUrl": "https://genfeed.ai/privacy",
   "termsUrl": "https://genfeed.ai/terms",
-  "mcpUrl": "https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,brand,onboarding",
+  "mcpUrl": "https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,brand,knowledge,onboarding",
   "transport": "streamable-http",
   "authentication": "OAuth",
   "logo": "assets/logo.jpg",

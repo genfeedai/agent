@@ -7,7 +7,7 @@ description: >-
   a pending Genfeed approval.
 license: MIT
 metadata:
-  version: "0.1.2"
+  version: "0.1.3"
 ---
 
 # Genfeed
@@ -23,15 +23,15 @@ The MCP server is hosted. This skill is the playbook. Tool names, arguments, and
 5. Media comes from `generate_image`, `generate_video`, or `generate_voice`, or from a URL the user already has. No local upload tool exists.
 6. A pending approval is the user's decision. Call `resolve_approval` only after they choose. First inspect its availability and required role with `describe_tool`. If it is unavailable to this account, or a call is rejected, stop and ask an authorized Genfeed reviewer to handle the approval. Never claim that a pending action has completed.
 7. Call `get_credits_balance` before batch generation or batch scheduling.
-8. Connect with `?toolsets=core,scheduler,content,generation,analytics,brand,onboarding` on `https://mcp.genfeed.ai/mcp`. An unknown toolset name is rejected before login; inspect the public server card and report a deployment mismatch instead of silently widening access. Use `list_toolsets`, `search_tools`, and `describe_tool` for anything outside that set. Do not guess a tool name.
+8. Connect with `?toolsets=core,scheduler,content,generation,analytics,brand,knowledge,onboarding` on `https://mcp.genfeed.ai/mcp`. An unknown toolset name is rejected before login; inspect the public server card and report a deployment mismatch instead of silently widening access. Use `list_toolsets`, `search_tools`, and `describe_tool` for anything outside that set. Do not guess a tool name.
 
 ## Connect
 
 Streamable HTTP. Preferred URL:
 
-`https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,brand,onboarding`
+`https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,brand,knowledge,onboarding`
 
-The bare URL lists the full role-visible MCP catalog; the count changes with deployments. Prefer the toolset query. `list_toolsets` tells you which toolsets the connected server actually serves.
+The bare URL lists only the bounded `default` profile (core, scheduler and content), so always use the toolset query. `list_toolsets` tells you which toolsets the connected server actually serves.
 
 OAuth, from the product connect helper:
 

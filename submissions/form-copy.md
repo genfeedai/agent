@@ -20,7 +20,7 @@ This document prepares fields; it is not a legal attestation or submission recei
 | Privacy | https://genfeed.ai/privacy |
 | Terms | https://genfeed.ai/terms |
 | Connection | Hosted remote MCP, Streamable HTTP, OAuth |
-| MCP URL | https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,brand,onboarding |
+| MCP URL | https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,brand,knowledge,onboarding |
 
 Long description (same copy as listing.json; usable in both portal description fields):
 
@@ -48,7 +48,7 @@ contact-only personal information belong in private form fields, never the repo.
 ## OpenAI — ChatGPT and Codex
 
 Use the [With MCP route](openai.md) at https://platform.openai.com/plugins.
-Attach genfeed-skills-0.1.2.zip from the final clean build if including the skill.
+Attach genfeed-skills-0.1.3.zip from the final clean build if including the skill.
 The repository URL alone is not that upload. The package build also creates a full
 ZIP for other review needs; do not replace the skills upload with that full bundle.
 
