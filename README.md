@@ -8,12 +8,12 @@ skill and client manifests. The hosted MCP server lives in
 ## Connect
 
 ```text
-https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,brand,onboarding
+https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,brand,knowledge,onboarding
 ```
 
 Use Streamable HTTP and sign in with Genfeed OAuth when prompted. A Genfeed account,
 workspace access and sufficient credits for paid generation are required. The shared
-profile includes brand readiness and social-account onboarding. Tool availability
+profile includes brand readiness, brand Knowledge search and social-account onboarding. Tool availability
 also depends on the deployed server and your role; counts are not fixed.
 
 OAuth opens a browser for authorization. Social-channel linking also requires the
@@ -34,7 +34,7 @@ The plugin loads the skill and root `.mcp.json`. Open `/mcp`, select Genfeed, an
 complete OAuth. Direct MCP-only alternative:
 
 ```bash
-claude mcp add --transport http genfeed --scope user "https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,brand,onboarding"
+claude mcp add --transport http genfeed --scope user "https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,brand,knowledge,onboarding"
 ```
 
 ### Cursor
@@ -42,7 +42,7 @@ claude mcp add --transport http genfeed --scope user "https://mcp.genfeed.ai/mcp
 Until a marketplace listing is approved, add this server to Cursor's MCP settings:
 
 ```json
-{"mcpServers":{"genfeed":{"url":"https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,brand,onboarding"}}}
+{"mcpServers":{"genfeed":{"url":"https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,brand,knowledge,onboarding"}}}
 ```
 
 Complete OAuth when prompted. This config connects tools; it does not install the
@@ -61,7 +61,7 @@ Refresh/restart the supported desktop client, select the Genfeed source in Plugi
 and install Genfeed. Registration alone does not install it. Direct MCP-only setup:
 
 ```bash
-codex mcp add genfeed --url "https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,brand,onboarding"
+codex mcp add genfeed --url "https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,brand,knowledge,onboarding"
 codex mcp login genfeed
 ```
 

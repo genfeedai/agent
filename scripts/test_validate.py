@@ -68,7 +68,7 @@ class PackageValidationTests(unittest.TestCase):
 
     def test_scalar_skill_metadata_rejected(self):
         path = self.root / 'skills/genfeed/SKILL.md'
-        path.write_text(path.read_text().replace('metadata:\n  version: "0.1.2"', 'metadata: invalid'))
+        path.write_text(path.read_text().replace('metadata:\n  version: "0.1.3"', 'metadata: invalid'))
         self.assertIn('SKILL.md: metadata must map strings to strings', validate(self.root))
 
     def test_invalid_yaml_rejected(self):

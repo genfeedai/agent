@@ -100,7 +100,7 @@ def validate(root=ROOT):
     parsed = urlsplit(expected_url)
     if parsed.scheme != 'https' or parsed.netloc != 'mcp.genfeed.ai' or parsed.path != '/mcp':
         errors.append('mcp.json: unexpected public MCP endpoint')
-    if parsed.query != 'toolsets=core,scheduler,content,generation,analytics,brand,onboarding':
+    if parsed.query != 'toolsets=core,scheduler,content,generation,analytics,brand,knowledge,onboarding':
         errors.append('mcp.json: distribution toolset profile changed')
     connectors = [
         docs['.mcp.json']['mcpServers']['genfeed'],

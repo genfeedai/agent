@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.3 - 2026-10-03
+
+- Connect URL profile adds `knowledge`: `core,scheduler,content,generation,analytics,brand,knowledge,onboarding`. The playbook tells agents to call `search_knowledge` before writing anything that must be accurate about the brand, and the previous profile did not list it. Production already serves the `knowledge` toolset (server card, 2026-09-23).
+- Skill: correct the bare-URL note; the bare URL lists only the bounded `default` profile.
+- `submissions/public-endpoint-check.json` keeps the recorded 2026-09-23 probe URL; re-record it with the outstanding live-client checks.
+
 ## 0.1.2 - 2026-09-23
 
 - Enforce stricter OpenAI final listing lengths and supply a recording script, portal copy and per-tool evidence worksheet.
