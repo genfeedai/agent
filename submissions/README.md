@@ -9,8 +9,8 @@ client acceptance results, or an approved marketplace listing.
 | Destination | Guide | Submission input |
 | --- | --- | --- |
 | Cursor Marketplace | [Cursor](cursor.md) | Public repository URL, listing copy and logo |
-| Claude Code community marketplace | [Claude](claude.md) | Plugin repository, client validation and media-policy clearance |
-| Claude Connectors Directory | [Claude](claude.md) | Remote endpoint; media-policy clearance required |
+| Claude plugin directory | [Claude](claude.md) | Public repository folder `plugins/claude`, content-operations playbook and paired MCP submission |
+| Claude Connectors Directory | [Claude](claude.md) | Dedicated `/mcp/claude` OAuth resource; deployment, live acceptance and truthful disclosures required |
 | ChatGPT and Codex public directory | [OpenAI](openai.md) | With MCP submission plus skills archive |
 | Grok Build marketplace | [Grok](grok.md) | Generated SHA-pinned catalog entry and upstream PR |
 | Grok chat custom connector | [Grok](grok.md) | Remote endpoint; separate from Grok Build listing |
@@ -48,13 +48,12 @@ A PR artifact is a review preview and may refer to GitHub's synthetic merge comm
 | Domain ownership challenge | Exact token issued by the portal, deployed by the owning website/server project |
 | Reviewer account, sample workspace and credits | Genfeed test workspace; credentials only in private review fields |
 | OAuth login, refresh/revoke and real tool outcomes | Execute cases and record client version, commit and sanitized results |
-| Anthropic generation-policy exception | Obtain written clearance before attesting compliance for this full connector |
+| Anthropic generation-policy exception | Required if seeking to expose the full media-generation offering; the proposed Claude package excludes it |
 | Data handling and provider retention confirmation | Product/privacy owner reviews [data-handling notes](data-handling.md) |
 | Platform terms and attestations | Submitter completes after all statements are true |
 
 A public endpoint and passing package validation are not substitutes for these inputs.
-Do not mark the full connector ready for Claude directory submission while the
-media-policy question remains unresolved.
+Use the restricted Claude package for its proposed listing. Do not mark it ready until its dedicated server is deployed and live OAuth and tool checks pass. The full generation offering remains subject to written policy clearance.
 
 ## Public discovery evidence
 

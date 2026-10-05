@@ -12,4 +12,4 @@ Follow these steps in order. Do not generate, schedule, publish or resolve appro
 
 ## Claude connector
 
-Claude, Claude Code and Cowork: use `https://mcp.genfeed.ai/mcp/claude`, or install the Claude plugin from the marketplace above. It contains its own content-operations skill. Create images/video/audio in https://app.genfeed.ai/studio/generate; opening this link starts no generation. Do not use the standard endpoint or standalone full creative skill to bypass the Claude connector restriction. Directory publication is pending review.
+Claude, Claude Code and Cowork: use `https://mcp.genfeed.ai/mcp/claude`, or install the Claude plugin from the marketplace above. It contains its own content-operations skill. Create images/video/audio in https://app.genfeed.ai/studio/generate; opening this link starts no generation. Do not use the standard endpoint or standalone full creative skill to bypass the Claude connector restriction. The Claude offering is not yet submitted or published.

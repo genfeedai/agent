@@ -48,7 +48,7 @@ contact-only personal information belong in private form fields, never the repo.
 ## OpenAI — ChatGPT and Codex
 
 Use the [With MCP route](openai.md) at https://platform.openai.com/plugins.
-Attach genfeed-skills-0.1.4.zip from the final clean build if including the skill.
+Attach genfeed-skills-0.1.6.zip from the final clean build if including the skill.
 The repository URL alone is not that upload. The package build also creates a full
 ZIP for other review needs; do not replace the skills upload with that full bundle.
 
@@ -76,53 +76,18 @@ configuration. Keep the full served toolset visible in the product description.
 Update an existing submission rather than creating a duplicate. A receipt proves
 submission, not approval or that an unmerged PR is what reviewers will install.
 
-## Claude remote connector — field preparation
+## Claude plugin and remote connector
 
-See [the official form guide](https://claude.com/docs/connectors/building/submission).
-A Team organization with an Owner is sufficient; Enterprise is not mandatory.
-Individual Pro does not expose this organization submission portal.
+Use [Claude’s current guide](claude.md) and https://claude.ai/directory/manage.
+Paid Pro, Max, Team and Enterprise accounts can publish. Reuse the existing Genfeed draft rather than creating a duplicate. The plugin source is the public repository with folder `plugins/claude`; the paired MCP submission uses `https://mcp.genfeed.ai/mcp/claude` with browser OAuth.
 
-| Form step | Prepared answer / evidence |
-| --- | --- |
-| Introduction | Genfeed connects an assistant to the user's Genfeed content workspace. |
-| Connection | Universal URL above; remote Streamable HTTP. Do not switch to a hidden discovery-only profile to evade media review. |
-| Tools | Run a fresh scan, review titles/schemas/annotations, reconcile [the tool worksheet](tool-acceptance.csv) to the actual returned list. |
-| Listing | Common copy, icon, public docs/privacy/support; proposed permanent slug genfeed, subject to availability and owner confirmation. |
-| Use cases | Inspect a chosen brand's connected channels; prepare a draft with approval; inspect calendar/performance. Disclose media generation and scheduling too. |
-| Company | Decoders Labs Ltd, Malta. Registered address/number and submitter authority must come from company records if requested. |
-| Authentication | OAuth; advertised dynamic client registration, confirmed by a real portal connection. Private reviewer credentials are separate from OAuth client credentials. |
-| Data handling | Genfeed's own API, with user-requested operations delivered through configured social/media providers. Complete the answers below after production review. |
-| Test & launch | Reviewer setup, sample data, every exposed tool's actual outcome and cleanup; not just the eight OpenAI scenarios. |
-| Compliance | Resolve each acknowledgement below before checking it. |
-| Review | Confirm the real scan, legal answers, reviewer login and policy clearance; submit only when authorized. |
+Claude-specific description:
 
-Seven acknowledgement review notes:
+> Connect Claude to your Genfeed brands, content drafts, existing assets, scheduling and analytics. Draft copy with Claude, request scheduled releases subject to Genfeed permissions and approvals, and inspect performance. Create images, video and audio separately in Genfeed Studio. This connector excludes media generation, batches, workflows, arbitrary agent execution and approval redemption. A Genfeed account and the relevant workspace permissions are required.
 
-- Directory guidelines: review the current linked policy against the actual scan.
-- First-party API: Genfeed operates the MCP/API; disclose downstream provider use.
-- Financial transactions: generation can consume credits. Check the scanned tools
-  for billing, purchases or transfers; do not equate no checkout UI with no cost.
-- AI media generation: image, video, voice and music are core capabilities. Obtain express
-  written eligibility clearance using [the request draft](claude-exception.md).
-- Prompt injection: use the permission/isolation tests and server evidence. A skill
-  instruction alone is not a security control or proof of compliance.
-- Conversation data: tools receive task inputs; no permission to harvest unrelated
-  chats. Check server logging, stored approvals and provider flows before attesting.
-- Public documentation: publish the reviewed package docs and current privacy terms.
+Do not paste the full creative description or standard MCP URL from the common fields into Claude. The restriction is enforced by the dedicated OAuth resource and server execution policy, rather than a discovery-only toolset profile. Deploy and verify the server before submission. The plugin and its remote MCP server require paired submissions under the same publisher.
 
-Do not mark health-data or sponsored-content answers from the product name alone:
-the intended use is content operations, but prompts may contain personal data and
-some toolsets expose ads. Confirm the actual exposed functionality and contractual
-restrictions. Do not list third-party media hosts as owned allowed-link origins.
-There is no MCP App UI in this package, so app screenshots are not applicable.
-
-## Claude Code is a separate route
-
-The community plugin form is https://platform.claude.com/plugins/submit. It accepts
-the repository route described in [claude.md](claude.md); it is not the remote
-Claude.ai connector submission and does not by itself require buying Team.
-Native plugin/marketplace validation establishes packaging only. Media eligibility,
-authenticated functionality and truthful disclosures remain separate gates.
+Confirm the actual exposed tool scan, OAuth connection, sample data, reviewer access, legal publisher details and production data-handling disclosures. Public documentation and an offline package check do not establish live acceptance. Resolve each current policy acknowledgement before checking it. If seeking to expose Genfeed’s full media-generation offering in Claude later, obtain express written eligibility clearance using [the request draft](claude-exception.md).
 
 ## Data-handling copy for owner review
 

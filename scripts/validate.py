@@ -13,7 +13,7 @@ from refresh_tools import render_tools
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFESTS = (
-    'plugin.json', 'mcp.json', 'plugins/claude/.mcp.json', 'server.json', 'gemini-extension.json',
+    'plugin.json', 'mcp.json', '.mcp.json', 'plugins/claude/.mcp.json', 'server.json', 'gemini-extension.json',
     'plugins/claude/.claude-plugin/plugin.json', '.claude-plugin/marketplace.json',
     '.cursor-plugin/plugin.json', '.cursor-plugin/mcp.json',
     '.grok-plugin/plugin.json', '.grok-plugin/marketplace.json',
@@ -51,7 +51,8 @@ def validate_tool_catalog(root):
         if render_tools(catalog) != (root / 'skills/genfeed/references/tools.md').read_text():
             errors.append('tool catalog: generated Markdown drift; rerun refresh_tools.py')
         for filename in ('skills/genfeed/SKILL.md', 'llms-install.md', 'README.md',
-                         'submissions/test-cases.md', 'submissions/reviewer-setup.md'):
+                         'submissions/test-cases.md', 'submissions/reviewer-setup.md',
+                         'plugins/claude/skills/genfeed/SKILL.md', 'plugins/claude/README.md'):
             references = re.findall(r'`([a-z][a-z0-9]*_[a-z0-9_]+)`', (root / filename).read_text())
             for name in sorted(set(references) - names):
                 errors.append(f'{filename}: unknown MCP tool {name}')
@@ -135,6 +136,7 @@ def validate(root=ROOT):
     if parsed.query != 'toolsets=core,scheduler,content,generation,analytics,brand,knowledge,onboarding':
         errors.append('mcp.json: distribution toolset profile changed')
     connectors = [
+        docs['.mcp.json']['mcpServers']['genfeed'],
         docs['.cursor-plugin/mcp.json']['mcpServers']['genfeed'],
         docs['gemini-extension.json']['mcpServers']['genfeed'],
         docs['server.json']['remotes'][0],
@@ -145,7 +147,7 @@ def validate(root=ROOT):
     if docs['plugins/claude/.mcp.json']['mcpServers']['genfeed'].get('url') != 'https://mcp.genfeed.ai/mcp/claude':
         errors.append('Claude connector URL drift')
     if docs['plugins/claude/.mcp.json']['mcpServers']['genfeed'].get('type') != 'http':
-        errors.append('.mcp.json: native remote transport must be http')
+        errors.append('plugins/claude/.mcp.json: native remote transport must be http')
     claude = docs['plugins/claude/.claude-plugin/plugin.json']
     entry = docs['.claude-plugin/marketplace.json']['plugins'][0]
     components = {'skills', 'commands', 'agents', 'hooks', 'mcpServers'}
@@ -196,7 +198,7 @@ def validate(root=ROOT):
                     errors.append(f'{relative}: broken local link {link}')
     claude_skill = root / 'plugins/claude/skills/genfeed/SKILL.md'
     claude_front = yaml.safe_load(claude_skill.read_text().split('---', 2)[1])
-    if claude_front.get('metadata', {}).get('version') != version:
+    if not isinstance(claude_front, dict) or not isinstance(claude_front.get('metadata'), dict) or claude_front['metadata'].get('version') != version:
         errors.append('Claude skill release version drift')
     if (root / 'plugins/claude/skills').is_symlink() or any(p.is_symlink() for p in (root / 'plugins/claude').rglob('*')):
         errors.append('Claude package must be self-contained')

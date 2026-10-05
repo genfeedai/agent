@@ -26,8 +26,9 @@ playbook/setup/acceptance instructions and worksheet metadata drift.
 
 Use root `plugin.json` version as the authority. Update all client versions,
 marketplace versions, `server.json`, skill `metadata.version`, and CHANGELOG together.
-All manifests use the same URL, including `brand` and `onboarding` toolsets.
-Claude and Grok discover root `.mcp.json`; Codex and other portable hosts discover `mcp.json`.
+Standard client manifests use the shared URL, including `brand` and `onboarding` toolsets.
+Grok discovers root `.mcp.json`; Codex and other portable hosts discover `mcp.json`.
+Claude loads only `plugins/claude/.mcp.json`, which uses the dedicated `/mcp/claude` OAuth resource.
 Cursor's native manifest points to `.cursor-plugin/mcp.json`.
 
 ## Verification and packaging
@@ -40,7 +41,7 @@ python3 -m venv .venv
 .venv/bin/python scripts/validate.py
 .venv/bin/python -m unittest discover -s scripts -p 'test_*.py'
 .venv/bin/python scripts/build_submission.py
-claude plugin validate .claude-plugin/plugin.json
+claude plugin validate plugins/claude/.claude-plugin/plugin.json
 claude plugin validate .claude-plugin/marketplace.json
 ```
 

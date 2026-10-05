@@ -9,7 +9,7 @@
       "name": "genfeed",
       "source": "./",
       "description": "Genfeed playbook skill and hosted MCP server for brands, content, generation, scheduling, and analytics.",
-      "version": "0.1.5",
+      "version": "0.1.6",
       "category": "productivity",
       "homepage": "https://github.com/genfeedai/agent",
       "keywords": [

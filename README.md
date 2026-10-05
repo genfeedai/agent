@@ -35,7 +35,7 @@ The Claude plugin lives in `plugins/claude` and loads only its content-operation
 complete OAuth. Direct MCP-only alternative:
 
 ```bash
-claude mcp add --transport http genfeed --scope user "https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,brand,knowledge,onboarding"
+claude mcp add --transport http genfeed --scope user https://mcp.genfeed.ai/mcp/claude
 ```
 
 ### Cursor
@@ -76,16 +76,13 @@ local testing, use OpenAI's registered connection workflow in
 
 ### Claude chat / Cowork
 
-Add a custom remote connector using the MCP URL and complete OAuth. A custom MCP
-connection exposes tools; the playbook must be installed as a skill/plugin where
-supported. Read [Claude's guide](submissions/claude.md) before seeking a public
-listing: the full connector includes AI media generation subject to directory policy.
+Add a custom remote connector using `https://mcp.genfeed.ai/mcp/claude` and complete browser OAuth. Use brands, drafts, existing assets, scheduling and analytics here; create media separately in Genfeed Studio. Install the dedicated Claude playbook where plugins are supported. Read [Claude’s guide](submissions/claude.md) for the separate plugin and connector submissions.
 
 ### Grok
 
 [Grok Connectors](https://grok.com/connectors) → New Connector → Custom → paste the
 MCP URL and authenticate. This connects Grok chat. The `.grok-plugin/` catalog and
-`mcp.json` separately package the skill and connector for Grok Build.
+`.mcp.json` separately package the skill and connector for Grok Build.
 [Grok publishing instructions](submissions/grok.md).
 
 ### Gemini CLI
@@ -110,7 +107,7 @@ explicitly. The optional CLI setup is described below.
 
 ## API-key fallback
 
-Use only when your client cannot use OAuth. Create a key using the optional CLI:
+Use only for non-Claude clients that cannot use OAuth. The Claude connector requires browser OAuth. Create a key using the optional CLI:
 
 ```bash
 genfeed login
@@ -144,7 +141,6 @@ local daemon, or telemetry. See the [privacy policy](https://genfeed.ai/privacy)
 `server.json` is an MCP Registry descriptor; committing it does not publish it.
 Repository CI validates packaging and builds review artifacts, not authenticated
 acceptance or directory approval. License: [MIT](LICENSE).
-
 
 ### Claude content connector
 

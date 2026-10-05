@@ -38,7 +38,7 @@ def main():
         shutil.rmtree(output)
     output.mkdir()
     files = [ROOT / name for name in (
-        'plugin.json', 'mcp.json', 'plugins/claude/.mcp.json', 'server.json', 'gemini-extension.json',
+        'plugin.json', 'mcp.json', '.mcp.json', 'plugins/claude/.mcp.json', 'server.json', 'gemini-extension.json',
         'GEMINI.md', 'README.md', 'CONTRIBUTING.md', 'LICENSE', 'CHANGELOG.md', 'llms-install.md',
         'plugins/claude/.claude-plugin/plugin.json', '.claude-plugin/marketplace.json',
         '.cursor-plugin/plugin.json', '.cursor-plugin/mcp.json',
