@@ -1,4 +1,5 @@
 """Offline package checks. Live client acceptance is a separate manual gate."""
+import csv
 import hashlib
 import json
 from pathlib import Path
@@ -8,6 +9,7 @@ from urllib.parse import urlsplit
 
 from jsonschema import FormatChecker, validators
 import yaml
+from refresh_tools import render_tools
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFESTS = (
@@ -36,6 +38,36 @@ def walk_values(value):
     elif isinstance(value, list):
         for child in value:
             yield from walk_values(child)
+
+
+def validate_tool_catalog(root):
+    errors = []
+    try:
+        catalog = read_json(root, 'skills/genfeed/references/tool-catalog.json')
+        tools = catalog['tools']
+        names = {tool['name'] for tool in tools}
+        if len(names) != len(tools) or not re.fullmatch(r'[0-9a-f]{40}', catalog['sourceRevision']):
+            errors.append('tool catalog: duplicate names or invalid source revision')
+        if render_tools(catalog) != (root / 'skills/genfeed/references/tools.md').read_text():
+            errors.append('tool catalog: generated Markdown drift; rerun refresh_tools.py')
+        for filename in ('skills/genfeed/SKILL.md', 'llms-install.md', 'README.md',
+                         'submissions/test-cases.md', 'submissions/reviewer-setup.md'):
+            references = re.findall(r'`([a-z][a-z0-9]*_[a-z0-9_]+)`', (root / filename).read_text())
+            for name in sorted(set(references) - names):
+                errors.append(f'{filename}: unknown MCP tool {name}')
+        with (root / 'submissions/tool-acceptance.csv').open(newline='') as file:
+            rows = list(csv.DictReader(file))
+        if len(rows) != len(tools) or {row['tool'] for row in rows} != names:
+            errors.append('tool catalog: acceptance inventory differs from snapshot')
+        by_name = {tool['name']: tool for tool in tools}
+        for row in rows:
+            tool = by_name.get(row['tool'])
+            if tool and (row['catalog_toolset'] != tool['toolset'] or
+                         row['catalog_approval'] != ('yes' if tool['mutationPolicy'] == 'approval-required' else 'no')):
+                errors.append(f"tool catalog: acceptance metadata drift for {row['tool']}")
+    except (OSError, ValueError, KeyError, TypeError):
+        errors.append('tool catalog: invalid or missing snapshot/acceptance inventory')
+    return errors
 
 
 def validate(root=ROOT):
@@ -181,6 +213,7 @@ def validate(root=ROOT):
         errors.append('publisher identity differs across manifest and listing')
     if listing['mcpUrl'] != expected_url:
         errors.append('submission listing URL drift')
+    errors.extend(validate_tool_catalog(root))
     return errors
 
 

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.4 - 2026-10-05
+
+- Refresh the 142-tool snapshot from the current curated MCP catalog and expose role requirements.
+- Update account, brand, discovery, media generation, upload and scheduler guidance to the current tools.
+- Add a reproducible catalog refresh script and reject playbook and acceptance-inventory drift in package validation.
+- Keep acceptance cases untested until actual reviewer evidence is recorded.
+- Document the single-command Claude Code plugin install with the older-client fallback.
+
 ## 0.1.3 - 2026-10-03
 
 - Connect URL profile adds `knowledge`: `core,scheduler,content,generation,analytics,brand,knowledge,onboarding`. The playbook tells agents to call `search_knowledge` before writing anything that must be accurate about the brand, and the previous profile did not list it. Production already serves the `knowledge` toolset (server card, 2026-09-23).

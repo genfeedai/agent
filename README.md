@@ -26,9 +26,10 @@ See [the playbook](skills/genfeed/SKILL.md) and [reviewer setup](submissions/rev
 ### Claude Code
 
 ```text
-/plugin marketplace add genfeedai/agent
-/plugin install genfeed@genfeed
+/plugin install genfeed --marketplace genfeedai/agent
 ```
+
+Requires Claude Code 2.1.275 or newer. On older versions, run `/plugin marketplace add genfeedai/agent`, then `/plugin install genfeed@genfeed`.
 
 The plugin loads the skill and root `.mcp.json`. Open `/mcp`, select Genfeed, and
 complete OAuth. Direct MCP-only alternative:
@@ -122,11 +123,11 @@ paste them into a chat, or append them to a URL. On 401, stop and sign in again.
 
 ## Verify and troubleshoot
 
-Call `get_account_info`, then `list_brands`. Both must succeed. Do not generate,
+Call `get_account`, then `get_brands`. Both must succeed. Do not generate,
 schedule, publish, or resolve an approval during setup. On an unknown toolset error,
 inspect the [public server card](https://mcp.genfeed.ai/.well-known/mcp/server-card.json)
 and report a deployment mismatch. On 403, check the account's role/scopes; do not
-retry with another account. Check availability with `list_toolsets` and `describe_tool`.
+retry with another account. Check availability and schemas with `find_tools` (use `name` for an exact tool).
 
 ## Privacy and support
 

@@ -12,7 +12,7 @@ access to the submitter's browser, mailbox or production session.
 
 1. Install the candidate package or create the remote connector in the target client.
 2. Sign in through OAuth. Record client version and package commit.
-3. Call `get_account_info` and `list_brands`; verify the intended workspace and role.
+3. Call `get_account` and `get_brands`; verify the intended workspace and role.
 4. Save the actual `tools/list` inventory and annotations, sanitized of private data.
 5. Run [test-cases.md](test-cases.md), recording expected versus observed outcomes.
 6. For pending mutations, use a separately authorized Genfeed reviewer. Do not elevate

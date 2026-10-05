@@ -68,7 +68,7 @@ class PackageValidationTests(unittest.TestCase):
 
     def test_scalar_skill_metadata_rejected(self):
         path = self.root / 'skills/genfeed/SKILL.md'
-        path.write_text(path.read_text().replace('metadata:\n  version: "0.1.3"', 'metadata: invalid'))
+        path.write_text(path.read_text().replace('metadata:\n  version: "0.1.4"', 'metadata: invalid'))
         self.assertIn('SKILL.md: metadata must map strings to strings', validate(self.root))
 
     def test_invalid_yaml_rejected(self):
@@ -103,6 +103,27 @@ class PackageValidationTests(unittest.TestCase):
 
     def test_package_passes(self):
         self.assertEqual([], validate(self.root))
+
+    def test_removed_tool_in_playbook_rejected(self):
+        path = self.root / 'skills/genfeed/SKILL.md'
+        path.write_text(path.read_text() + '\nCall `get_account_info`.\n')
+        self.assertIn('skills/genfeed/SKILL.md: unknown MCP tool get_account_info', validate(self.root))
+
+    def test_generated_tool_table_drift_rejected(self):
+        path = self.root / 'skills/genfeed/references/tools.md'
+        path.write_text(path.read_text().replace('`get_account`', '`get_account_info`'))
+        self.assertIn('tool catalog: generated Markdown drift; rerun refresh_tools.py', validate(self.root))
+
+    def test_missing_acceptance_tool_rejected(self):
+        path = self.root / 'submissions/tool-acceptance.csv'
+        lines = path.read_text().splitlines()
+        path.write_text('\n'.join(lines[:-1]) + '\n')
+        self.assertIn('tool catalog: acceptance inventory differs from snapshot', validate(self.root))
+
+    def test_acceptance_approval_drift_rejected(self):
+        path = self.root / 'submissions/tool-acceptance.csv'
+        path.write_text(path.read_text().replace('get_account,core,no,', 'get_account,core,yes,'))
+        self.assertIn('tool catalog: acceptance metadata drift for get_account', validate(self.root))
 
 
 class SubmissionArchiveTests(unittest.TestCase):

@@ -8,7 +8,19 @@ Product changes belong in `genfeedai/genfeed.ai`.
 `skills/genfeed/references/tools.md` is generated from the monorepo curated MCP
 catalog, source definitions and mutation policy. Do not hand-edit rows or invent
 tools. Counts and permissions may differ by server revision and caller role;
-`tools/list` and `describe_tool` are authoritative for the active connection.
+`tools/list` and `find_tools` are authoritative for the active connection.
+
+Refresh the assembled catalog from a monorepo checkout with committed actions sources:
+
+```bash
+python3 scripts/refresh_tools.py /path/to/genfeed.ai
+```
+
+This records the source actions revision, updates the JSON snapshot and renders
+the Markdown reference. Reconcile `submissions/tool-acceptance.csv` with the new
+inventory; do not carry forward a passing result without checking the changed
+schema and behavior. Package validation rejects obsolete tool names in the
+playbook/setup/acceptance instructions and worksheet metadata drift.
 
 ## Release
 
