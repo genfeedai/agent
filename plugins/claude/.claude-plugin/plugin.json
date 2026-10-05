@@ -1,6 +1,6 @@
 {
   "name": "genfeed",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Manage Genfeed brands, drafts, existing assets, scheduling and analytics in Claude. Create images, video and audio in Genfeed Studio.",
   "author": {
     "name": "Genfeed",
@@ -15,5 +15,7 @@
     "social",
     "content",
     "scheduler"
-  ]
+  ],
+  "icon": "./.claude-plugin/icon.png",
+  "privacyPolicyUrl": "https://genfeed.ai/privacy"
 }

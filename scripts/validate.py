@@ -164,7 +164,7 @@ def validate(root=ROOT):
         errors.append('Codex marketplace must require install-time authentication')
     for filename, data in docs.items():
         for key, value in walk_values(data):
-            if key in {'skills', 'mcpServers', 'logo', 'composerIcon'}:
+            if key in {'skills', 'mcpServers', 'logo', 'composerIcon', 'icon'}:
                 paths = value if isinstance(value, list) else [value]
                 for path in paths:
                     if not isinstance(path, str):
