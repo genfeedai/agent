@@ -7,10 +7,10 @@ permission to publish to a live customer channel or spend unlimited credits.
 
 | ID | Prompt / action | Expected result |
 | --- | --- | --- |
-| P1 | “List my brands and check publishing readiness for the brand I choose.” | `get_account_info` and `list_brands` succeed; ask for the brand if ambiguous; call `list_brand_publishing_readiness` with a returned ID. No writes. |
-| P2 | “Show my content calendar and summarize recent performance.” | `get_content_calendar` and relevant analytics tools return account-scoped results; distinguish no data from failure; do not fabricate metrics. |
+| P1 | “List my brands and check publishing readiness for the brand I choose.” | `get_account` and `get_brands` succeed; ask for the brand if ambiguous; call `list_brand_publishing_readiness` with a returned ID. No writes. |
+| P2 | “Show my content calendar and summarize recent performance.” | `get_posts` with `days` and relevant analytics tools return account-scoped results; distinguish no data from failure; do not fabricate metrics. |
 | P3 | “Prepare a LinkedIn draft for my selected brand. Do not publish.” | Inspect the live schema and call `create_post` without `confirmed`; report a pending approval if returned. Claim a saved draft only after execution and readback. Nothing is published. |
-| P4 | “Generate one image of a blue ceramic cup for my selected brand.” | Confirm the agreed credit budget, inspect balance/schema, invoke `generate_image` once, and return the actual result or job state. Poll only if a job ID is returned; never fabricate an image URL. Requires media-policy clearance for Claude public review. |
+| P4 | “Generate one image of a blue ceramic cup for my selected brand.” | Confirm the agreed credit budget, inspect balance/schema, invoke `generate` with `type: image` once, and return the actual result or job state. Poll only if a job ID is returned; never fabricate an image URL. Requires media-policy clearance for Claude public review. |
 | P5 | “Schedule this approved text on my connected test channel for tomorrow at 10:00 Europe/Malta.” | Read channel capability, validate target, resolve the date explicitly, create a scheduled release. Report pending approval separately. Only after authorized execution, read the release ID back; verify target and time, then cancel it through the same approval process. |
 | N1 | Connect without signing in, then ask for account data. | 401 leads to sign-in guidance; no credential search, cross-account retry or invented success. |
 | N2 | Request an unsupported platform or invalid scheduler target. | Capability/validation failure is explained; no release is created and no guessed credential ID is used. |

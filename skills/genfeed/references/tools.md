@@ -1,133 +1,155 @@
 # Genfeed MCP tools
 
-Generated from `packages/actions/src/registry/curated-action-catalog.ts` (entries whose `surfaces` include `mcp`) joined with definitions in `packages/actions/src/registry/source/**` and `MUTATION_POLICY_BY_NAME`.
+Generated from the assembled curated MCP catalog in `genfeedai/genfeed.ai`.
+Source actions revision: `9a7da59f5bdcc30636a6001eca18050678e74e94`.
 
-Count: 123. Toolsets: ads, agent-chat, analytics, brand, clips, content, core, generation, inspiration, knowledge, onboarding, scheduler, skills-pro, social-inbox, workflows.
+Count: 142. Toolsets: ads, agent-chat, analytics, articles, brand, clips, content, core, generation, inspiration, knowledge, onboarding, scheduler, skills-pro, social-inbox, visual-code, workflows.
 
-Approval means `mutationPolicy: 'approval-required'`. Calling that tool queues a pending approval. Call `resolve_approval` only after the user decides.
+Live schemas and caller permissions take precedence. Use `find_tools` with `name` for a full input schema, role and mutation policy.
 
-| Tool | Toolset | Required | Approval | Description |
-| --- | --- | --- | --- | --- |
-| `compare_meta_campaigns` | ads | `campaignIds` | no | Compare performance metrics side-by-side for multiple Meta campaigns |
-| `get_ad_research_detail` | ads | `adId`, `source` | no | Inspect one ad from ads research and return its creative, metrics, and reusable pattern explanation. |
-| `get_ads_ad_insights` | ads | `platform`, `credentialId`, `adAccountId`, `adId` | no | Get performance insights for a single ad on any connected ads platform (Meta ad, Google Ads ad, TikTok ad, or X ad) through the platform-generic ads gateway |
-| `get_ads_adset_insights` | ads | `platform`, `credentialId`, `adAccountId`, `adSetId` | no | Get performance insights for one ad set on any connected ads platform (Meta ad set, Google Ads ad group, TikTok ad group, or X ad group) through the platform-generic ads gateway |
-| `get_google_ads_adgroup_insights` | ads | `customerId`, `adGroupId` | no | Get performance insights for a Google Ads ad group |
-| `get_google_ads_campaign_metrics` | ads | `customerId`, `campaignId` | no | Get detailed metrics for a Google Ads campaign including impressions, clicks, cost, conversions, CTR, and CPC |
-| `get_google_ads_keyword_performance` | ads | `customerId` | no | Get keyword performance report with quality scores, clicks, impressions, and cost |
-| `get_google_ads_search_terms` | ads | `customerId`, `campaignId` | no | Get search terms report showing actual search queries that triggered your ads |
-| `get_meta_ad_insights` | ads | `adId` | no | Get performance insights for an individual Meta ad including creative details |
-| `get_meta_adset_insights` | ads | `adSetId` | no | Get performance insights for a Meta ad set |
-| `get_meta_campaign_insights` | ads | `campaignId` | no | Get detailed performance insights for a Meta ad campaign including spend, impressions, clicks, CTR, CPC, CPM, and conversions |
-| `get_meta_top_performers` | ads | `adAccountId`, `metric` | no | Get top performing Meta ads sorted by a specific metric (CTR, ROAS, CPC, etc.) |
-| `get_tiktok_campaign_insights` | ads | `credentialId`, `adAccountId`, `campaignId` | no | Get detailed performance insights for a TikTok ad campaign including spend, impressions, clicks, CTR, CPC, CPM, and conversions |
-| `list_ads_research` | ads | — | no | List top-performing public and connected ads by niche, platform, source, metric, and timeframe. |
-| `list_google_ads_campaigns` | ads | `customerId` | no | List Google Ads campaigns with optional status filter |
-| `list_google_ads_customers` | ads | — | no | List accessible Google Ads customer accounts |
-| `list_meta_ad_accounts` | ads | — | no | List connected Meta (Facebook) ad accounts |
-| `list_meta_ad_creatives` | ads | `adAccountId` | no | List creative assets (headlines, body text, CTAs, images) for Meta ads |
-| `list_meta_campaigns` | ads | `adAccountId` | no | List Meta ad campaigns with optional status filter and pagination |
-| `list_tiktok_ad_accounts` | ads | `credentialId` | no | List TikTok advertiser accounts for a connected credential |
-| `list_tiktok_adgroups` | ads | `credentialId`, `adAccountId`, `campaignId` | no | List TikTok ad groups within a campaign |
-| `list_tiktok_ads` | ads | `credentialId`, `adAccountId` | no | List TikTok ads, optionally narrowed to a single ad group. Returns creative details alongside each ad |
-| `list_tiktok_campaigns` | ads | `credentialId`, `adAccountId` | no | List TikTok ad campaigns for an advertiser account |
-| `create_chat` | agent-chat | — | no | Start a new agent conversation |
-| `send_chat_message` | agent-chat | `threadId`, `message` | no | Send a message in an existing agent conversation |
-| `analyze_performance` | analytics | — | no | Analyze recent content performance over the last 30 days. Returns engagement rates grouped by content type, platform, and posting time, plus top-performing posts. |
-| `get_analytics` | analytics | — | no | Get analytics data for the user. Can specify a time range and metrics. |
-| `get_content_analytics` | analytics | `contentId`, `contentType` | no | Get analytics for a specific piece of content (article, video, or image) |
-| `get_linkedin_analytics` | analytics | `contentId` | no | Get analytics for LinkedIn posts including impressions, engagement rate, reactions, comments, and shares. Requires a content ID. |
-| `get_linkedin_connection_status` | analytics | — | no | Check whether a LinkedIn account is connected for the current user. Returns connection status, handle, and avatar if connected. |
-| `get_trends` | analytics | — | no | Get trending topics and content ideas based on current trends across social media and news. |
-| `get_video_analytics` | analytics | `videoId` | no | Get detailed analytics for a specific video |
-| `get_brand_completeness` | brand | `brandId` | no | Get the current brand context completeness score and a list of fields that still have gaps. Read-only, no credits charged. |
-| `list_brand_publishing_readiness` | brand | `brandId` | no | List a brand connected publishing channels with credential ID, schedulability, health, and diagnostics. Read-only; check before scheduling. |
-| `skip_brand_interview_question` | brand | `interviewId` | yes | Skip the current interview question (e.g. the user doesn't know or wants to skip). Returns the next question and updated progress. |
-| `start_brand_interview` | brand | `brandId` | yes | Start a brand context interview for the given brand. Charges 10 credits once (idempotent — resuming an active session does not re-charge). Returns the first question to ask the user, plus progress and completeness info. |
-| `submit_brand_interview_answer` | brand | `interviewId`, `answer` | yes | Submit the user's answer to the current interview question. Pass the interviewId from start_brand_interview. Returns the next question (if any) and updated progress. |
-| `analyze_clip_project` | clips | `youtubeUrl` | yes | Analyze a YouTube video for viral highlights: downloads audio, transcribes, and LLM-detects segments (1 credit). Poll with get_clip_project or get_clip_highlights. |
-| `create_clip_project_from_youtube` | clips | `youtubeUrl` | yes | Create a clip project from a YouTube URL and run the AI clip factory async (1 credit/clip). HeyGen/Argil need avatarId+voiceId; GenfeedAI needs a brand character reference. Poll get_clip_project. |
-| `generate_clips` | clips | `projectId`, `selectedHighlightIds`, `editedHighlights` | yes | Generate clips from selected highlights (1 credit/clip). Avatar: avatarId+voiceId (HeyGen/Argil) or character ref (GenfeedAI); raw-cut: neither. |
-| `get_clip_highlights` | clips | `projectId` | no | Get the detected highlights for a clip project after analysis. Returns the highlights array plus the project's current status. |
-| `get_clip_project` | clips | `projectId` | no | Read a clip project by ID: status, progress, highlights, and generated clip results (with playable video URLs when ready). Poll this after analyze or generate. |
-| `list_clip_projects` | clips | — | no | List clip projects in your organization, most recent first. Returns id, name, status, and progress for each. |
-| `create_article` | content | `topic` | yes | Generate viral AI-powered articles with SEO optimization. Specify topic, tone, length, target audience, and keywords for maximum engagement. |
-| `create_post` | content | — | yes | Create a post draft, or confirm direct publishing for an existing item via a confirmation card. |
-| `fetch_x_post` | content | `postIdOrUrl` | no | Open one X post from a link or post id and return its text and stats. |
-| `generate_content_batch` | content | `count`, `platforms` | yes | Generate a batch of content (images, videos, carousels) for a brand. Specify count, platforms, and date range. Use handle param to resolve @username to a credential. Returns a batch ID for tracking. Credits scale by item format and caption model tier — not a flat fee. |
-| `generate_linkedin_content` | content | `topic` | no | Generate LinkedIn-optimized post text for a given topic or brief. Returns ready-to-publish text content with hook, body, CTA, and hashtags. |
-| `get_article` | content | `articleId` | no | Get a specific article by ID |
-| `get_content_calendar` | content | — | no | Get the content calendar for the coming week. Returns scheduled and draft posts with gap analysis showing days without content. |
-| `list_posts` | content | — | no | List recent posts for the user. Can filter by target execution state (draft, scheduled, published). |
-| `repurpose_post` | content | `postId`, `platform`, `mode` | no | Repurpose an existing post into a draft for another channel. Deterministic mode adapts the caption instantly through the channel capability catalog (length, hashtags, links, media compatibility); agent mode rewrites it with the content engine and lands the draft in the review queue. Never publishes or schedules anything. |
-| `search_articles` | content | `query` | no | Search published articles by query, category, or tags. Filter and find content quickly. |
-| `search_x_posts` | content | `query` | no | Search recent posts on X by topic. Returns posts with author, text, stats, and link. Explains clearly if the connected account cannot search. |
-| `describe_tool` | core | `name` | no | Describe one tool by exact name, returning its full input schema, toolset, mutation policy, credit cost, and required role. Useful for a tool that was filtered out of tools/list by the connection toolsets. |
-| `get_account_info` | core | — | no | Get current account info including user, organization, scopes, and active brand |
-| `get_brand` | core | — | no | Get details of a selected brand. When an organization has more than one brand, pass brandId; the first brand is never chosen automatically. |
-| `get_credits_balance` | core | — | no | Get available credits balance and usage information for your account |
-| `get_job_status` | core | `jobId` | no | Check the status of a content generation job. Auto-detects content type. |
-| `get_usage_stats` | core | — | no | Get detailed usage statistics including content created, credits used, and account activity |
-| `list_brands` | core | — | no | List the user's brands with their names, descriptions, and tone profiles. |
-| `list_toolsets` | core | — | no | List the toolsets available on this server, each with its description and tool count. Use this to see what a narrower ?toolsets= connection is missing. |
-| `resolve_approval` | core | `approvalId`, `decision` | no | Approve or decline a pending MCP write action that was queued for human review, executing it on approval. Pass the approvalId returned by the original (pending) tool call. Superadmin-only. |
-| `search_tools` | core | — | no | Search for tools by name/description substring and/or toolset. Provide at least one of query or toolset. Returns a summary per match — use describe_tool for the full schema of a specific tool. |
-| `generate_image` | generation | `prompt` | no | Generate AI images with a custom prompt, style, and dimensions. |
-| `generate_music` | generation | `prompt` | no | Generate music or audio using AI. Describe the desired music style, mood, instruments, and genre. Returns the audio URL. |
-| `generate_video` | generation | `prompt` | no | Generate a video from a prompt. Add imageUrl+audioUrl for talking-avatar lip-sync. Returns the video URL. |
-| `generate_voice` | generation | `text` | no | Generate speech audio from text using text-to-speech. If you do not already have a catalog or cloned voiceId, omit voiceId and call prepare_voice_clone instead so the user can pick a voice from the catalog. Do not ask the user to open Library → Voices. |
-| `get_video_status` | generation | `videoId` | no | Check the status of a video creation job |
-| `list_avatars` | generation | — | no | List all available avatars |
-| `list_characters` | generation | — | no | List the current brand's active named characters (handle, label, description, whether a reference image exists). Tenant-scoped. |
-| `list_images` | generation | — | no | List all generated images |
-| `list_music` | generation | — | no | List all generated music tracks |
-| `list_videos` | generation | — | no | List all videos in your organization |
-| `reframe_image` | generation | `imageId` | no | Reframe an existing image to a new aspect ratio. Provide imageId and target aspect ratio. |
-| `upscale_image` | generation | `imageUrl` | no | Upscale an existing image to higher resolution. Provide the image URL or asset ID. |
-| `get_instagram_inspiration_detail` | inspiration | `username` | no | Fetch latest or top public posts from one Instagram account and return provenance plus abstract hook, format, pacing, and style signals. |
-| `get_tiktok_top_performers` | inspiration | `credentialId`, `adAccountId` | no | Get top performing TikTok ads sorted by a specific metric (CTR, CPC, spend, etc.) |
-| `list_instagram_inspiration` | inspiration | — | no | Discover public Instagram accounts and content patterns relevant to the selected brand niche. |
-| `archive_knowledge_source` | knowledge | `sourceId` | no | Archive a Knowledge source so it never appears in retrieval again. Its receipts on past outputs are kept. |
-| `assign_knowledge_purpose` | knowledge | `sourceId` | no | Change the purpose of a Knowledge source (Brand Truth, Inspiration, Research) and optionally hide it from retrieval. |
-| `capture_knowledge` | knowledge | — | no | Save a page, document, feed, media or pasted text into the brand Knowledge library and start ingestion. Pass sourceId to refresh an existing URL or RSS source. Default purpose is INSPIRATION; pass BRAND_TRUTH only for material the brand owns and vouches for. |
-| `list_knowledge_sources` | knowledge | — | no | List the brand Knowledge sources with their purpose, processing state and failure reason. |
-| `read_knowledge_source` | knowledge | `sourceId` | no | Read one Knowledge source: metadata, current version state, provenance, a bounded text preview and the spaces it belongs to. |
-| `retry_knowledge_ingestion` | knowledge | `sourceId` | no | Requeue ingestion for a Knowledge source whose last attempt failed. Never creates a duplicate. |
-| `search_knowledge` | knowledge | `query` | no | Search the brand Knowledge library (saved pages, documents and notes) and return cited passages with their source, purpose and relevance. Use it before writing anything that must be accurate about the brand. |
-| `connect_social_account` | onboarding | `platform` | no | Start a resumable social-account connection. Returns a connectionId and browser authorization URL. Poll get_connection_status until authorized. |
-| `get_connection_status` | onboarding | — | no | Get connection status for a social platform or a durable connection request id. Safe to poll. |
-| `initiate_oauth_connect` | onboarding | `platform` | no | Start connecting a social account and return a durable connection request plus a connect button. |
-| `control_scheduled_release` | scheduler | `releaseId`, `action` | yes | Control a scheduled release lifecycle: cancel, pause, resume, or publish now. |
-| `create_scheduled_release` | scheduler | `release` | yes | Create a multi-channel scheduled release. |
-| `get_scheduled_release` | scheduler | `releaseId` | no | Get one scheduled release by ID: channel targets, validation/execution state, attachments, recurrence, and transition history. |
-| `get_scheduler_capability` | scheduler | `platform` | no | Get one scheduler channel capability by platform: caption limits, media rules, publish modes, required settings, status. Read-only. |
-| `list_scheduler_capabilities` | scheduler | — | no | List scheduler channel capabilities: platforms, caption limits, media rules, publish modes, required settings. Read-only. |
-| `update_scheduled_release` | scheduler | `releaseId`, `scope`, `changes` | yes | Update a release or a target. |
-| `validate_scheduler_target` | scheduler | `platform` | no | Validate a proposed target against the channel-capability contract; returns errors/warnings/validationState. Read-only. |
-| `install_skills_pro_skill` | skills-pro | `receiptId`, `skillSlug` | yes | Install one entitled Skills Pro pack into the authenticated organization runtime after integrity verification. |
-| `verify_skills_pro_entitlement` | skills-pro | `receiptId` | no | Verify a Skills Pro receipt for the authenticated organization and list the exact skill slugs it grants. |
-| `approve_social_draft` | social-inbox | `conversationId`, `messageId` | yes | Approve a social inbox draft and publish it externally as a reply or DM. Requires approval before execution. |
-| `assign_social_conversation` | social-inbox | `conversationId` | no | Assign or unassign a social inbox conversation. |
-| `create_social_reply_draft` | social-inbox | `conversationId`, `text` | no | Create a draft reply or DM in the social inbox for later approval. This does not send externally. |
-| `get_social_conversation` | social-inbox | `conversationId` | no | Get one social inbox conversation and, by default, its recent messages. |
-| `list_social_conversations` | social-inbox | — | no | List social inbox conversations across connected YouTube and Instagram accounts, with filters for review state, assignee, tags, and platform. |
-| `list_x_account_activity` | social-inbox | — | no | List recent posts from an X account. Uses the brand's connected account when no username is given. |
-| `mark_social_conversation_resolved` | social-inbox | `conversationId` | no | Mark a social inbox conversation as resolved. |
-| `post_social_reply` | social-inbox | `conversationId`, `text` | yes | Publish a reply in a social inbox conversation. Requires approval before execution. |
-| `reject_social_draft` | social-inbox | `conversationId`, `messageId` | no | Reject a social inbox draft without publishing it externally. |
-| `send_social_dm` | social-inbox | `conversationId`, `text` | yes | Send a direct message from a social inbox conversation. Requires approval before execution. |
-| `tag_social_conversation` | social-inbox | `conversationId`, `tags` | no | Replace tags on a social inbox conversation. |
-| `create_ad_remix_workflow` | workflows | `adId`, `source` | yes | Create a draft, review-only ad remix workflow from a selected public or connected ad. This never launches an ad. |
-| `create_instagram_remix_workflow` | workflows | `username`, `shortcode` | yes | Create a draft, review-only Instagram remix workflow that adapts a public post pattern to the selected brand. This is prompt-based reinterpretation, not video style transfer. |
-| `create_workflow` | workflows | `label` | no | Create a workflow: direct graph, a recurring scaffold, or natural-language generation. Editable in the Workflows app. |
-| `duplicate_workflow` | workflows | `workflowId` | no | Duplicate a workflow into the current organization and brand scope so the copy can be edited or scheduled without mutating the source workflow. |
-| `execute_workflow` | workflows | `workflowId` | no | Execute an existing workflow immediately. Select nodeIds to rerun edited steps while reusing locked outputs; pass required variables for full or partial execution. |
-| `get_workflow_run` | workflows | `runId` | no | Inspect a single workflow run, including status, trigger, node results, progress, timing, errors, and metadata. |
-| `get_workflow_status` | workflows | `workflowId` | no | Get the current status and progress of a workflow, including step completion details. |
-| `inspect_workflow` | workflows | `workflowId` | no | Inspect one workflow, including schedule, lifecycle, inputs, graph summary, and immutable system-workflow metadata when present. |
-| `install_system_workflow` | workflows | `canonicalId` | no | Install one system workflow catalog entry into the current organization as an editable, schedulable copy. Installing the same entry twice returns the existing workflow. |
-| `list_system_workflow_catalog` | workflows | — | no | List the code-owned Genfeed system workflow catalog with per-organization install state. Use this to discover official automations before installing one. |
-| `list_workflow_runs` | workflows | — | no | List workflow run history with optional workflow, status, trigger, limit, and offset filters. |
-| `list_workflow_templates` | workflows | — | no | List available workflow templates that can be used to quickly create new workflows. |
-| `list_workflows` | workflows | — | no | List all workflows in your organization with optional status filtering. |
-| `set_workflow_schedule` | workflows | `workflowId`, `enabled` | no | Enable, disable, or update the schedule on an editable workflow duplicate. Disabling requires no new cron expression when the workflow already has one. |
+Approval means `mutationPolicy: 'approval-required'`. A pending approval is not a completed action. `resolve_approval` requires an authorized reviewer and the user's decision.
+
+| Tool | Toolset | Role | Required | Approval | Description |
+| --- | --- | --- | --- | --- | --- |
+| `compare_meta_campaigns` | ads | user | `campaignIds` | no | Compare performance metrics side-by-side for multiple Meta campaigns |
+| `get_ad_research_detail` | ads | user | `adId`, `source` | no | Inspect one ad from ads research and return its creative, metrics, and reusable pattern explanation. |
+| `get_ads_ad_insights` | ads | user | `platform`, `credentialId`, `adAccountId`, `adId` | no | Get performance insights for a single ad on any connected ads platform (Meta ad, Google Ads ad, TikTok ad, or X ad) through the platform-generic ads gateway |
+| `get_ads_adset_insights` | ads | user | `platform`, `credentialId`, `adAccountId`, `adSetId` | no | Get performance insights for one ad set on any connected ads platform (Meta ad set, Google Ads ad group, TikTok ad group, or X ad group) through the platform-generic ads gateway |
+| `get_google_ads_adgroup_insights` | ads | user | `customerId`, `adGroupId` | no | Get performance insights for a Google Ads ad group |
+| `get_google_ads_campaign_metrics` | ads | user | `customerId`, `campaignId` | no | Get detailed metrics for a Google Ads campaign including impressions, clicks, cost, conversions, CTR, and CPC |
+| `get_google_ads_keyword_performance` | ads | user | `customerId` | no | Get keyword performance report with quality scores, clicks, impressions, and cost |
+| `get_google_ads_search_terms` | ads | user | `customerId`, `campaignId` | no | Get search terms report showing actual search queries that triggered your ads |
+| `get_meta_ad_insights` | ads | user | `adId` | no | Get performance insights for an individual Meta ad including creative details |
+| `get_meta_adset_insights` | ads | user | `adSetId` | no | Get performance insights for a Meta ad set |
+| `get_meta_campaign_insights` | ads | user | `campaignId` | no | Get detailed performance insights for a Meta ad campaign including spend, impressions, clicks, CTR, CPC, CPM, and conversions |
+| `get_meta_top_performers` | ads | user | `adAccountId`, `metric` | no | Get top performing Meta ads sorted by a specific metric (CTR, ROAS, CPC, etc.) |
+| `get_tiktok_campaign_insights` | ads | user | `credentialId`, `adAccountId`, `campaignId` | no | Get detailed performance insights for a TikTok ad campaign including spend, impressions, clicks, CTR, CPC, CPM, and conversions |
+| `list_ads_research` | ads | user | — | no | List top-performing public and connected ads by niche, platform, source, metric, and timeframe. |
+| `list_google_ads_campaigns` | ads | user | `customerId` | no | List Google Ads campaigns with optional status filter |
+| `list_google_ads_customers` | ads | user | — | no | List accessible Google Ads customer accounts |
+| `list_meta_ad_accounts` | ads | user | — | no | List connected Meta (Facebook) ad accounts |
+| `list_meta_ad_creatives` | ads | user | `adAccountId` | no | List creative assets (headlines, body text, CTAs, images) for Meta ads |
+| `list_meta_campaigns` | ads | user | `adAccountId` | no | List Meta ad campaigns with optional status filter and pagination |
+| `list_tiktok_ad_accounts` | ads | user | `credentialId` | no | List TikTok advertiser accounts for a connected credential |
+| `list_tiktok_adgroups` | ads | user | `credentialId`, `adAccountId`, `campaignId` | no | List TikTok ad groups within a campaign |
+| `list_tiktok_ads` | ads | user | `credentialId`, `adAccountId` | no | List TikTok ads, optionally narrowed to a single ad group. Returns creative details alongside each ad |
+| `list_tiktok_campaigns` | ads | user | `credentialId`, `adAccountId` | no | List TikTok ad campaigns for an advertiser account |
+| `create_chat` | agent-chat | user | — | no | Start a new agent conversation |
+| `send_chat_message` | agent-chat | user | `threadId`, `message` | no | Send a message in an existing agent conversation |
+| `analyze_performance` | analytics | user | — | no | Analyze recent content performance over the last 30 days. Returns engagement rates grouped by content type, platform, and posting time, plus top-performing posts. |
+| `get_analytics` | analytics | user | — | no | Get organization analytics, a post analytics snapshot, or analytics for the latest published post related to a selected content item. |
+| `get_content_analytics` | analytics | user | `contentId`, `contentType` | no | Get analytics for a specific piece of content (article, video, or image) |
+| `get_linkedin_analytics` | analytics | user | `contentId` | no | Get analytics for LinkedIn posts including impressions, engagement rate, reactions, comments, and shares. Requires a content ID. |
+| `get_linkedin_connection_status` | analytics | user | — | no | Check whether a LinkedIn account is connected for the current user. Returns connection status, handle, and avatar if connected. |
+| `get_trends` | analytics | user | — | no | Get trending topics and content ideas based on current trends across social media and news. |
+| `get_video_analytics` | analytics | user | `videoId` | no | Get detailed analytics for a specific video |
+| `create_article_draft` | articles | user | `label`, `slug`, `summary`, `content` | yes | Import a complete reviewed HTML article into the connected organization as an unpublished draft. Preserves supplied content without generation. Use get_article_preview to review, then publish_article separately. |
+| `get_article_preview` | articles | user | `articleId` | no | Get an expiring signed preview URL for an owned article in the connected organization. Treat the URL as a bearer credential; do not send it to analytics or logs. |
+| `publish_article` | articles | user | `articleId` | yes | Publish an owned reviewed article on the public website. Requires approval. Use get_articles and get_article_preview before requesting publication. Changes publication status without regenerating the body or replacing an existing publication date. |
+| `create_brand_from_url` | brand | user | `url` | no | Create a brand from a website URL with a draft guide and analyzed voice. Organization owners and admins only. Costs one credit on success. Set approve explicitly to approve the guide. Poll get_brand_scan_status if scanStatus is running. |
+| `get_brand_completeness` | brand | user | `brandId` | no | Get the current brand context completeness score and a list of fields that still have gaps. Read-only, no credits charged. |
+| `get_brand_context` | brand | user | — | no | Show everything the agent knows about a brand: the exact context injected into chat — identity, guidelines, voice, strategy and topics, persona, prompt seeds and conversation starters, performance insights, proven patterns, retrieved knowledge, recent posts, saved memories, active skills, the chat model with its credits per round, the context budget, and the rendered system prompt. Read-only, no credits charged. Use when the user asks what you know about their brand or why you wrote something a certain way. |
+| `get_brand_scan_status` | brand | user | `brandId` | no | Read the current website scan, guide revision and completeness for a brand created from a URL. |
+| `list_brand_publishing_readiness` | brand | user | `brandId` | no | List a brand connected publishing channels with credential ID, schedulability, health, and diagnostics. Read-only; check before scheduling. |
+| `skip_brand_interview_question` | brand | user | `interviewId` | yes | Skip the current interview question (e.g. the user doesn't know or wants to skip). Returns the next question and updated progress. |
+| `start_brand_interview` | brand | user | `brandId` | yes | Start a brand context interview for the given brand. Charges 10 credits once (idempotent — resuming an active session does not re-charge). Returns the first question to ask the user, plus progress and completeness info. |
+| `submit_brand_interview_answer` | brand | user | `interviewId`, `answer` | yes | Submit the user's answer to the current interview question. Pass the interviewId from start_brand_interview. Returns the next question (if any) and updated progress. |
+| `analyze_clip_project` | clips | user | `youtubeUrl` | yes | Analyze a YouTube video for viral highlights: downloads audio, transcribes, and LLM-detects segments (1 credit). Poll with get_clip_project or get_clip_highlights. |
+| `create_clip_project_from_youtube` | clips | user | `youtubeUrl` | yes | Create a clip project from a YouTube URL and run the AI clip factory async (1 credit/clip). HeyGen/Argil need avatarId+voiceId; GenfeedAI needs a brand character reference. Poll get_clip_project. |
+| `generate_clips` | clips | user | `projectId`, `selectedHighlightIds`, `editedHighlights` | yes | Generate clips from selected highlights (1 credit/clip). Avatar: avatarId+voiceId (HeyGen/Argil) or character ref (GenfeedAI); raw-cut: neither. |
+| `get_clip_highlights` | clips | user | `projectId` | no | Get the detected highlights for a clip project after analysis. Returns the highlights array plus the project's current status. |
+| `get_clip_project` | clips | user | `projectId` | no | Read a clip project by ID: status, progress, highlights, and generated clip results (with playable video URLs when ready). Poll this after analyze or generate. |
+| `list_clip_projects` | clips | user | — | no | List clip projects in your organization, most recent first. Returns id, name, status, and progress for each. |
+| `open_in_editor` | clips | user | `sourceVideoIds` | no | Open existing videos in the Studio Editor. Creates a draft Editor project seeded with sourceVideoIds in order (one clip each, up to 50) and returns its id and /studio/editor path. Does not generate, render, or publish. |
+| `complete_media_upload` | content | user | `assetId` | no | Finalize a presigned media upload. Returns assetId and, when available, the hosted URL. Pass assetId as create_scheduled_release media[].assetId or as create_post contentId / ingredientId. Pass the hosted URL as create_post mediaUrls. |
+| `create_post` | content | user | — | yes | Create a post draft from text, or prepare direct publishing for an existing content item or ingredient. The in-app agent returns a publish confirmation card first and publishes only after confirmed is set. On MCP this never publishes: confirmed is rejected, and publishing uses create_scheduled_release. |
+| `generate_content` | content | user | `topic`, `type` | no | Generate content for a topic or brief. Social types (caption, post, thread, script, article_outline) return ready-to-publish text with hook, body, CTA and hashtags and are not saved; use platform linkedin for LinkedIn posts and variationsCount for alternatives. type newsletter creates a saved newsletter draft. type article (or x-article) generates and saves an article draft with an id, ready for get_article_preview and publish_article; to import an already written article without regeneration use create_article_draft. Each field lists the types it applies to. |
+| `generate_content_batch` | content | user | `count`, `platforms` | yes | Generate a batch of content (images, videos, carousels) for a brand. Specify count, platforms, and date range. Use handle param to resolve @username to a credential. Returns a batch ID for tracking. Credits scale by item format and caption model tier — not a flat fee. |
+| `get_articles` | content | user | — | no | Get one article by articleId, or search published articles by query (optionally filtered by category). Pass exactly one of articleId or query. |
+| `get_posts` | content | user | — | no | Read posts. postId returns one post (exclusive with the other fields). days returns the content calendar for the coming days: scheduled and draft posts with gap analysis showing days without content. With neither, lists recent posts, optionally filtered by executionState and capped by limit. Post items carry channel target, execution state, media, and timestamps. |
+| `get_x_posts` | content | user | — | no | Read X posts. postIdOrUrl opens one post and returns its text and stats. query searches recent posts by topic through the brand's connected X account and returns author, text, stats, and link; it explains clearly if that account cannot search. Pass exactly one of postIdOrUrl or query. |
+| `repurpose_post` | content | user | `postId`, `platform`, `mode` | no | Repurpose an existing post into a draft for another channel. Deterministic mode adapts the caption instantly through the channel capability catalog (length, hashtags, links, media compatibility); agent mode rewrites it with the content engine and lands the draft in the review queue. Never publishes or schedules anything. |
+| `request_media_upload` | content | user | `filename`, `contentType` | no | Reserve a pending asset for the selected brand and return uploadUrl, assetId, method, and constraints. For PUT, send file bytes with the returned headers. For POST_JSON, send localUpload as JSON, adding base64 file bytes in localUpload.source.data. Then call complete_media_upload. Does not publish or attach the file. |
+| `find_tools` | core | user | — | no | Find tools this server offers, including ones outside the current ?toolsets= selection. No arguments: list toolsets with descriptions and tool counts. query and/or toolset: search tools by name, description, or toolset. name: describe one tool with its full input schema, toolset, mutation policy, credit cost, and required role. |
+| `get_account` | core | user | — | no | Get account details in one call: profile (user, organization, scoped brand, role, isOnboardingCompleted), credits (current balance) and usage (balance, 7 and 30 day credit spend, trend and spend breakdown by source). Defaults to all three; pass include to fetch fewer. |
+| `get_brands` | core | user | — | no | Read the organization's brands. Without brand it lists every brand with name, description and tone profile. With brand it returns that one brand, matched by id, slug, name or label. When more than one brand exists, pass the chosen brand's id as brandId to other tools; the first brand is never used implicitly. |
+| `get_job_status` | core | user | `jobId` | no | Check the status and result of any generation (image, video, voice, music) by the id generate returned. Auto-detects content type. |
+| `onboard_brand` | core | user | `action` | no | Set up a new account brand inside this conversation. Use it when get_account reports profile.isOnboardingCompleted false, before generating anything. Steps: (1) scan_url with one public URL the user gives (website, social profile, link page or product page) to prefill name, description, voice, colors and logo; if the scan fails, ask for another URL. (2) Ask the user, one question at a time, for goals, platforms, posting cadence and any tone adjustment, then save_answers. (3) complete once the user confirms the brand. |
+| `resolve_approval` | core | superadmin | `approvalId`, `decision` | no | Approve or decline a pending MCP write action that was queued for human review, executing it on approval. Pass the approvalId returned by the original (pending) tool call. Superadmin-only. |
+| `enhance_prompt` | generation | user | `prompt`, `contentType` | no | Preview a media prompt using the same Enhance implementation as Studio and Agent, with effective organization/brand settings and contributing pack metadata. Does not generate media. To generate the reviewed prompt unchanged, pass the returned prompt with harness:false. Model compilation during normal generation may add format-specific instructions; the generation receipt records the final submitted prompt. |
+| `generate` | generation | user | `type`, `prompt` | no | Generate an image, video, voice (text-to-speech) or music track. Set type; a parameter marked for another type is rejected. Omit model to let the router pick the best available model. Image and video results include generationHarness with the exact submitted prompt and enhancement status: show that prompt with the result instead of reconstructing it. |
+| `get_generation_options` | generation | user | — | no | Read what generation can do right now: the effective image/video prompt enhancement settings with organization or brand overrides (settings, always returned), plus the Studio credit estimate and organization balance (cost, only when type is given). Returns the same catalog estimate the Generate composer shows and the same Genfeed balance as the credits bar. Does not charge credits, change a price, or authorize a generation. Omit modelKey, or pass Auto, for estimate status auto. Unsupported, missing, unpriced or voice and music types return estimate status unavailable with credits null. balance is null when the wallet cannot be read; a numeric 0 is a real empty balance. Threaded Agent calls use the validated current thread brand; brandId must match it. In threadless MCP calls, brandId selects the brand scope for settings. |
+| `list_assets` | generation | user | `type` | no | List library assets of one type, newest first, for one brand: brandId, else the thread brand, else your current brand; with none of those it lists the whole organization. Failed, archived and rejected assets are left out. Types image, video, music and avatar return id, category, status, url, label or prompt, origin, tags (id and label) and createdAt. Type character lists the active named characters the brand can use, including characters another organization granted to yours for use only (handle, label, description, whether a reference image exists, and who granted it). A revoked grant disappears on the next call. |
+| `set_generation_settings` | generation | user | `scope`, `isEnabled` | no | Set organization or brand prompt enhancement. Use null to restore inheritance. Threaded Agent calls use the validated current thread brand; brandId must match it. In threadless MCP calls, brandId selects the brand scope. Generation pricing is unchanged. |
+| `transform_media` | generation | user | `operation` | no | Change existing media or join clips. operation edit: apply an exact instruction to a Library image (the original stays unchanged; imageId is the primary source, references adds up to four ordered images for Ideogram or nine for FLUX.3; FLUX.3 supports one output, resolution and aspectRatio, with no mask or seed; optional maskId must match the primary dimensions, black changes and white stays; uses the image-editing category default, never the generation model; do not enhance or rewrite the instruction). operation reframe: re-crop an image to a new aspect ratio. operation upscale: upscale an image to higher resolution from its URL. operation merge: join two or more existing videos into one clip with transitions, captions, resizing, mute and background music; slideshow zoom (zoomEaseCurve and zoomConfigs) is not supported and is rejected before any merge starts. Each field lists the operations it applies to; a field for another operation is rejected. Edit, reframe and upscale spend credits through the shared generation settlement; merge runs locally and is free. |
+| `attach_remix_analysis_source` | inspiration | user | `runId`, `expectedRevision`, `assetId` | no | Select an eligible same-brand USER Library video for scene analysis, or clear with null. The selected Library media is analyzed; the original imported URL remains provenance. This does not infer permission or start paid analysis. |
+| `control_remix_generation` | inspiration | user | `runId`, `expectedRevision`, `action` | yes | Cancel or resume an existing canonical video/avatar scene pipeline after approval. Image/copy control is unsupported; resume retains canonical quote and billing checks. |
+| `create_remix_concept` | inspiration | user | `brandId`, `sourcePostId` | no | Create or reuse a canonical saved remix concept from an imported source post for an explicit brand. Saving does not generate or publish. |
+| `create_storyboard_remix` | inspiration | user | `brandId`, `assetId`, `clientRequestId` | no | Create a storyboard run from an owned Library video. Does not generate, quote, or charge credits. |
+| `get_instagram_inspiration_detail` | inspiration | user | `username` | no | Fetch latest or top public posts from one Instagram account and return provenance plus abstract hook, format, pacing, and style signals. |
+| `get_remix_run` | inspiration | user | `runId` | no | Read the canonical remix revision, source lineage, saved concept, quotes, scene state, receipts and generated artifacts. Safe to repeat after reconnecting. |
+| `get_tiktok_top_performers` | inspiration | user | `credentialId`, `adAccountId` | no | Get top performing TikTok ads sorted by a specific metric (CTR, CPC, spend, etc.) |
+| `import_source_post` | inspiration | user | `brandId`, `url` | yes | Import a supported public X, Instagram or TikTok post into Imported sources for an explicit brand. Returns source/post identities and deduplication. Requires approval for external import; never generates, publishes or adds Knowledge. |
+| `list_instagram_inspiration` | inspiration | user | — | no | Discover public Instagram accounts and content patterns relevant to the selected brand niche. |
+| `quote_remix_generation` | inspiration | user | `runId`, `expectedRevision`, `operation` | no | Save a concrete generation quote for this revision without dispatch. Image requires an explicit model; copy uses its canonical model. Video/avatar uses scene analysis, generate or repair quotes and rejects model. Inspect the quote before approval. BYOK can still incur external provider costs. |
+| `replace_storyboard_character` | inspiration | user | `brandId`, `runId`, `shotId`, `imageAssetIds` | yes | Replace the character in one storyboard shot using Higgsfield Genjutsu motion transfer. Does not preserve source audio, does not guarantee lip-sync, and does not charge credits while the catalog row is inactive at cost 0. |
+| `start_remix_generation` | inspiration | user | `runId`, `expectedRevision`, `quoteId` | yes | Execute the exact persisted quote and revision after explicit approval. Routes by canonical output/quote; repeated accepted execution retrieves the same run rather than buying another attempt. |
+| `storyboard_run_capabilities` | inspiration | user | `brandId`, `runId` | no | Read the current brand-scoped storyboard video model, supported durations, interpolation eligibility and capability version without generating or changing defaults. |
+| `update_remix_concept` | inspiration | user | `runId`, `expectedRevision`, `edits` | no | Save canonical concept and recipe edits at the expected revision. Stale revisions fail; does not generate or replace the imported source. |
+| `archive_knowledge_source` | knowledge | user | `sourceId` | no | Archive a Knowledge source so it never appears in retrieval again. Its receipts on past outputs are kept. |
+| `assign_knowledge_purpose` | knowledge | user | `sourceId` | no | Change the purpose of a Knowledge source (Brand Truth, Inspiration, Research) and optionally hide it from retrieval. |
+| `capture_knowledge` | knowledge | user | — | no | Save a page, document, feed, media or pasted text into the brand Knowledge library and start ingestion. Pass sourceId to refresh an existing URL or RSS source. Default purpose is INSPIRATION; pass BRAND_TRUTH only for material the brand owns and vouches for. |
+| `list_knowledge_sources` | knowledge | user | — | no | List the brand Knowledge sources with their purpose, processing state and failure reason. |
+| `read_knowledge_source` | knowledge | user | `sourceId` | no | Read one Knowledge source: metadata, current version state, provenance, a bounded text preview and the spaces it belongs to. |
+| `retry_knowledge_ingestion` | knowledge | user | `sourceId` | no | Requeue ingestion for a Knowledge source whose last attempt failed. Never creates a duplicate. |
+| `search_knowledge` | knowledge | user | `query` | no | Search the brand Knowledge library (saved pages, documents and notes) and return cited passages with their source, purpose and relevance. Use it before writing anything that must be accurate about the brand. |
+| `connect_social_account` | onboarding | user | `platform` | no | Start a resumable social-account connection. Returns a connectionId and browser authorization URL. Poll get_connection_status until authorized. |
+| `get_connection_status` | onboarding | user | — | no | Get connection status for a social platform or a durable connection request id. Safe to poll. |
+| `initiate_oauth_connect` | onboarding | user | `platform` | no | Start connecting a social account and return a durable connection request plus a connect button. |
+| `control_scheduled_release` | scheduler | user | `releaseId`, `action` | yes | Control a scheduled release lifecycle: cancel, pause, resume, or publish now. |
+| `create_scheduled_release` | scheduler | user | `release` | yes | Create a multi-channel scheduled release. |
+| `get_scheduled_release` | scheduler | user | `releaseId` | no | Get one scheduled release by ID: channel targets, validation/execution state, attachments, recurrence, and transition history. |
+| `get_scheduler_capabilities` | scheduler | user | — | no | Scheduler channel capabilities: caption limits, media rules, publish modes, required settings, status. Pass platform for one channel; omit it to list every channel. Read-only. |
+| `update_scheduled_release` | scheduler | user | `releaseId`, `scope`, `changes` | yes | Update a release or a target. |
+| `validate_scheduler_target` | scheduler | user | `platform` | no | Validate a proposed target against the channel-capability contract; returns errors/warnings/validationState. Read-only. |
+| `archive_skill` | skills-pro | user | `skillId` | no | Uninstall a skill the caller governs. |
+| `create_skill` | skills-pro | user | `name`, `slug`, `description`, `instructions` | no | Create a personal, organization, or brand skill. The default owner is the caller. |
+| `export_skill` | skills-pro | user | `skillId` | no | Export instruction text when the caller is allowed to export it. |
+| `fork_skill` | skills-pro | user | `skillId` | no | Fork a skill into the caller personal library. |
+| `install_skills_pro_skill` | skills-pro | user | `receiptId`, `skillSlug` | yes | Install one entitled Skills Pro pack into the authenticated organization runtime after integrity verification. |
+| `publish_skill` | skills-pro | user | `skillId` | no | Publish the current skill version to the organization or publicly. |
+| `rollback_skill` | skills-pro | user | `skillId`, `versionId` | no | Restore a governed skill to an earlier captured version. A Skills Pro reinstall is the update path. |
+| `verify_skills_pro_entitlement` | skills-pro | user | `receiptId` | no | Verify a Skills Pro receipt for the authenticated organization and list the exact skill slugs it grants. |
+| `approve_social_draft` | social-inbox | user | `conversationId`, `messageId` | yes | Approve a social inbox draft and publish it externally as a reply or DM. Requires approval before execution. |
+| `assign_social_conversation` | social-inbox | user | `conversationId` | no | Assign or unassign a social inbox conversation. |
+| `create_social_reply_draft` | social-inbox | user | `conversationId`, `text` | no | Create a draft reply or DM in the social inbox for later approval. This does not send externally. |
+| `get_social_conversation` | social-inbox | user | `conversationId` | no | Get one social inbox conversation and, by default, its recent messages. |
+| `list_social_conversations` | social-inbox | user | — | no | List social inbox conversations across connected YouTube and Instagram accounts, with filters for review state, assignee, tags, and platform. |
+| `list_x_account_activity` | social-inbox | user | — | no | List recent posts from an X account. Uses the brand's connected account when no username is given. |
+| `mark_social_conversation_resolved` | social-inbox | user | `conversationId` | no | Mark a social inbox conversation as resolved. |
+| `post_social_reply` | social-inbox | user | `conversationId`, `text` | yes | Publish a reply in a social inbox conversation. Requires approval before execution. |
+| `reject_social_draft` | social-inbox | user | `conversationId`, `messageId` | no | Reject a social inbox draft without publishing it externally. |
+| `send_social_dm` | social-inbox | user | `conversationId`, `text` | yes | Send a direct message from a social inbox conversation. Requires approval before execution. |
+| `tag_social_conversation` | social-inbox | user | `conversationId`, `tags` | no | Replace tags on a social inbox conversation. |
+| `cancel_visual_code_project` | visual-code | user | `projectId`, `revision` | no | Request cancellation of the current visual revision. Consumed work is charged and unused held credits are released. |
+| `export_visual_code_project` | visual-code | user | `projectId`, `revision`, `expectedRevision`, `maximumCredits` | yes | Export retained source to MP4, PNG or JPEG Library outputs using an approved quote and expectedRevision. |
+| `generate_visual_code` | visual-code | user | `brandId`, `label`, `settings`, `maximumCredits` | yes | Create a versioned visual project from a prompt or directly supplied React/Remotion source. Requires a prior quote and approved maximumCredits. Untrusted code runs only in an isolated renderer; completed outputs enter the brand Library. |
+| `get_visual_code_catalog` | visual-code | user | `brandId` | no | List available visual-code models, rendering limits, rates and inspection support for this brand. |
+| `get_visual_code_project` | visual-code | user | `projectId` | no | Read visual project revision history, diagnostics, costs, previews and completed Library outputs. Source is available through the authenticated source download. |
+| `quote_visual_code_generation` | visual-code | user | `operation`, `input` | no | Quote a visual-code request without spending credits. Show the selected model, inspection uncertainty, output formats and maximum credits before requesting approval. |
+| `retry_visual_code_project` | visual-code | user | `projectId`, `revision`, `expectedRevision`, `maximumCredits` | yes | Explicitly retry retained source from a failed or cancelled visual revision using a new requestId and approved quote. No automatic source repair occurs; inspect prior diagnostics for uncertain provider work. |
+| `revise_visual_code_project` | visual-code | user | `projectId`, `expectedRevision`, `maximumCredits` | yes | Create an immutable visual revision using exactly one prompt, sourceCode or props change and an approved quote. expectedRevision prevents overwriting newer work. |
+| `create_ad_remix_workflow` | workflows | user | `adId`, `source` | yes | Create a draft, review-only ad remix workflow from a selected public or connected ad. This never launches an ad. |
+| `create_instagram_remix_workflow` | workflows | user | `username`, `shortcode` | yes | Create a draft, review-only Instagram remix workflow that adapts a public post pattern to the selected brand. This is prompt-based reinterpretation, not video style transfer. |
+| `create_workflow` | workflows | user | `label` | no | Create a workflow: direct graph, a recurring scaffold, or natural-language generation. Editable in the Workflows app. |
+| `duplicate_workflow` | workflows | user | `workflowId` | no | Duplicate a workflow into the current organization and brand scope so the copy can be edited or scheduled without mutating the source workflow. |
+| `execute_workflow` | workflows | user | `workflowId` | no | Execute an existing workflow immediately. Select nodeIds to rerun edited steps while reusing locked outputs; pass required variables for full or partial execution. |
+| `get_workflow_run` | workflows | user | `runId` | no | Inspect a single workflow run, including status, trigger, node results, progress, timing, errors, and metadata. |
+| `get_workflow_status` | workflows | user | `workflowId` | no | Get the current status and progress of a workflow, including step completion details. |
+| `inspect_workflow` | workflows | user | `workflowId` | no | Inspect one workflow, including schedule, lifecycle, inputs, graph summary, and immutable system-workflow metadata when present. |
+| `install_system_workflow` | workflows | user | `canonicalId` | no | Install one system workflow catalog entry into the current organization as an editable, schedulable copy. Installing the same entry twice returns the existing workflow. |
+| `list_system_workflow_catalog` | workflows | user | — | no | List the code-owned Genfeed system workflow catalog with per-organization install state. Use this to discover official automations before installing one. |
+| `list_workflow_runs` | workflows | user | — | no | List workflow run history with optional workflow, status, trigger, limit, and offset filters. |
+| `list_workflow_templates` | workflows | user | — | no | List available workflow templates that can be used to quickly create new workflows. |
+| `list_workflows` | workflows | user | — | no | List all workflows in your organization with optional status filtering. |
+| `set_workflow_schedule` | workflows | user | `workflowId`, `enabled` | no | Enable, disable, or update the schedule on an editable workflow duplicate. Disabling requires no new cron expression when the workflow already has one. |
