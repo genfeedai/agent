@@ -38,17 +38,18 @@ def main():
         shutil.rmtree(output)
     output.mkdir()
     files = [ROOT / name for name in (
-        'plugin.json', 'mcp.json', '.mcp.json', 'server.json', 'gemini-extension.json',
+        'plugin.json', 'mcp.json', 'plugins/claude/.mcp.json', 'server.json', 'gemini-extension.json',
         'GEMINI.md', 'README.md', 'CONTRIBUTING.md', 'LICENSE', 'CHANGELOG.md', 'llms-install.md',
-        '.claude-plugin/plugin.json', '.claude-plugin/marketplace.json',
+        'plugins/claude/.claude-plugin/plugin.json', '.claude-plugin/marketplace.json',
         '.cursor-plugin/plugin.json', '.cursor-plugin/mcp.json',
         '.grok-plugin/plugin.json', '.grok-plugin/marketplace.json',
         '.agents/plugins/marketplace.json',
     )]
     tracked = subprocess.check_output(['git', 'ls-files', '-z'], cwd=ROOT, text=True).split('\0')
     for name in tracked:
-        if name and Path(name).parts[0] in {'skills', 'assets', 'submissions'}:
-            files.append(ROOT / name)
+        if name and Path(name).parts[0] in {'skills', 'assets', 'submissions', 'plugins'}:
+            if ROOT / name not in files:
+                files.append(ROOT / name)
     archive(output / f'genfeed-{version}.zip', files)
     archive(output / f'genfeed-skills-{version}.zip', skill_package_files(files))
     for file in files:

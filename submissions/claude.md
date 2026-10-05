@@ -1,45 +1,19 @@
 # Claude submission
 
-There are two review routes; neither is completed by adding our self-hosted marketplace.
+Use the current [publishing portal](https://claude.ai/directory/manage) from an eligible paid Claude account. [Publishing docs](https://claude.com/docs/directory/publish) allow Pro, Max, Team and Enterprise; Free accounts cannot submit. The old Console form is unsupported.
 
-## Claude Code community plugin
+## Plugin and companion MCP connector
 
-Submit `https://github.com/genfeedai/agent` at https://platform.claude.com/plugins/submit
-or the directory plugin form in a Team/Enterprise organization. Validate both files:
+Repository: `https://github.com/genfeedai/agent`. Plugin folder: `plugins/claude`. Native manifest: `plugins/claude/.claude-plugin/plugin.json`. The self-hosted marketplace references this folder and contains no duplicated component definitions.
 
-```bash
-claude plugin validate .claude-plugin/plugin.json
-claude plugin validate .claude-plugin/marketplace.json
-```
+Submit the companion remote MCP connector with `https://mcp.genfeed.ai/mcp/claude`, browser OAuth and content-operations use cases: brands, drafts, existing assets, scheduling and analytics. Pair the plugin and connector from the same publishing organization. The standard media-generation server is a different offering and must not be substituted.
 
-The marketplace references the package; skills and `.mcp.json` use conventional
-discovery. There are no duplicated component declarations or `strict:false` override.
-The documented submission route targets `claude-community`, not guaranteed inclusion
-in Anthropic's separately curated official marketplace.
+Create media in Genfeed Studio. The dedicated connector enforces an explicit tool allowlist on discovery and execution; OAuth grants retain the restriction across refresh and use on the standard transport. Workflows, batches, remix, arbitrary agent calls and approval redemption are unavailable. A profile/toolsets query on the standard endpoint is only a discovery filter and is not this restriction.
 
-Source: https://code.claude.com/docs/en/plugins#submit-your-plugin-to-the-community-marketplace
+## Release and review gates
 
-## Claude chat / Cowork connector directory
+Wait for production deployment and a real Claude OAuth/connector check before submission. Supply actual reviewer access, live acceptance results, accurate operational data disclosures and any required policy acknowledgments. Do not attest these gates from package validation alone, or claim a public listing before approval.
 
-Follow the submission portal linked from
-https://claude.com/docs/connectors/building/submission. Remote submissions require a
-Team/Enterprise organization and directory-management access. Use the universal URL,
-OAuth and the ready copy in [listing.json](listing.json). Review all scanned tools and
-supply private test access and actual results for each exposed tool. The full form
-also collects company, use cases, data handling and policy acknowledgments.
+The [Software Directory Policy](https://support.claude.com/en/articles/13145358-anthropic-software-directory-policy) restricts standalone third-party AI media generation without written permission. The full standard connector still needs eligibility review. Disclose the Studio handoff and product's full capabilities to reviewers; the restricted offering does not guarantee approval.
 
-Use cases: brand/channel readiness (P1), content planning (P2), and draft/scheduling
-requests (P3/P5). Include the generation use case (P4) explicitly when requesting
-policy clearance. This package has no MCP App UI; screenshot requirements for MCP
-Apps do not describe this connector.
-
-## Media-policy gate
-
-The server and playbook expose image, video and audio generation, including batch
-and workflow routes beyond the `generation` toolset. Anthropic's
-[Software Directory Policy](https://support.claude.com/en/articles/13145358-anthropic-software-directory-policy)
-restricts AI media generation, with a limited design-workflow exception. Do not sign
-an unsupported compliance attestation. Use [the exception request](claude-exception.md)
-or obtain approval for a genuinely restricted server offering. A narrower `toolsets`
-query only changes discovery and must not be described as an enforcement boundary.
-Do not hide capabilities from reviewers. Apply this review to both directory routes.
+Plugin help: directory@anthropic.com. Companion MCP help: mcp-review@anthropic.com.

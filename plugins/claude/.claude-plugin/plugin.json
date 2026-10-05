@@ -1,7 +1,7 @@
 {
   "name": "genfeed",
-  "version": "0.1.4",
-  "description": "Genfeed playbook skill and hosted MCP server for brands, content, generation, scheduling, and analytics.",
+  "version": "0.1.5",
+  "description": "Manage Genfeed brands, drafts, existing assets, scheduling and analytics in Claude. Create images, video and audio in Genfeed Studio.",
   "author": {
     "name": "Genfeed",
     "url": "https://genfeed.ai"

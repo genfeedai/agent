@@ -29,7 +29,7 @@ class PackageValidationTests(unittest.TestCase):
 
     def test_claude_component_conflict_rejected(self):
         self.change('.claude-plugin/marketplace.json', lambda d: d['plugins'][0].update(strict=False))
-        self.change('.claude-plugin/plugin.json', lambda d: d.update(skills='./skills'))
+        self.change('plugins/claude/.claude-plugin/plugin.json', lambda d: d.update(skills='./skills'))
         self.assertTrue(any('conflicts' in e for e in validate(self.root)))
 
     def test_nested_version_drift_rejected(self):
@@ -37,8 +37,8 @@ class PackageValidationTests(unittest.TestCase):
         self.assertTrue(any('version' in e for e in validate(self.root)))
 
     def test_connector_drift_rejected(self):
-        self.change('.mcp.json', lambda d: d['mcpServers']['genfeed'].update(url='https://mcp.genfeed.ai/mcp'))
-        self.assertIn('connector URL drift', validate(self.root))
+        self.change('plugins/claude/.mcp.json', lambda d: d['mcpServers']['genfeed'].update(url='https://mcp.genfeed.ai/mcp'))
+        self.assertIn('Claude connector URL drift', validate(self.root))
 
     def test_path_escape_rejected(self):
         self.change('.cursor-plugin/plugin.json', lambda d: d.update(skills='../outside'))
@@ -68,7 +68,7 @@ class PackageValidationTests(unittest.TestCase):
 
     def test_scalar_skill_metadata_rejected(self):
         path = self.root / 'skills/genfeed/SKILL.md'
-        path.write_text(path.read_text().replace('metadata:\n  version: "0.1.4"', 'metadata: invalid'))
+        path.write_text(path.read_text().replace('metadata:\n  version: "0.1.5"', 'metadata: invalid'))
         self.assertIn('SKILL.md: metadata must map strings to strings', validate(self.root))
 
     def test_invalid_yaml_rejected(self):
