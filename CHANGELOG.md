@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.5
+
+- Package Claude content operations separately with a restricted OAuth MCP resource and its own playbook.
+- Keep the standard creative plugin and skills for other clients.
+- Update Claude installation and publishing docs; production and live review gates remain explicit.
+
 ## 0.1.4 - 2026-10-05
 
 - Refresh the 142-tool snapshot from the current curated MCP catalog and expose role requirements.

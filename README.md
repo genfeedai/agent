@@ -31,7 +31,7 @@ See [the playbook](skills/genfeed/SKILL.md) and [reviewer setup](submissions/rev
 
 Requires Claude Code 2.1.275 or newer. On older versions, run `/plugin marketplace add genfeedai/agent`, then `/plugin install genfeed@genfeed`.
 
-The plugin loads the skill and root `.mcp.json`. Open `/mcp`, select Genfeed, and
+The Claude plugin lives in `plugins/claude` and loads only its content-operations playbook and `https://mcp.genfeed.ai/mcp/claude` connector. Create images, video and audio in [Genfeed Studio](https://app.genfeed.ai/studio/generate). Open `/mcp`, select Genfeed, and
 complete OAuth. Direct MCP-only alternative:
 
 ```bash
@@ -85,7 +85,7 @@ listing: the full connector includes AI media generation subject to directory po
 
 [Grok Connectors](https://grok.com/connectors) → New Connector → Custom → paste the
 MCP URL and authenticate. This connects Grok chat. The `.grok-plugin/` catalog and
-root `.mcp.json` separately package the skill and connector for Grok Build.
+`mcp.json` separately package the skill and connector for Grok Build.
 [Grok publishing instructions](submissions/grok.md).
 
 ### Gemini CLI
@@ -144,3 +144,10 @@ local daemon, or telemetry. See the [privacy policy](https://genfeed.ai/privacy)
 `server.json` is an MCP Registry descriptor; committing it does not publish it.
 Repository CI validates packaging and builds review artifacts, not authenticated
 acceptance or directory approval. License: [MIT](LICENSE).
+
+
+### Claude content connector
+
+Claude, Claude Code and Cowork use the dedicated content connector at `https://mcp.genfeed.ai/mcp/claude` for brands, drafts, existing assets, scheduling and analytics. Create media in Genfeed Studio. This server restriction follows the OAuth grant and cannot be removed by changing toolsets or transports. The standalone skills-only package and other clients retain the full creative playbook; Claude users should install the dedicated Claude plugin.
+
+The endpoint must be deployed and verified before submitting the directory listing. Public approval/publication is not claimed by this package.

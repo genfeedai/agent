@@ -13,8 +13,8 @@ from refresh_tools import render_tools
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFESTS = (
-    'plugin.json', 'mcp.json', '.mcp.json', 'server.json', 'gemini-extension.json',
-    '.claude-plugin/plugin.json', '.claude-plugin/marketplace.json',
+    'plugin.json', 'mcp.json', 'plugins/claude/.mcp.json', 'server.json', 'gemini-extension.json',
+    'plugins/claude/.claude-plugin/plugin.json', '.claude-plugin/marketplace.json',
     '.cursor-plugin/plugin.json', '.cursor-plugin/mcp.json',
     '.grok-plugin/plugin.json', '.grok-plugin/marketplace.json',
     '.agents/plugins/marketplace.json',
@@ -135,7 +135,6 @@ def validate(root=ROOT):
     if parsed.query != 'toolsets=core,scheduler,content,generation,analytics,brand,knowledge,onboarding':
         errors.append('mcp.json: distribution toolset profile changed')
     connectors = [
-        docs['.mcp.json']['mcpServers']['genfeed'],
         docs['.cursor-plugin/mcp.json']['mcpServers']['genfeed'],
         docs['gemini-extension.json']['mcpServers']['genfeed'],
         docs['server.json']['remotes'][0],
@@ -143,16 +142,18 @@ def validate(root=ROOT):
     for entry in connectors:
         if entry.get('url', entry.get('httpUrl')) != expected_url:
             errors.append('connector URL drift')
-    if docs['.mcp.json']['mcpServers']['genfeed'].get('type') != 'http':
+    if docs['plugins/claude/.mcp.json']['mcpServers']['genfeed'].get('url') != 'https://mcp.genfeed.ai/mcp/claude':
+        errors.append('Claude connector URL drift')
+    if docs['plugins/claude/.mcp.json']['mcpServers']['genfeed'].get('type') != 'http':
         errors.append('.mcp.json: native remote transport must be http')
-    claude = docs['.claude-plugin/plugin.json']
+    claude = docs['plugins/claude/.claude-plugin/plugin.json']
     entry = docs['.claude-plugin/marketplace.json']['plugins'][0]
     components = {'skills', 'commands', 'agents', 'hooks', 'mcpServers'}
     if entry.get('strict') is False and components.intersection(claude):
         errors.append('Claude strict:false conflicts with plugin components')
     if components.intersection(entry):
         errors.append('Claude marketplace must not duplicate plugin components')
-    if entry['source'] != './' or entry['name'] != 'genfeed':
+    if entry['source'] != './plugins/claude' or entry['name'] != 'genfeed':
         errors.append('Claude marketplace must point at this package')
     codex = docs['.agents/plugins/marketplace.json']['plugins'][0]
     if codex['source'] != {'source': 'local', 'path': './'}:
@@ -166,7 +167,8 @@ def validate(root=ROOT):
                 for path in paths:
                     if not isinstance(path, str):
                         continue
-                    target = (root / path).resolve()
+                    component_root = root / 'plugins/claude' if filename.startswith('plugins/claude/') else root
+                    target = (component_root / path).resolve()
                     if Path(path).is_absolute() or '..' in Path(path).parts or not target.is_relative_to(root.resolve()) or not target.exists():
                         errors.append(f'{filename}: invalid component path {path}')
     for filename in ['README.md', 'llms-install.md', 'skills/genfeed/SKILL.md', 'GEMINI.md', 'submissions/form-copy.md']:
@@ -192,6 +194,12 @@ def validate(root=ROOT):
                 target = (path.parent / link.split('#')[0]).resolve()
                 if not target.is_relative_to(root.resolve()) or not target.exists():
                     errors.append(f'{relative}: broken local link {link}')
+    claude_skill = root / 'plugins/claude/skills/genfeed/SKILL.md'
+    claude_front = yaml.safe_load(claude_skill.read_text().split('---', 2)[1])
+    if claude_front.get('metadata', {}).get('version') != version:
+        errors.append('Claude skill release version drift')
+    if (root / 'plugins/claude/skills').is_symlink() or any(p.is_symlink() for p in (root / 'plugins/claude').rglob('*')):
+        errors.append('Claude package must be self-contained')
     listing = read_json(root, 'submissions/listing.json')
     if len(listing['tagline']) > 55 or len(listing['description']) > 2000:
         errors.append('listing copy exceeds Claude limits')
