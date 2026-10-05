@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.7 — 2026-10-05
+
+- Include the existing Genfeed app icon and explicit public privacy URL in the native Claude listing.
+
 ## 0.1.6 — 2026-10-05
 
 - Preserve Grok's root native MCP connector while keeping Claude isolated under `plugins/claude`.
