@@ -40,6 +40,31 @@ class PackageValidationTests(unittest.TestCase):
         self.change('plugins/claude/.mcp.json', lambda d: d['mcpServers']['genfeed'].update(url='https://mcp.genfeed.ai/mcp'))
         self.assertIn('Claude connector URL drift', validate(self.root))
 
+    def test_claude_skill_null_metadata_rejected(self):
+        path = self.root / 'plugins/claude/skills/genfeed/SKILL.md'
+        path.write_text(path.read_text().replace('metadata:\n  version: "0.1.6"', 'metadata: null'))
+        self.assertIn('Claude skill release version drift', validate(self.root))
+
+    def test_claude_skill_version_drift_rejected(self):
+        path = self.root / 'plugins/claude/skills/genfeed/SKILL.md'
+        path.write_text(path.read_text().replace('0.1.6', '0.0.0'))
+        self.assertIn('Claude skill release version drift', validate(self.root))
+
+    def test_claude_skill_unknown_tool_rejected(self):
+        path = self.root / 'plugins/claude/skills/genfeed/SKILL.md'
+        path.write_text(path.read_text() + '\nCall `get_account_info`.\n')
+        self.assertIn('plugins/claude/skills/genfeed/SKILL.md: unknown MCP tool get_account_info', validate(self.root))
+
+    def test_claude_skill_symlink_rejected(self):
+        path = self.root / 'plugins/claude/skills/genfeed/SKILL.md'
+        path.unlink()
+        path.symlink_to(self.root / 'skills/genfeed/SKILL.md')
+        self.assertIn('Claude package must be self-contained', validate(self.root))
+
+    def test_grok_native_connector_drift_rejected(self):
+        self.change('.mcp.json', lambda d: d['mcpServers']['genfeed'].update(url='https://mcp.genfeed.ai/mcp/claude'))
+        self.assertIn('connector URL drift', validate(self.root))
+
     def test_path_escape_rejected(self):
         self.change('.cursor-plugin/plugin.json', lambda d: d.update(skills='../outside'))
         self.assertTrue(any('invalid component path' in e for e in validate(self.root)))
@@ -68,7 +93,7 @@ class PackageValidationTests(unittest.TestCase):
 
     def test_scalar_skill_metadata_rejected(self):
         path = self.root / 'skills/genfeed/SKILL.md'
-        path.write_text(path.read_text().replace('metadata:\n  version: "0.1.5"', 'metadata: invalid'))
+        path.write_text(path.read_text().replace('metadata:\n  version: "0.1.6"', 'metadata: invalid'))
         self.assertIn('SKILL.md: metadata must map strings to strings', validate(self.root))
 
     def test_invalid_yaml_rejected(self):

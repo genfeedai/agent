@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.6 — 2026-10-05
+
+- Preserve Grok's root native MCP connector while keeping Claude isolated under `plugins/claude`.
+- Correct Claude setup and portal copy to use the dedicated OAuth resource and Studio handoff.
+- Cover Claude skill metadata, symlinks and tool references in package validation.
+
 ## 0.1.5
 
 - Package Claude content operations separately with a restricted OAuth MCP resource and its own playbook.

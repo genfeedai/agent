@@ -3,7 +3,7 @@ name: genfeed
 description: Manage Genfeed brand context, draft posts and articles, schedule existing assets, and read content analytics from Claude. Use Genfeed Studio when the user needs images, video or audio.
 license: MIT
 metadata:
-  version: "0.1.5"
+  version: "0.1.6"
 ---
 
 # Genfeed for Claude
@@ -13,7 +13,7 @@ Connect with browser OAuth to `https://mcp.genfeed.ai/mcp/claude`. Use the schem
 ## Content operations
 
 - Read the chosen brand with `get_brand_context`. Write copy in Claude using the brand's voice.
-- Save posts with `create_post` and articles with `create_article_draft`. These are drafts. When a tool returns `approval_pending`, give the user the review link and wait; do not bypass the approval or claim the draft already exists.
+- Save posts with `create_post` and articles with `create_article_draft`. These are drafts. When a tool returns “approval_pending”, give the user the review link and wait; do not bypass the approval or claim the draft already exists.
 - Use `list_assets` to find existing media. Use `get_posts` and `get_articles` to review existing content.
 - Check `list_brand_publishing_readiness`, `get_scheduler_capabilities` and `validate_scheduler_target` before preparing a release. Only schedule when the user explicitly asks. Scheduling uses existing assets and the user's connected channels.
 - Read `get_analytics` and `get_content_analytics` to plan the next content cycle. Use `find_tools` to discover other allowed content operations.
