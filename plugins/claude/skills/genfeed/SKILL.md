@@ -3,7 +3,7 @@ name: genfeed
 description: Manage Genfeed brand context, draft posts and articles, schedule existing assets, and read content analytics from Claude. Use Genfeed Studio when the user needs images, video or audio.
 license: MIT
 metadata:
-  version: "0.1.7"
+  version: "0.1.8"
 ---
 
 # Genfeed for Claude

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.8 — 2026-10-06
+
+- Use the existing 1024 × 1024 Genfeed artwork with centered margins for the native Claude plugin icon.
+
 ## 0.1.7 — 2026-10-05
 
 - Include the existing Genfeed app icon and explicit public privacy URL in the native Claude listing.
