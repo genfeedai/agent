@@ -1,6 +1,6 @@
 {
   "name": "genfeed",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Genfeed playbook and hosted MCP server for brands, content, generation, scheduling, and analytics.",
   "mcpServers": {
     "genfeed": {

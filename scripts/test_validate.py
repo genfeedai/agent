@@ -42,12 +42,12 @@ class PackageValidationTests(unittest.TestCase):
 
     def test_claude_skill_null_metadata_rejected(self):
         path = self.root / 'plugins/claude/skills/genfeed/SKILL.md'
-        path.write_text(path.read_text().replace('metadata:\n  version: "0.1.7"', 'metadata: null'))
+        path.write_text(path.read_text().replace('metadata:\n  version: "0.1.8"', 'metadata: null'))
         self.assertIn('Claude skill release version drift', validate(self.root))
 
     def test_claude_skill_version_drift_rejected(self):
         path = self.root / 'plugins/claude/skills/genfeed/SKILL.md'
-        path.write_text(path.read_text().replace('0.1.7', '0.0.0'))
+        path.write_text(path.read_text().replace('0.1.8', '0.0.0'))
         self.assertIn('Claude skill release version drift', validate(self.root))
 
     def test_claude_skill_unknown_tool_rejected(self):
@@ -93,7 +93,7 @@ class PackageValidationTests(unittest.TestCase):
 
     def test_scalar_skill_metadata_rejected(self):
         path = self.root / 'skills/genfeed/SKILL.md'
-        path.write_text(path.read_text().replace('metadata:\n  version: "0.1.7"', 'metadata: invalid'))
+        path.write_text(path.read_text().replace('metadata:\n  version: "0.1.8"', 'metadata: invalid'))
         self.assertIn('SKILL.md: metadata must map strings to strings', validate(self.root))
 
     def test_invalid_yaml_rejected(self):
