@@ -13,7 +13,7 @@ from refresh_tools import render_tools
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFESTS = (
-    'plugin.json', 'mcp.json', '.mcp.json', 'plugins/claude/.mcp.json', 'server.json', 'gemini-extension.json',
+    'plugin.json', '.codex-plugin/plugin.json', 'mcp.json', '.mcp.json', 'plugins/claude/.mcp.json', 'server.json', 'gemini-extension.json',
     'plugins/claude/.claude-plugin/plugin.json', '.claude-plugin/marketplace.json',
     '.cursor-plugin/plugin.json', '.cursor-plugin/mcp.json',
     '.grok-plugin/plugin.json', '.grok-plugin/marketplace.json',
@@ -157,6 +157,18 @@ def validate(root=ROOT):
         errors.append('Claude marketplace must not duplicate plugin components')
     if entry['source'] != './plugins/claude' or entry['name'] != 'genfeed':
         errors.append('Claude marketplace must point at this package')
+    codex_manifest = docs['.codex-plugin/plugin.json']
+    openai_interface = docs['plugin.json']['extensions']['com.openai']['interface']
+    for field in ('logo', 'composerIcon'):
+        icon = codex_manifest.get('interface', {}).get(field)
+        if icon != openai_interface.get(field):
+            errors.append(f'.codex-plugin/plugin.json: interface.{field} differs from plugin.json')
+        if not isinstance(icon, str) or not icon.endswith('.png'):
+            errors.append(f'.codex-plugin/plugin.json: interface.{field} must be a packaged PNG')
+        elif (root / icon).exists() and (root / icon).read_bytes()[16:24] != (512).to_bytes(4, 'big') * 2:
+            errors.append(f'.codex-plugin/plugin.json: interface.{field} must be 512x512')
+    if not docs['server.json'].get('icons'):
+        errors.append('server.json: MCP Registry icons are required')
     codex = docs['.agents/plugins/marketplace.json']['plugins'][0]
     if codex['source'] != {'source': 'local', 'path': './'}:
         errors.append('Codex marketplace source must point at the repository root')

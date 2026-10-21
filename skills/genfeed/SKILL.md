@@ -7,7 +7,7 @@ description: >-
   a pending Genfeed approval.
 license: MIT
 metadata:
-  version: "0.1.9"
+  version: "0.1.10"
 ---
 
 # Genfeed

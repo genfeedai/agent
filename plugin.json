@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "genfeed",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "Genfeed playbook skill and hosted MCP server for brands, content, generation, scheduling, and analytics.",
   "author": {
     "name": "Decoders Labs Ltd",
@@ -37,8 +37,9 @@
           "Prepare a LinkedIn draft for my selected brand without publishing it.",
           "Show my content calendar and recent performance."
         ],
-        "logo": "./assets/logo.jpg",
-        "composerIcon": "./assets/logo.jpg"
+        "logo": "./assets/icon-512.png",
+        "composerIcon": "./assets/icon-512.png",
+        "brandColor": "#0A0A0A"
       }
     }
   }

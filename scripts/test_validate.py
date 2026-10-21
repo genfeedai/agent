@@ -42,12 +42,12 @@ class PackageValidationTests(unittest.TestCase):
 
     def test_claude_skill_null_metadata_rejected(self):
         path = self.root / 'plugins/claude/skills/genfeed/SKILL.md'
-        path.write_text(path.read_text().replace('metadata:\n  version: "0.1.9"', 'metadata: null'))
+        path.write_text(path.read_text().replace('metadata:\n  version: "0.1.10"', 'metadata: null'))
         self.assertIn('Claude skill release version drift', validate(self.root))
 
     def test_claude_skill_version_drift_rejected(self):
         path = self.root / 'plugins/claude/skills/genfeed/SKILL.md'
-        path.write_text(path.read_text().replace('0.1.9', '0.0.0'))
+        path.write_text(path.read_text().replace('0.1.10', '0.0.0'))
         self.assertIn('Claude skill release version drift', validate(self.root))
 
     def test_claude_skill_unknown_tool_rejected(self):
@@ -93,7 +93,7 @@ class PackageValidationTests(unittest.TestCase):
 
     def test_scalar_skill_metadata_rejected(self):
         path = self.root / 'skills/genfeed/SKILL.md'
-        path.write_text(path.read_text().replace('metadata:\n  version: "0.1.9"', 'metadata: invalid'))
+        path.write_text(path.read_text().replace('metadata:\n  version: "0.1.10"', 'metadata: invalid'))
         self.assertIn('SKILL.md: metadata must map strings to strings', validate(self.root))
 
     def test_invalid_yaml_rejected(self):
@@ -126,6 +126,16 @@ class PackageValidationTests(unittest.TestCase):
         self.assertIn('submission tagline differs from OpenAI short description', errors)
         self.assertIn('portal short description differs from listing', errors)
 
+    def test_codex_interface_drift_rejected(self):
+        self.change('.codex-plugin/plugin.json', lambda d: d['interface'].update(logo='./assets/logo.jpg'))
+        errors = validate(self.root)
+        self.assertIn('.codex-plugin/plugin.json: interface.logo differs from plugin.json', errors)
+        self.assertIn('.codex-plugin/plugin.json: interface.logo must be a packaged PNG', errors)
+
+    def test_missing_registry_icons_rejected(self):
+        self.change('server.json', lambda d: d.pop('icons'))
+        self.assertIn('server.json: MCP Registry icons are required', validate(self.root))
+
     def test_package_passes(self):
         self.assertEqual([], validate(self.root))
 
@@ -154,13 +164,13 @@ class PackageValidationTests(unittest.TestCase):
 class SubmissionArchiveTests(unittest.TestCase):
     def test_skills_archive_has_plugin_root_assets_and_no_connection_config(self):
         files = [ROOT / name for name in ('plugin.json', 'LICENSE', 'mcp.json', '.mcp.json',
-                 'skills/genfeed/SKILL.md', 'assets/logo.jpg')]
+                 'skills/genfeed/SKILL.md', 'assets/icon-512.png')]
         with tempfile.TemporaryDirectory() as directory:
             target = Path(directory) / 'skills.zip'
             archive(target, skill_package_files(files))
             with zipfile.ZipFile(target) as package:
                 self.assertEqual(set(package.namelist()), {
-                    'plugin.json', 'LICENSE', 'skills/genfeed/SKILL.md', 'assets/logo.jpg'})
+                    'plugin.json', 'LICENSE', 'skills/genfeed/SKILL.md', 'assets/icon-512.png'})
                 manifest = json.loads(package.read('plugin.json'))
                 self.assertEqual(manifest['name'], 'genfeed')
                 self.assertIn(manifest['extensions']['com.openai']['interface']['logo'].removeprefix('./'), package.namelist())

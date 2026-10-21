@@ -3,7 +3,7 @@
   "name": "io.github.genfeedai/genfeed",
   "title": "Genfeed",
   "description": "Hosted Genfeed MCP server for brands, content, generation, scheduling, and analytics.",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "websiteUrl": "https://genfeed.ai",
   "repository": {
     "url": "https://github.com/genfeedai/agent",
@@ -13,6 +13,38 @@
     {
       "type": "streamable-http",
       "url": "https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,brand,knowledge,onboarding"
+    }
+  ],
+  "icons": [
+    {
+      "src": "https://mcp.genfeed.ai/icons/genfeed-512.png",
+      "mimeType": "image/png",
+      "sizes": [
+        "512x512"
+      ]
+    },
+    {
+      "src": "https://mcp.genfeed.ai/icons/genfeed-192.png",
+      "mimeType": "image/png",
+      "sizes": [
+        "192x192"
+      ]
+    },
+    {
+      "src": "https://mcp.genfeed.ai/icons/genfeed-mark-light.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "theme": "light"
+    },
+    {
+      "src": "https://mcp.genfeed.ai/icons/genfeed-mark-dark.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ],
+      "theme": "dark"
     }
   ]
 }
