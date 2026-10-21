@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.10 — 2026-10-21
+
+- Add a Codex `.codex-plugin/plugin.json` with `interface.logo` and `interface.composerIcon`, and a packaged 512 × 512 PNG (`assets/icon-512.png`, from the approved Genfeed artwork), so the installed plugin no longer shows a placeholder icon.
+- Advertise the Genfeed icons (served from `mcp.genfeed.ai/icons/`) in the MCP Registry `server.json`.
+
 ## 0.1.9 — 2026-10-12
 
 - Use the owner-approved 500 × 500 JPEG as the bundled Claude plugin icon, matching the directory upload.

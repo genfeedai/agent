@@ -7,3 +7,5 @@ Existing Genfeed artwork, reused without modification:
 - `logo.svg`: Genfeed mark from `genfeedai/genfeed.ai`, `apps/app/public/logo.svg`, source commit `206ed91757`.
 
 Use the JPEG where a portal accepts 500 × 500 images, the bundled JPEG for Claude plugin uploads, and the SVG for Cursor. Confirm each portal's current size/format requirements before upload; no UI screenshots are supplied because this package has no custom MCP UI. Do not represent these logos as screenshots or review evidence.
+
+`icon-512.png` is `logo.jpg` resized to 512 × 512 PNG (Codex `logo` and `composerIcon`; the ChatGPT/Codex plugin directory expects a square PNG). Registry and MCP `serverInfo` icons are served by the MCP server at `https://mcp.genfeed.ai/icons/`.
