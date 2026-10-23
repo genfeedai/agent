@@ -15,7 +15,7 @@ Connect with browser OAuth to `https://mcp.genfeed.ai/mcp/claude`. Use the schem
 - Read the chosen brand with `get_brand_context`. Write copy in Claude using the brand's voice.
 - Save posts with `create_post` and articles with `create_article_draft`. These are drafts. When a tool returns “approval_pending”, give the user the review link and wait; do not bypass the approval or claim the draft already exists.
 - Use `list_assets` to find existing media. Use `get_posts` and `get_articles` to review existing content.
-- Check `list_brand_publishing_readiness`, `get_scheduler_capabilities` and `validate_scheduler_target` before preparing a release. Only schedule when the user explicitly asks. Scheduling uses existing assets and the user's connected channels.
+- Check `list_brand_publishing_readiness` and `check_channel` (`action: capabilities`, then `action: validate`) before preparing a release. Only schedule when the user explicitly asks. Scheduling uses existing assets and the user's connected channels.
 - Read `get_analytics` and `get_content_analytics` to plan the next content cycle. Use `find_tools` to discover other allowed content operations.
 
 ## Create media in Genfeed

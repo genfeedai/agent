@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Replace the retired `get_scheduler_capabilities`, `validate_scheduler_target`, `request_media_upload` and `complete_media_upload` calls with `check_channel` and `upload_media` (`action` plus `input`) in the skill, Claude plugin skill and Gemini instructions, and refresh the tool snapshot and acceptance inventory from the monorepo actions catalog.
+
 ## 0.1.10 — 2026-10-21
 
 - Add a Codex `.codex-plugin/plugin.json` with `interface.logo` and `interface.composerIcon`, and a packaged 512 × 512 PNG (`assets/icon-512.png`, from the approved Genfeed artwork), so the installed plugin no longer shows a placeholder icon.

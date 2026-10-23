@@ -1,6 +1,6 @@
 {
   "sourceRepository": "genfeedai/genfeed.ai",
-  "sourceRevision": "9a7da59f5bdcc30636a6001eca18050678e74e94",
+  "sourceRevision": "c422ba5821741a6f7b350ef1737e999401baec1d",
   "tools": [
     {
       "name": "compare_meta_campaigns",
@@ -326,6 +326,17 @@
       "description": "Get detailed analytics for a specific video"
     },
     {
+      "name": "track_post_link",
+      "toolset": "analytics",
+      "requiredRole": "user",
+      "required": [
+        "brandId",
+        "url"
+      ],
+      "mutationPolicy": "direct",
+      "description": "Import an already published X or YouTube post by URL and track analytics when its author matches a connected account. LinkedIn posts and articles are saved as links without metrics until API access is approved. This never publishes content."
+    },
+    {
       "name": "create_article_draft",
       "toolset": "articles",
       "requiredRole": "user",
@@ -336,7 +347,7 @@
         "content"
       ],
       "mutationPolicy": "approval-required",
-      "description": "Import a complete reviewed HTML article into the connected organization as an unpublished draft. Preserves supplied content without generation. Use get_article_preview to review, then publish_article separately."
+      "description": "Import a complete reviewed HTML article into the connected organization as an unpublished draft. Preserves supplied content without generation. Review the draft before publishing it separately."
     },
     {
       "name": "get_article_preview",
@@ -356,12 +367,12 @@
         "articleId"
       ],
       "mutationPolicy": "approval-required",
-      "description": "Publish an owned reviewed article on the public website. Requires approval. Use get_articles and get_article_preview before requesting publication. Changes publication status without regenerating the body or replacing an existing publication date."
+      "description": "Publish an owned reviewed article on the public website. Requires approval. Review the article before requesting publication. Changes publication status without regenerating the body or replacing an existing publication date."
     },
     {
       "name": "create_brand_from_url",
       "toolset": "brand",
-      "requiredRole": "user",
+      "requiredRole": "admin",
       "required": [
         "url"
       ],
@@ -384,7 +395,7 @@
       "requiredRole": "user",
       "required": [],
       "mutationPolicy": null,
-      "description": "Show everything the agent knows about a brand: the exact context injected into chat \u2014 identity, guidelines, voice, strategy and topics, persona, prompt seeds and conversation starters, performance insights, proven patterns, retrieved knowledge, recent posts, saved memories, active skills, the chat model with its credits per round, the context budget, and the rendered system prompt. Read-only, no credits charged. Use when the user asks what you know about their brand or why you wrote something a certain way."
+      "description": "Read structured brand context for writing or reviewing on-brand content: identity, guidelines, voice, strategy, topics, persona, prompt seeds, performance insights, knowledge, recent posts, saved memories and active skills. Includes context diagnostics and model metadata. Rendered system and memory prompts are omitted unless explicitly requested for diagnostics. Read-only, no credits charged."
     },
     {
       "name": "get_brand_scan_status",
@@ -395,16 +406,6 @@
       ],
       "mutationPolicy": null,
       "description": "Read the current website scan, guide revision and completeness for a brand created from a URL."
-    },
-    {
-      "name": "list_brand_publishing_readiness",
-      "toolset": "brand",
-      "requiredRole": "user",
-      "required": [
-        "brandId"
-      ],
-      "mutationPolicy": null,
-      "description": "List a brand connected publishing channels with credential ID, schedulability, health, and diagnostics. Read-only; check before scheduling."
     },
     {
       "name": "skip_brand_interview_question",
@@ -445,7 +446,7 @@
         "youtubeUrl"
       ],
       "mutationPolicy": "approval-required",
-      "description": "Analyze a YouTube video for viral highlights: downloads audio, transcribes, and LLM-detects segments (1 credit). Poll with get_clip_project or get_clip_highlights."
+      "description": "Analyze a YouTube video for viral highlights: downloads audio, transcribes, and LLM-detects segments. Analysis does not charge credits. Poll with get_clip_project or get_clip_highlights."
     },
     {
       "name": "create_clip_project_from_youtube",
@@ -455,7 +456,7 @@
         "youtubeUrl"
       ],
       "mutationPolicy": "approval-required",
-      "description": "Create a clip project from a YouTube URL and run the AI clip factory async (1 credit/clip). HeyGen/Argil need avatarId+voiceId; GenfeedAI needs a brand character reference. Poll get_clip_project."
+      "description": "Create a clip project from a YouTube URL and run the AI clip factory async. HeyGen avatar clips are held per clip at the per-second avatar rate and settle to the rendered length. HeyGen/Argil need avatarId+voiceId; GenfeedAI needs a brand character reference. Poll get_clip_project. Variable cost: 0\u201340 credits per second of HeyGen avatar clip."
     },
     {
       "name": "generate_clips",
@@ -467,7 +468,7 @@
         "editedHighlights"
       ],
       "mutationPolicy": "approval-required",
-      "description": "Generate clips from selected highlights (1 credit/clip). Avatar: avatarId+voiceId (HeyGen/Argil) or character ref (GenfeedAI); raw-cut: neither."
+      "description": "Generate clips from selected highlights. HeyGen avatar clips are held per clip at the per-second avatar rate and settle to the rendered length. Avatar: avatarId+voiceId (HeyGen/Argil) or character ref (GenfeedAI); raw-cut: neither. Variable cost: 0\u201340 credits per second of HeyGen avatar clip."
     },
     {
       "name": "get_clip_highlights",
@@ -508,22 +509,12 @@
       "description": "Open existing videos in the Studio Editor. Creates a draft Editor project seeded with sourceVideoIds in order (one clip each, up to 50) and returns its id and /studio/editor path. Does not generate, render, or publish."
     },
     {
-      "name": "complete_media_upload",
-      "toolset": "content",
-      "requiredRole": "user",
-      "required": [
-        "assetId"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Finalize a presigned media upload. Returns assetId and, when available, the hosted URL. Pass assetId as create_scheduled_release media[].assetId or as create_post contentId / ingredientId. Pass the hosted URL as create_post mediaUrls."
-    },
-    {
       "name": "create_post",
       "toolset": "content",
       "requiredRole": "user",
       "required": [],
       "mutationPolicy": "approval-required",
-      "description": "Create a post draft from text, or prepare direct publishing for an existing content item or ingredient. The in-app agent returns a publish confirmation card first and publishes only after confirmed is set. On MCP this never publishes: confirmed is rejected, and publishing uses create_scheduled_release."
+      "description": "Create a post draft from supplied text for review. On MCP this never publishes: confirmed and existing-content publishing are rejected. Use create_scheduled_release for release drafts or approval-gated scheduling. Existing-content publishing is available only in the Genfeed app."
     },
     {
       "name": "generate_content",
@@ -534,10 +525,10 @@
         "type"
       ],
       "mutationPolicy": "direct",
-      "description": "Generate content for a topic or brief. Social types (caption, post, thread, script, article_outline) return ready-to-publish text with hook, body, CTA and hashtags and are not saved; use platform linkedin for LinkedIn posts and variationsCount for alternatives. type newsletter creates a saved newsletter draft. type article (or x-article) generates and saves an article draft with an id, ready for get_article_preview and publish_article; to import an already written article without regeneration use create_article_draft. Each field lists the types it applies to."
+      "description": "Generate content for a topic or brief. Social types (caption, post, thread, script, article_outline) return ready-to-publish text written in the brand voice, with a brand receipt (receiptId) and hashtags, and are not scheduled or published; the exact text is kept on that receipt; use platform linkedin for LinkedIn posts and variationsCount for alternatives. type newsletter creates a saved newsletter draft. type article (or x-article) generates and saves an article draft with an id, ready to review and publish. Each field lists the types it applies to."
     },
     {
-      "name": "generate_content_batch",
+      "name": "generate_turbo_content",
       "toolset": "content",
       "requiredRole": "user",
       "required": [
@@ -545,7 +536,7 @@
         "platforms"
       ],
       "mutationPolicy": "approval-required",
-      "description": "Generate a batch of content (images, videos, carousels) for a brand. Specify count, platforms, and date range. Use handle param to resolve @username to a credential. Returns a batch ID for tracking. Credits scale by item format and caption model tier \u2014 not a flat fee."
+      "description": "Generate a Turbo run of content (images, videos, carousels) for a brand. Specify count, platforms, and date range. Use handle param to resolve @username to a credential. Requires approval: the first call returns a credit estimate and nothing is spent until the run is approved. Returns a Turbo run ID for tracking. Credits scale by item format and caption model tier \u2014 not a flat fee. Variable cost: 4\u20134800 credits per Turbo run."
     },
     {
       "name": "get_articles",
@@ -568,8 +559,19 @@
       "toolset": "content",
       "requiredRole": "user",
       "required": [],
-      "mutationPolicy": null,
-      "description": "Read X posts. postIdOrUrl opens one post and returns its text and stats. query searches recent posts by topic through the brand's connected X account and returns author, text, stats, and link; it explains clearly if that account cannot search. Pass exactly one of postIdOrUrl or query."
+      "mutationPolicy": "direct",
+      "description": "Read X posts. Costs 1 credit and requires confirmation. postIdOrUrl opens one post and returns its text and stats. query searches recent posts by topic through the brand's connected X account and returns author, text, stats, and link; it explains clearly if that account cannot search. Pass exactly one of postIdOrUrl or query."
+    },
+    {
+      "name": "manage_campaign",
+      "toolset": "content",
+      "requiredRole": "user",
+      "required": [
+        "action",
+        "input"
+      ],
+      "mutationPolicy": "direct",
+      "description": "Manage a native content campaign inside an explicit brand. action list reads campaigns; get reads a campaign and its reusable context/assets; create saves a draft (name and idempotencyKey required); update changes context or replaces asset membership (campaignId required). Campaign objective, audience, tone and creative direction complement inherited brand context. Read the campaign before generating assets, then save returned Library IDs as assetIds. Schedule through the scheduler toolset with the same brandId and campaignId; existing publishing approval still applies. This tool never publishes or starts ad spend."
     },
     {
       "name": "repurpose_post",
@@ -581,18 +583,18 @@
         "mode"
       ],
       "mutationPolicy": "direct",
-      "description": "Repurpose an existing post into a draft for another channel. Deterministic mode adapts the caption instantly through the channel capability catalog (length, hashtags, links, media compatibility); agent mode rewrites it with the content engine and lands the draft in the review queue. Never publishes or schedules anything."
+      "description": "Repurpose an existing post into a draft for another channel. Deterministic mode adapts the caption instantly through the channel capability catalog (length, hashtags, links, media compatibility); agent mode rewrites it with the content engine and lands the draft in the review queue. Never publishes or schedules anything. Variable cost: 0\u20131 credits per repurpose."
     },
     {
-      "name": "request_media_upload",
+      "name": "upload_media",
       "toolset": "content",
       "requiredRole": "user",
       "required": [
-        "filename",
-        "contentType"
+        "action",
+        "input"
       ],
       "mutationPolicy": "direct",
-      "description": "Reserve a pending asset for the selected brand and return uploadUrl, assetId, method, and constraints. For PUT, send file bytes with the returned headers. For POST_JSON, send localUpload as JSON, adding base64 file bytes in localUpload.source.data. Then call complete_media_upload. Does not publish or attach the file."
+      "description": "Upload existing media for the selected brand. request reserves a pending asset and returns uploadUrl, assetId, method and constraints. PUT sends bytes with returned headers; POST_JSON sends localUpload with base64 bytes in localUpload.source.data. Then complete finalizes the upload and returns assetId and any hosted URL. Does not publish or attach media."
     },
     {
       "name": "find_tools",
@@ -600,7 +602,7 @@
       "requiredRole": "user",
       "required": [],
       "mutationPolicy": null,
-      "description": "Find tools this server offers, including ones outside the current ?toolsets= selection. No arguments: list toolsets with descriptions and tool counts. query and/or toolset: search tools by name, description, or toolset. name: describe one tool with its full input schema, toolset, mutation policy, credit cost, and required role."
+      "description": "Find tools callable on this connection, filtered by its endpoint permissions and caller role. Tools excluded from this endpoint are never returned. Can discover callable tools outside the current ?toolsets= selection. No arguments: list available toolsets and counts. query and/or toolset: search by name, description or toolset. name: describe one callable tool with its input schema, mutation policy, credit cost and required role."
     },
     {
       "name": "get_account",
@@ -626,7 +628,7 @@
         "jobId"
       ],
       "mutationPolicy": null,
-      "description": "Check the status and result of any generation (image, video, voice, music) by the id generate returned. Auto-detects content type."
+      "description": "Check the status and result of any generation (image, video, voice, music) by the job id returned when the generation started. Auto-detects content type."
     },
     {
       "name": "onboard_brand",
@@ -636,18 +638,18 @@
         "action"
       ],
       "mutationPolicy": "direct",
-      "description": "Set up a new account brand inside this conversation. Use it when get_account reports profile.isOnboardingCompleted false, before generating anything. Steps: (1) scan_url with one public URL the user gives (website, social profile, link page or product page) to prefill name, description, voice, colors and logo; if the scan fails, ask for another URL. (2) Ask the user, one question at a time, for goals, platforms, posting cadence and any tone adjustment, then save_answers. (3) complete once the user confirms the brand."
+      "description": "Set up a brand inside this conversation. Organization owners and admins can use create_from_url to create a new brand from a website for one credit on success; this queues the brand creation for approval. For an existing brand, scan_url prefills its guide, save_answers stores goals, audience, offer, competitors, platforms, cadence and tone, and complete finishes account onboarding."
     },
     {
       "name": "resolve_approval",
       "toolset": "core",
-      "requiredRole": "superadmin",
+      "requiredRole": "admin",
       "required": [
         "approvalId",
         "decision"
       ],
       "mutationPolicy": null,
-      "description": "Approve or decline a pending MCP write action that was queued for human review, executing it on approval. Pass the approvalId returned by the original (pending) tool call. Superadmin-only."
+      "description": "Approve or decline a pending MCP write action that was queued for human review, executing it on approval. Organization owners and admins only. Pass the approvalId returned by the original (pending) tool call."
     },
     {
       "name": "enhance_prompt",
@@ -658,7 +660,7 @@
         "contentType"
       ],
       "mutationPolicy": "direct",
-      "description": "Preview a media prompt using the same Enhance implementation as Studio and Agent, with effective organization/brand settings and contributing pack metadata. Does not generate media. To generate the reviewed prompt unchanged, pass the returned prompt with harness:false. Model compilation during normal generation may add format-specific instructions; the generation receipt records the final submitted prompt."
+      "description": "Preview a media prompt using the same Enhance implementation as Studio and Agent, with effective organization/brand settings and contributing pack metadata. Costs 1 credit and requires confirmation; does not generate media. To generate the reviewed prompt unchanged, pass the returned prompt with harness:false. Model compilation during normal generation may add format-specific instructions; the generation receipt records the final submitted prompt."
     },
     {
       "name": "generate",
@@ -669,7 +671,7 @@
         "prompt"
       ],
       "mutationPolicy": "direct",
-      "description": "Generate an image, video, voice (text-to-speech) or music track. Set type; a parameter marked for another type is rejected. Omit model to let the router pick the best available model. Image and video results include generationHarness with the exact submitted prompt and enhancement status: show that prompt with the result instead of reconstructing it."
+      "description": "Generate an image, video, voice (text-to-speech) or music track. Set type; a parameter marked for another type is rejected. For model, pass a key from get_generation_options models, or omit it so the router picks. Image and video results include generationHarness with the exact submitted prompt and enhancement status: show that prompt with the result instead of reconstructing it. Image and video require a resolved model-specific quote and confirmation. The endpoint bills the prepared request; an unresolved quote never means free generation. Variable cost: 10\u2013300 credits per generation."
     },
     {
       "name": "get_generation_options",
@@ -677,7 +679,7 @@
       "requiredRole": "user",
       "required": [],
       "mutationPolicy": null,
-      "description": "Read what generation can do right now: the effective image/video prompt enhancement settings with organization or brand overrides (settings, always returned), plus the Studio credit estimate and organization balance (cost, only when type is given). Returns the same catalog estimate the Generate composer shows and the same Genfeed balance as the credits bar. Does not charge credits, change a price, or authorize a generation. Omit modelKey, or pass Auto, for estimate status auto. Unsupported, missing, unpriced or voice and music types return estimate status unavailable with credits null. balance is null when the wallet cannot be read; a numeric 0 is a real empty balance. Threaded Agent calls use the validated current thread brand; brandId must match it. In threadless MCP calls, brandId selects the brand scope for settings."
+      "description": "Read what generation can do right now, for free and without paid confirmation. models is always returned: this account's callable catalog. Pass an image, video or music models key as generate.model, and an image-edit key as transform_media.model. Voice rows are not generate.model; voice generation uses voiceId. settings is the effective image/video prompt enhancement with organization or brand overrides, always returned. cost is the Studio credit estimate and organization balance, only when type is given. Returns the same catalog estimate the Generate composer shows and the same Genfeed balance as the credits bar. Does not charge credits, change a price, or authorize a generation. Omit modelKey, or pass Auto, for image, image-edit and video estimate status auto. Music Auto quotes the registry music default. Voice, unsupported, missing or unpriced models return estimate status unavailable with credits null. balance is null when the wallet cannot be read; a numeric 0 is a real empty balance. Threaded Agent calls use the validated current thread brand; brandId must match it. In threadless MCP calls, brandId selects the brand scope for settings."
     },
     {
       "name": "list_assets",
@@ -708,7 +710,7 @@
         "operation"
       ],
       "mutationPolicy": "direct",
-      "description": "Change existing media or join clips. operation edit: apply an exact instruction to a Library image (the original stays unchanged; imageId is the primary source, references adds up to four ordered images for Ideogram or nine for FLUX.3; FLUX.3 supports one output, resolution and aspectRatio, with no mask or seed; optional maskId must match the primary dimensions, black changes and white stays; uses the image-editing category default, never the generation model; do not enhance or rewrite the instruction). operation reframe: re-crop an image to a new aspect ratio. operation upscale: upscale an image to higher resolution from its URL. operation merge: join two or more existing videos into one clip with transitions, captions, resizing, mute and background music; slideshow zoom (zoomEaseCurve and zoomConfigs) is not supported and is rejected before any merge starts. Each field lists the operations it applies to; a field for another operation is rejected. Edit, reframe and upscale spend credits through the shared generation settlement; merge runs locally and is free."
+      "description": "Change existing media or join clips. operation edit: apply an exact instruction to a Library image (the original stays unchanged; imageId is the primary source, references adds up to four ordered images for Ideogram or nine for FLUX.3; FLUX.3 supports one output, resolution and aspectRatio, with no mask or seed; optional maskId must match the primary dimensions, black changes and white stays; uses the image-editing category default, never the generation model; do not enhance or rewrite the instruction). operation reframe: re-crop an image to a new aspect ratio. operation upscale: upscale an image to higher resolution from its URL. operation merge: join two or more existing videos into one clip with transitions, captions, resizing, mute and background music; slideshow zoom (zoomEaseCurve and zoomConfigs) is not supported and is rejected before any merge starts. Each field lists the operations it applies to; a field for another operation is rejected. Edit, reframe and upscale spend credits through the shared generation settlement; merge runs locally and is free. Variable cost: 0\u201350 credits per transform."
     },
     {
       "name": "attach_remix_analysis_source",
@@ -842,7 +844,7 @@
         "quoteId"
       ],
       "mutationPolicy": "approval-required",
-      "description": "Execute the exact persisted quote and revision after explicit approval. Routes by canonical output/quote; repeated accepted execution retrieves the same run rather than buying another attempt."
+      "description": "Execute the exact persisted quote and revision after explicit approval. Routes by canonical output/quote; repeated accepted execution retrieves the same run rather than buying another attempt. Cost comes from the approved quote_remix_generation quote."
     },
     {
       "name": "storyboard_run_capabilities",
@@ -962,6 +964,34 @@
       "description": "Start connecting a social account and return a durable connection request plus a connect button."
     },
     {
+      "name": "list_orgs",
+      "toolset": "onboarding",
+      "requiredRole": "user",
+      "required": [],
+      "mutationPolicy": null,
+      "description": "List every organization you belong to, which one this connection works inside, and the brands in it. get_account, get_brands and every other tool act only in the active organization. When the connection allows switching, use switch_org to change it; otherwise reconnect and choose another on the consent screen."
+    },
+    {
+      "name": "switch_org",
+      "toolset": "onboarding",
+      "requiredRole": "user",
+      "required": [
+        "organization"
+      ],
+      "mutationPolicy": "direct",
+      "description": "Switch which organization this connection works inside, by its name, slug or id from list_orgs. Only available when the connection was approved with organization switching on. Your role in the organization is checked on every request."
+    },
+    {
+      "name": "check_channel",
+      "toolset": "scheduler",
+      "requiredRole": "user",
+      "required": [
+        "action"
+      ],
+      "mutationPolicy": null,
+      "description": "Check publishing channel capabilities or validate a proposed target. capabilities lists channels when input is omitted; validate checks input.platform and returns errors/warnings/validationState. Read-only."
+    },
+    {
       "name": "control_scheduled_release",
       "toolset": "scheduler",
       "requiredRole": "user",
@@ -970,7 +1000,7 @@
         "action"
       ],
       "mutationPolicy": "approval-required",
-      "description": "Control a scheduled release lifecycle: cancel, pause, resume, or publish now."
+      "description": "Request cancel, pause, resume or publish-now for an existing release. Use get_scheduled_release to review exact content, channels and timing; check check_channel(action=validate) before publish-now, and confirm the selected publishing credential is still connected before resume. publish-now requests immediate public posting and resume may restart scheduled or recurring posting. Every action waits for server-enforced approval; review and release in Genfeed."
     },
     {
       "name": "create_scheduled_release",
@@ -980,7 +1010,7 @@
         "release"
       ],
       "mutationPolicy": "approval-required",
-      "description": "Create a multi-channel scheduled release."
+      "description": "Create a multi-channel release from prepared content and existing media. Use after check_channel(action=validate) for each channel. status draft (the default) saves for review; status scheduled or a scheduledDate requests future publishing, including recurring releases. Scheduling waits for server-enforced approval. If this connection cannot resolve approvals, review and release it in Genfeed."
     },
     {
       "name": "get_scheduled_release",
@@ -993,12 +1023,14 @@
       "description": "Get one scheduled release by ID: channel targets, validation/execution state, attachments, recurrence, and transition history."
     },
     {
-      "name": "get_scheduler_capabilities",
+      "name": "list_brand_publishing_readiness",
       "toolset": "scheduler",
       "requiredRole": "user",
-      "required": [],
+      "required": [
+        "brandId"
+      ],
       "mutationPolicy": null,
-      "description": "Scheduler channel capabilities: caption limits, media rules, publish modes, required settings, status. Pass platform for one channel; omit it to list every channel. Read-only."
+      "description": "List a brand connected publishing channels with credential ID, schedulability, health, and diagnostics. Read-only; check before scheduling."
     },
     {
       "name": "update_scheduled_release",
@@ -1010,17 +1042,7 @@
         "changes"
       ],
       "mutationPolicy": "approval-required",
-      "description": "Update a release or a target."
-    },
-    {
-      "name": "validate_scheduler_target",
-      "toolset": "scheduler",
-      "requiredRole": "user",
-      "required": [
-        "platform"
-      ],
-      "mutationPolicy": null,
-      "description": "Validate a proposed target against the channel-capability contract; returns errors/warnings/validationState. Read-only."
+      "description": "Change content, media, recurrence or timing on an existing release, or scheduling/settings on one target. Use get_scheduled_release to inspect its current content and state, then check_channel(action=validate) before changing publishing settings. Changes to already-live content may update public posts. Every update waits for server-enforced approval; review and apply in Genfeed."
     },
     {
       "name": "archive_skill",
@@ -1162,7 +1184,7 @@
       "toolset": "social-inbox",
       "requiredRole": "user",
       "required": [],
-      "mutationPolicy": null,
+      "mutationPolicy": "direct",
       "description": "List recent posts from an X account. Uses the brand's connected account when no username is given."
     },
     {
@@ -1241,7 +1263,7 @@
         "maximumCredits"
       ],
       "mutationPolicy": "approval-required",
-      "description": "Export retained source to MP4, PNG or JPEG Library outputs using an approved quote and expectedRevision."
+      "description": "Export retained source to MP4, PNG or JPEG Library outputs using an approved quote and expectedRevision. Cost comes from the approved quote_visual_code_generation quote."
     },
     {
       "name": "generate_visual_code",
@@ -1254,7 +1276,7 @@
         "maximumCredits"
       ],
       "mutationPolicy": "approval-required",
-      "description": "Create a versioned visual project from a prompt or directly supplied React/Remotion source. Requires a prior quote and approved maximumCredits. Untrusted code runs only in an isolated renderer; completed outputs enter the brand Library."
+      "description": "Create a versioned visual project from a prompt or directly supplied React/Remotion source. Requires a prior quote and approved maximumCredits. Untrusted code runs only in an isolated renderer; completed outputs enter the brand Library. Cost comes from the approved quote_visual_code_generation quote."
     },
     {
       "name": "get_visual_code_catalog",
@@ -1298,7 +1320,7 @@
         "maximumCredits"
       ],
       "mutationPolicy": "approval-required",
-      "description": "Explicitly retry retained source from a failed or cancelled visual revision using a new requestId and approved quote. No automatic source repair occurs; inspect prior diagnostics for uncertain provider work."
+      "description": "Explicitly retry retained source from a failed or cancelled visual revision using a new requestId and approved quote. No automatic source repair occurs; inspect prior diagnostics for uncertain provider work. Cost comes from the approved quote_visual_code_generation quote."
     },
     {
       "name": "revise_visual_code_project",
@@ -1310,7 +1332,7 @@
         "maximumCredits"
       ],
       "mutationPolicy": "approval-required",
-      "description": "Create an immutable visual revision using exactly one prompt, sourceCode or props change and an approved quote. expectedRevision prevents overwriting newer work."
+      "description": "Create an immutable visual revision using exactly one prompt, sourceCode or props change and an approved quote. expectedRevision prevents overwriting newer work. Cost comes from the approved quote_visual_code_generation quote."
     },
     {
       "name": "create_ad_remix_workflow",
