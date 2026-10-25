@@ -2,7 +2,8 @@
 
 ## Unreleased
 
-- Replace the retired `get_scheduler_capabilities`, `validate_scheduler_target`, `request_media_upload` and `complete_media_upload` calls with `check_channel` and `upload_media` (`action` plus `input`) in the skill, Claude plugin skill and Gemini instructions, and refresh the tool snapshot and acceptance inventory from the monorepo actions catalog.
+- Migrate scheduling checks and media uploads to `check_channel` and `upload_media` (`action` plus `input`) in the skill, Claude plugin skill and Gemini instructions, and refresh the tool snapshot and acceptance inventory from the monorepo actions catalog.
+- Correct Gemini account and brand discovery instructions and validate its tool references alongside the other client playbooks.
 
 ## 0.1.10 — 2026-10-21
 

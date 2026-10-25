@@ -50,7 +50,7 @@ def validate_tool_catalog(root):
             errors.append('tool catalog: duplicate names or invalid source revision')
         if render_tools(catalog) != (root / 'skills/genfeed/references/tools.md').read_text():
             errors.append('tool catalog: generated Markdown drift; rerun refresh_tools.py')
-        for filename in ('skills/genfeed/SKILL.md', 'llms-install.md', 'README.md',
+        for filename in ('skills/genfeed/SKILL.md', 'GEMINI.md', 'llms-install.md', 'README.md',
                          'submissions/test-cases.md', 'submissions/reviewer-setup.md',
                          'plugins/claude/skills/genfeed/SKILL.md', 'plugins/claude/README.md'):
             references = re.findall(r'`([a-z][a-z0-9]*_[a-z0-9_]+)`', (root / filename).read_text())

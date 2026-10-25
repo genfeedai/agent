@@ -144,6 +144,11 @@ class PackageValidationTests(unittest.TestCase):
         path.write_text(path.read_text() + '\nCall `get_account_info`.\n')
         self.assertIn('skills/genfeed/SKILL.md: unknown MCP tool get_account_info', validate(self.root))
 
+    def test_gemini_unknown_tool_rejected(self):
+        path = self.root / 'GEMINI.md'
+        path.write_text(path.read_text() + '\nCall `unknown_tool_fixture`.\n')
+        self.assertIn('GEMINI.md: unknown MCP tool unknown_tool_fixture', validate(self.root))
+
     def test_generated_tool_table_drift_rejected(self):
         path = self.root / 'skills/genfeed/references/tools.md'
         path.write_text(path.read_text().replace('`get_account`', '`get_account_info`'))
