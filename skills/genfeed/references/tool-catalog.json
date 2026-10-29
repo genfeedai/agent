@@ -1,6 +1,6 @@
 {
   "sourceRepository": "genfeedai/genfeed.ai",
-  "sourceRevision": "929cb4ea2d4154ca2dffc789039200d7d80231ec",
+  "sourceRevision": "838ba2784fc7749fb9603d54d554ec42a6450195",
   "tools": [
     {
       "name": "compare_meta_campaigns",
@@ -439,40 +439,46 @@
       "description": "Submit the user's answer to the current interview question. Pass the interviewId from start_brand_interview. Returns the next question (if any) and updated progress."
     },
     {
-      "name": "analyze_clip_project",
-      "toolset": "clips",
+      "name": "analyze_clipper_project",
+      "toolset": "clipper",
       "requiredRole": "user",
       "required": [
         "youtubeUrl"
       ],
       "mutationPolicy": "approval-required",
-      "description": "Analyze a YouTube video for viral highlights: downloads audio, transcribes, and LLM-detects segments. Analysis does not charge credits. Poll with get_clip_project or get_clip_highlights."
+      "description": "Analyze a YouTube video for viral highlights: downloads audio, transcribes, and LLM-detects segments. Analysis does not charge credits. Poll with get_clipper_project or get_clipper_highlights."
     },
     {
-      "name": "create_clip_project_from_youtube",
-      "toolset": "clips",
+      "name": "create_clipper_project_from_youtube",
+      "toolset": "clipper",
       "requiredRole": "user",
       "required": [
         "youtubeUrl"
       ],
       "mutationPolicy": "approval-required",
-      "description": "Create a clip project from a YouTube URL and run the AI clip factory async. HeyGen avatar clips are held per clip at the per-second avatar rate and settle to the rendered length. HeyGen/Argil need avatarId+voiceId; GenfeedAI needs a brand character reference. Poll get_clip_project. Variable cost: 0\u201340 credits per second of HeyGen avatar clip."
+      "description": "Create a clip project from a YouTube URL and run the AI clip factory async. HeyGen avatar clips are held per clip at the per-second avatar rate and settle to the rendered length. HeyGen/Argil need avatarId+voiceId; GenfeedAI needs a brand character reference. Poll get_clipper_project. Variable cost: 0\u201340 credits per second of HeyGen avatar clip."
     },
     {
-      "name": "generate_clips",
-      "toolset": "clips",
+      "name": "edit_clip",
+      "toolset": "clipper",
       "requiredRole": "user",
       "required": [
-        "projectId",
-        "selectedHighlightIds",
-        "editedHighlights"
+        "clipperResultId"
       ],
-      "mutationPolicy": "approval-required",
-      "description": "Generate clips from selected highlights. HeyGen avatar clips are held per clip at the per-second avatar rate and settle to the rendered length. Avatar: avatarId+voiceId (HeyGen/Argil) or character ref (GenfeedAI); raw-cut: neither. Variable cost: 0\u201340 credits per second of HeyGen avatar clip."
+      "mutationPolicy": "direct",
+      "description": "Re-cut a finished raw-cut clip to a new window of its source video. The original clip is kept and the edit is queued as a new version on the same clip project, with its captions rebuilt from the transcript for the new window. Use it when the user wants a clip to start or end somewhere else, or to retitle it. Read the clip and its transcript first with get_clip_context so the new times land on sentence boundaries, and tell the user the exact new window before you call this. Times are source-video seconds. Only raw-cut clips can be edited; avatar clips are regenerated from their script. An edited clip runs 1 to 180 seconds and must contain speech. Local video processing, no credits."
     },
     {
-      "name": "get_clip_highlights",
-      "toolset": "clips",
+      "name": "get_clip_context",
+      "toolset": "clipper",
+      "requiredRole": "user",
+      "required": [],
+      "mutationPolicy": null,
+      "description": "Read a clip before editing it. With clipperResultId it returns the clip (title, source-video start and end in seconds, mode, status, whether edit_clip can re-cut it) and the transcript lines around it with their source-video times, so a new window can start and end on sentence boundaries. With projectId it lists the clips of that clip project so you can find the one the user means. Pass exactly one of the two."
+    },
+    {
+      "name": "get_clipper_highlights",
+      "toolset": "clipper",
       "requiredRole": "user",
       "required": [
         "projectId"
@@ -481,8 +487,8 @@
       "description": "Get the detected highlights for a clip project after analysis. Returns the highlights array plus the project's current status."
     },
     {
-      "name": "get_clip_project",
-      "toolset": "clips",
+      "name": "get_clipper_project",
+      "toolset": "clipper",
       "requiredRole": "user",
       "required": [
         "projectId"
@@ -491,8 +497,8 @@
       "description": "Read a clip project by ID: status, progress, highlights, and generated clip results (with playable video URLs when ready). Poll this after analyze or generate."
     },
     {
-      "name": "list_clip_projects",
-      "toolset": "clips",
+      "name": "list_clipper_projects",
+      "toolset": "clipper",
       "requiredRole": "user",
       "required": [],
       "mutationPolicy": null,
@@ -500,13 +506,25 @@
     },
     {
       "name": "open_in_editor",
-      "toolset": "clips",
+      "toolset": "clipper",
       "requiredRole": "user",
       "required": [
         "sourceVideoIds"
       ],
       "mutationPolicy": "direct",
-      "description": "Open existing videos in the Studio Editor. Creates a draft Editor project seeded with sourceVideoIds in order (one clip each, up to 50) and returns its id and /studio/editor path. Does not generate, render, or publish."
+      "description": "Open existing videos in the Studio Editor. Creates a draft Editor project seeded with sourceVideoIds in order (one clip each, up to 50) and returns its id and /editor path. Does not generate, render, or publish."
+    },
+    {
+      "name": "run_clipper",
+      "toolset": "clipper",
+      "requiredRole": "user",
+      "required": [
+        "projectId",
+        "selectedHighlightIds",
+        "editedHighlights"
+      ],
+      "mutationPolicy": "approval-required",
+      "description": "Generate clips from selected highlights. HeyGen avatar clips are held per clip at the per-second avatar rate and settle to the rendered length. Avatar: avatarId+voiceId (HeyGen/Argil) or character ref (GenfeedAI); raw-cut: neither. Variable cost: 0\u201340 credits per second of HeyGen avatar clip."
     },
     {
       "name": "create_post",
@@ -525,7 +543,7 @@
         "type"
       ],
       "mutationPolicy": "direct",
-      "description": "Generate content for a topic or brief. Social types (caption, post, thread, script, article_outline) return ready-to-publish text written in the brand voice, with a brand receipt (receiptId) and hashtags, and are not scheduled or published; the exact text is kept on that receipt; use platform linkedin for LinkedIn posts and variationsCount for alternatives. type newsletter creates a saved newsletter draft. type article (or x-article) generates and saves an article draft with an id, ready to review and publish. Each field lists the types it applies to."
+      "description": "Generate content for a topic or brief. Social types (caption, post, thread, article_outline) return ready-to-publish text written in the brand voice, with a brand receipt (receiptId) and hashtags, and are not scheduled or published; the exact text is kept on that receipt; use platform linkedin for LinkedIn posts and variationsCount for alternatives. type script returns a long-form video script written against the composed brand brief (voice, guardrails, criteria), not saved or published; save it as a script work object. type newsletter creates a saved newsletter draft. type article (or x-article) generates and saves an article draft with an id, ready to review and publish. Each field lists the types it applies to."
     },
     {
       "name": "generate_turbo_content",
@@ -652,6 +670,22 @@
       "description": "Approve or decline a pending MCP write action that was queued for human review, executing it on approval. Organization owners and admins only. Pass the approvalId returned by the original (pending) tool call."
     },
     {
+      "name": "build_prep_brief",
+      "toolset": "engagement",
+      "requiredRole": "user",
+      "required": [],
+      "mutationPolicy": null,
+      "description": "Build a cited preparation brief for a brand, a campaign or a topic. Every fact comes from a stored record and carries its citation: Knowledge passages (source and version), memories, recent published posts and recent performance totals. Evidence it could not find is listed as missing, and follow-up suggestions only point to existing screens. It writes nothing and changes nothing."
+    },
+    {
+      "name": "list_stalled_items",
+      "toolset": "engagement",
+      "requiredRole": "user",
+      "required": [],
+      "mutationPolicy": null,
+      "description": "List posts that are stuck: drafts nobody reviewed, drafts sent back for changes, approved drafts never scheduled, scheduled posts that passed their slot, and posts whose publish failed. Each item gives its last meaningful event (creation, review decision, scheduled time or publish attempt) and how many days ago it was. Editing or renaming a post does not count as activity. Read only; it changes nothing."
+    },
+    {
       "name": "enhance_prompt",
       "toolset": "generation",
       "requiredRole": "user",
@@ -710,7 +744,7 @@
         "operation"
       ],
       "mutationPolicy": "direct",
-      "description": "Change existing media or join clips. operation edit: apply an exact instruction to a Library image (the original stays unchanged; imageId is the primary source, references adds up to four ordered images for Ideogram or nine for FLUX.3; FLUX.3 supports one output, resolution and aspectRatio, with no mask or seed; optional maskId must match the primary dimensions, black changes and white stays; uses the image-editing category default, never the generation model; do not enhance or rewrite the instruction). operation reframe: re-crop an image to a new aspect ratio. operation upscale: upscale an image to higher resolution from its URL. operation merge: join two or more existing videos into one clip with transitions, captions, resizing, mute and background music; slideshow zoom (zoomEaseCurve and zoomConfigs) is not supported and is rejected before any merge starts. Each field lists the operations it applies to; a field for another operation is rejected. Edit, reframe and upscale spend credits through the shared generation settlement; merge runs locally and is free. Variable cost: 0\u201350 credits per transform."
+      "description": "Change existing media or join clips. operation edit: apply an exact instruction to a Library image (the original stays unchanged; imageId is the primary source, references adds up to four ordered images for Ideogram or nine for FLUX.3; FLUX.3 supports one output, resolution and aspectRatio, with no mask or seed; optional maskId must match the primary dimensions, black changes and white stays; uses the image-editing category default, never the generation model; do not enhance or rewrite the instruction). operation reframe: re-crop an image to a new aspect ratio. operation upscale: upscale an image to higher resolution from its URL. operation merge: join two or more existing videos into one clip with transitions, captions, resizing, mute and background music (with music, isBeatSyncEnabled trims each clip so every cut lands on a beat; the brand end card, when the brand has one switched on, is appended automatically); slideshow zoom (zoomEaseCurve and zoomConfigs) is not supported and is rejected before any merge starts. Each field lists the operations it applies to; a field for another operation is rejected. Edit, reframe and upscale spend credits through the shared generation settlement; merge runs locally and is free. Variable cost: 0\u201350 credits per transform."
     },
     {
       "name": "attach_remix_analysis_source",
@@ -847,6 +881,31 @@
       "description": "Execute the exact persisted quote and revision after explicit approval. Routes by canonical output/quote; repeated accepted execution retrieves the same run rather than buying another attempt. Cost comes from the approved quote_remix_generation quote."
     },
     {
+      "name": "start_storyboard_long_form",
+      "toolset": "inspiration",
+      "requiredRole": "user",
+      "required": [
+        "brandId",
+        "runId",
+        "stage",
+        "expectedRevision",
+        "inputHash"
+      ],
+      "mutationPolicy": "direct",
+      "description": "Start one quoted paid stage of a long-form storyboard after the user accepts the price from storyboard_long_form quote. Pass the quote inputHash; a changed plan is refused, and finished renders are not charged again. Then call storyboard_long_form reconcile until the stage is ready. Cost comes from the approved storyboard_long_form quote."
+    },
+    {
+      "name": "storyboard_long_form",
+      "toolset": "inspiration",
+      "requiredRole": "user",
+      "required": [
+        "action",
+        "brandId"
+      ],
+      "mutationPolicy": "direct",
+      "description": "Work on a long-form storyboard (voice note to presenter video). create starts one from a transcript or idea dump (brief); get reads the run and plan; draft_plan drafts or revises the plan from the brief (instruction); edit_script rewrites segment narration and cutaway briefs by id; approve_plan locks it; quote prices one paid stage and returns its inputHash; estimate prices every stage still left for the whole video without holding credits; translate copies the storyboard into a new one with the script in another language, keeping the presenter, cutaways and stills, and returns the copy; reconcile picks up finished renders; assemble opens the animatic or final edit as an Editor project. Never charges credits."
+    },
+    {
       "name": "storyboard_run_capabilities",
       "toolset": "inspiration",
       "requiredRole": "user",
@@ -898,6 +957,14 @@
       "description": "Save a page, document, feed, media or pasted text into the brand Knowledge library and start ingestion. Pass sourceId to refresh an existing URL or RSS source. Default purpose is INSPIRATION; pass BRAND_TRUTH only for material the brand owns and vouches for."
     },
     {
+      "name": "get_context_coverage",
+      "toolset": "knowledge",
+      "requiredRole": "user",
+      "required": [],
+      "mutationPolicy": null,
+      "description": "Report whether the context behind an answer is complete: per source family (Knowledge by purpose, social connections) whether it is available, partial, stale, disconnected, failed or empty, with the last success time and recovery steps. Call it when a search returns nothing or before claiming something does not exist."
+    },
+    {
       "name": "list_knowledge_sources",
       "toolset": "knowledge",
       "requiredRole": "user",
@@ -933,7 +1000,7 @@
         "query"
       ],
       "mutationPolicy": null,
-      "description": "Search the brand Knowledge library (saved pages, documents and notes) and return cited passages with their source, purpose and relevance. Use it before writing anything that must be accurate about the brand."
+      "description": "Search the brand Knowledge library (saved pages, documents and notes) and return cited passages with their source, purpose, capture time and relevance. Exact names, product codes and quoted phrases in the query are matched verbatim as well as by meaning. Filter by source kind and capture date; when more results exist the answer carries nextCursor, which you pass back with the same query and filters for the next page. Use it before writing anything that must be accurate about the brand."
     },
     {
       "name": "connect_social_account",

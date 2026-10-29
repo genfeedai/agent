@@ -7,7 +7,7 @@ description: >-
   a pending Genfeed approval.
 license: MIT
 metadata:
-  version: "0.1.10"
+  version: "0.1.11"
 ---
 
 # Genfeed
@@ -31,7 +31,13 @@ Streamable HTTP. Preferred URL:
 
 `https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,brand,knowledge,onboarding`
 
-The bare URL lists only the bounded `default` profile (core, scheduler and content), so always use the toolset query. `find_tools` tells you which toolsets the connected server actually serves.
+The bare URL lists the bounded `default` profile (core, generation, content and scheduler). The packaged toolset query also includes analytics, brand, knowledge and onboarding. `find_tools` tells you which toolsets the connected server actually serves.
+
+## Library and missing tools
+
+Use `list_assets` to show the Library as native gallery cards. Its required `type` selects image, video, music, avatar or character; `limit` and `offset` paginate media. Use the intended brand's returned `id` as `brandId`, or omit it for the connection's current scope. Use the tool's gallery before opening the browser.
+
+If a discovered tool is absent from the client's callable tools, describe it with `find_tools` and `name`. On servers returning `connection.isListed`, true means refresh the client's MCP tools or reconnect to the same URL; false means include the returned toolset alongside the existing selection before reconnecting. On older servers, compare the server's `tools/list` with the client list. Discovery describes tools but does not load them into the client. Preserve endpoint restrictions and authentication. Reinstallation and wider permissions do not repair a stale list.
 
 OAuth, from the product connect helper:
 

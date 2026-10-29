@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 0.1.11 — 2026-10-29
+
+- Refresh the bundled catalog and acceptance inventory to the audited 151-tool source, including the clipper toolset and clip-editor actions. Acceptance rows remain untested until client evidence exists.
+- Prefer the native Library gallery, distinguish discovery from callable client tools, and document recovery from a stale client tool list.
+- Correct the default-profile description and align every client manifest and skill version.
+
 - Migrate scheduling checks and media uploads to `check_channel` and `upload_media` (`action` plus `input`) in the skill, Claude plugin skill and Gemini instructions, and refresh the tool snapshot and acceptance inventory from the monorepo actions catalog.
 - Correct Gemini account and brand discovery instructions and validate its tool references alongside the other client playbooks.
 
