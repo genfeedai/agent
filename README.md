@@ -66,6 +66,11 @@ codex mcp add genfeed --url "https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,
 codex mcp login genfeed
 ```
 
+If Genfeed discovery describes a tool that Codex cannot call, refresh the client's
+MCP tools or reconnect to the same server URL. An existing chat can retain an older
+tool list across server updates. `find_tools` describes available tools; it does
+not load them into the client. `list_assets` provides the native Library gallery.
+
 ### ChatGPT
 
 For development, enable Developer mode in Settings → Security and login, then open
