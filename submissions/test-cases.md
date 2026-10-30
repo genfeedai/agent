@@ -7,7 +7,7 @@ permission to publish to a live customer channel or spend unlimited credits.
 
 | ID | Prompt / action | Expected result |
 | --- | --- | --- |
-| P1 | “List my brands and check publishing readiness for the brand I choose.” | `get_account` and `get_brands` succeed; ask for the brand if ambiguous; call `list_brand_publishing_readiness` with a returned ID. No writes. |
+| P1 | “List my brands and check publishing readiness for the brand I choose.” | `get_account` and `get_brands` succeed; ask for the brand if ambiguous; call `get_brand_publishing_readiness` with a returned ID. No writes. |
 | P2 | “Show my content calendar and summarize recent performance.” | `get_posts` with `days` and relevant analytics tools return account-scoped results; distinguish no data from failure; do not fabricate metrics. |
 | P3 | “Prepare a LinkedIn draft for my selected brand. Do not publish.” | Inspect the live schema and call `create_post` without `confirmed`; report a pending approval if returned. Claim a saved draft only after execution and readback. Nothing is published. |
 | P4 | “Generate one image of a blue ceramic cup for my selected brand.” | Confirm the agreed credit budget, inspect balance/schema, invoke `generate` with `type: image` once, and return the actual result or job state. Poll only if a job ID is returned; never fabricate an image URL. Requires media-policy clearance for Claude public review. |
