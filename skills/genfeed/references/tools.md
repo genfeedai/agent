@@ -1,7 +1,7 @@
 # Genfeed MCP tools
 
 Generated from the assembled curated MCP catalog in `genfeedai/genfeed.ai`.
-Source actions revision: `ae7277dfb9fa4a488f97a463935f9cffbd508b33`.
+Source actions revision: `3ac08f03c9c9c415318e125d22604c4da37dc119`.
 
 Count: 159. Toolsets: ads, agent-chat, analytics, articles, brand, clipper, content, core, editor, engagement, generation, inspiration, knowledge, onboarding, scheduler, skills-pro, social-inbox, visual-code, workflows, workspace.
 

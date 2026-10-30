@@ -1,6 +1,6 @@
 {
   "sourceRepository": "genfeedai/genfeed.ai",
-  "sourceRevision": "ae7277dfb9fa4a488f97a463935f9cffbd508b33",
+  "sourceRevision": "3ac08f03c9c9c415318e125d22604c4da37dc119",
   "tools": [
     {
       "name": "compare_meta_campaigns",
