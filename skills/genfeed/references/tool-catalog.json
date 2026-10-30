@@ -1,6 +1,6 @@
 {
   "sourceRepository": "genfeedai/genfeed.ai",
-  "sourceRevision": "838ba2784fc7749fb9603d54d554ec42a6450195",
+  "sourceRevision": "fdc6a6ce22f513f08d24248feb099979daeaf1da",
   "tools": [
     {
       "name": "compare_meta_campaigns",
@@ -326,6 +326,14 @@
       "description": "Get detailed analytics for a specific video"
     },
     {
+      "name": "get_x_posts",
+      "toolset": "analytics",
+      "requiredRole": "user",
+      "required": [],
+      "mutationPolicy": "direct",
+      "description": "Read X posts. Costs 1 credit and requires confirmation. postIdOrUrl opens one post and returns its text and stats. query searches recent posts by topic through the brand's connected X account and returns author, text, stats, and link; it explains clearly if that account cannot search. Pass exactly one of postIdOrUrl or query."
+    },
+    {
       "name": "track_post_link",
       "toolset": "analytics",
       "requiredRole": "user",
@@ -505,16 +513,6 @@
       "description": "List clip projects in your organization, most recent first. Returns id, name, status, and progress for each."
     },
     {
-      "name": "open_in_editor",
-      "toolset": "clipper",
-      "requiredRole": "user",
-      "required": [
-        "sourceVideoIds"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Open existing videos in the Studio Editor. Creates a draft Editor project seeded with sourceVideoIds in order (one clip each, up to 50) and returns its id and /editor path. Does not generate, render, or publish."
-    },
-    {
       "name": "run_clipper",
       "toolset": "clipper",
       "requiredRole": "user",
@@ -571,14 +569,6 @@
       "required": [],
       "mutationPolicy": null,
       "description": "Read posts. postId returns one post (exclusive with the other fields). days returns the content calendar for the coming days: scheduled and draft posts with gap analysis showing days without content. With neither, lists recent posts, optionally filtered by executionState and capped by limit. Post items carry channel target, execution state, media, and timestamps."
-    },
-    {
-      "name": "get_x_posts",
-      "toolset": "content",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": "direct",
-      "description": "Read X posts. Costs 1 credit and requires confirmation. postIdOrUrl opens one post and returns its text and stats. query searches recent posts by topic through the brand's connected X account and returns author, text, stats, and link; it explains clearly if that account cannot search. Pass exactly one of postIdOrUrl or query."
     },
     {
       "name": "manage_campaign",
@@ -668,6 +658,44 @@
       ],
       "mutationPolicy": null,
       "description": "Approve or decline a pending MCP write action that was queued for human review, executing it on approval. Organization owners and admins only. Pass the approvalId returned by the original (pending) tool call."
+    },
+    {
+      "name": "get_editor_project",
+      "toolset": "editor",
+      "requiredRole": "user",
+      "required": [
+        "projectId"
+      ],
+      "mutationPolicy": null,
+      "description": "Get one Studio Editor project by id: tracks, clips in timeline order, render status, the rendered video id once a render finishes, and the /editor path."
+    },
+    {
+      "name": "get_editor_projects",
+      "toolset": "editor",
+      "requiredRole": "user",
+      "required": [],
+      "mutationPolicy": null,
+      "description": "List Studio Editor projects, newest first, with name, status and clip count. Open one with get_editor_project."
+    },
+    {
+      "name": "open_in_editor",
+      "toolset": "editor",
+      "requiredRole": "user",
+      "required": [
+        "sourceVideoIds"
+      ],
+      "mutationPolicy": "direct",
+      "description": "Open existing videos in the Studio Editor. Creates a draft Editor project seeded with sourceVideoIds in order (one clip each, up to 50) and returns its id and /editor path. Does not generate, render, or publish."
+    },
+    {
+      "name": "start_editor_render",
+      "toolset": "editor",
+      "requiredRole": "user",
+      "required": [
+        "projectId"
+      ],
+      "mutationPolicy": "direct",
+      "description": "Queue the render of an Editor project into a new video, the same export the Editor runs. Costs no credits. Returns the render status; check progress and the finished video with get_editor_project (status and renderedVideo). Fails if the project is already rendering or has no clips."
     },
     {
       "name": "build_prep_brief",
@@ -1535,6 +1563,50 @@
       ],
       "mutationPolicy": "direct",
       "description": "Enable, disable, or update the schedule on an editable workflow duplicate. Disabling requires no new cron expression when the workflow already has one."
+    },
+    {
+      "name": "create_task",
+      "toolset": "workspace",
+      "requiredRole": "user",
+      "required": [
+        "title"
+      ],
+      "mutationPolicy": "direct",
+      "description": "Create a workspace task. Only records the task; it does not start work, generate, or publish."
+    },
+    {
+      "name": "get_activity",
+      "toolset": "workspace",
+      "requiredRole": "user",
+      "required": [],
+      "mutationPolicy": null,
+      "description": "List recent account activity, newest first: generations, publishing and credit events. Set activeOnly to see only work still processing."
+    },
+    {
+      "name": "get_inbox",
+      "toolset": "workspace",
+      "requiredRole": "user",
+      "required": [],
+      "mutationPolicy": null,
+      "description": "List what is waiting for review in the workspace inbox: workflow review gates and queued MCP approvals. Read-only; decisions are made in the app."
+    },
+    {
+      "name": "get_task",
+      "toolset": "workspace",
+      "requiredRole": "user",
+      "required": [
+        "taskId"
+      ],
+      "mutationPolicy": null,
+      "description": "Get one workspace task by id: description, status, priority, assignee, outputs and linked content."
+    },
+    {
+      "name": "get_tasks",
+      "toolset": "workspace",
+      "requiredRole": "user",
+      "required": [],
+      "mutationPolicy": null,
+      "description": "List workspace tasks, newest first. Filter by status or priority. Returns title, status, priority and assignee for each task."
     }
   ]
 }
