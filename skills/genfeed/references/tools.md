@@ -1,7 +1,7 @@
 # Genfeed MCP tools
 
 Generated from the assembled curated MCP catalog in `genfeedai/genfeed.ai`.
-Source actions revision: `fdc6a6ce22f513f08d24248feb099979daeaf1da`.
+Source actions revision: `3ac08f03c9c9c415318e125d22604c4da37dc119`.
 
 Count: 159. Toolsets: ads, agent-chat, analytics, articles, brand, clipper, content, core, editor, engagement, generation, inspiration, knowledge, onboarding, scheduler, skills-pro, social-inbox, visual-code, workflows, workspace.
 
@@ -37,13 +37,13 @@ Approval means `mutationPolicy: 'approval-required'`. A pending approval is not 
 | `create_chat` | agent-chat | user | — | no | Start a new agent conversation |
 | `send_chat_message` | agent-chat | user | `threadId`, `message` | no | Send a message in an existing agent conversation |
 | `analyze_performance` | analytics | user | — | no | Analyze recent content performance over the last 30 days. Returns engagement rates grouped by content type, platform, and posting time, plus top-performing posts. |
+| `fetch_x_posts` | analytics | user | — | no | Read X posts. Costs 1 credit and requires confirmation. postIdOrUrl opens one post and returns its text and stats. query searches recent posts by topic through the brand's connected X account and returns author, text, stats, and link; it explains clearly if that account cannot search. Pass exactly one of postIdOrUrl or query. |
 | `get_analytics` | analytics | user | — | no | Get organization analytics, a post analytics snapshot, or analytics for the latest published post related to a selected content item. |
 | `get_content_analytics` | analytics | user | `contentId`, `contentType` | no | Get analytics for a specific piece of content (article, video, or image) |
 | `get_linkedin_analytics` | analytics | user | `contentId` | no | Get analytics for LinkedIn posts including impressions, engagement rate, reactions, comments, and shares. Requires a content ID. |
 | `get_linkedin_connection_status` | analytics | user | — | no | Check whether a LinkedIn account is connected for the current user. Returns connection status, handle, and avatar if connected. |
 | `get_trends` | analytics | user | — | no | Get trending topics and content ideas based on current trends across social media and news. |
 | `get_video_analytics` | analytics | user | `videoId` | no | Get detailed analytics for a specific video |
-| `get_x_posts` | analytics | user | — | no | Read X posts. Costs 1 credit and requires confirmation. postIdOrUrl opens one post and returns its text and stats. query searches recent posts by topic through the brand's connected X account and returns author, text, stats, and link; it explains clearly if that account cannot search. Pass exactly one of postIdOrUrl or query. |
 | `track_post_link` | analytics | user | `brandId`, `url` | no | Import an already published X or YouTube post by URL and track analytics when its author matches a connected account. LinkedIn posts and articles are saved as links without metrics until API access is approved. This never publishes content. |
 | `create_article_draft` | articles | user | `label`, `slug`, `summary`, `content` | yes | Import a complete reviewed HTML article into the connected organization as an unpublished draft. Preserves supplied content without generation. Review the draft before publishing it separately. |
 | `get_article_preview` | articles | user | `articleId` | no | Get an expiring signed preview URL for an owned article in the connected organization. Treat the URL as a bearer credential; do not send it to analytics or logs. |
@@ -93,8 +93,8 @@ Approval means `mutationPolicy: 'approval-required'`. A pending approval is not 
 | `control_remix_generation` | inspiration | user | `runId`, `expectedRevision`, `action` | yes | Cancel or resume an existing canonical video/avatar scene pipeline after approval. Image/copy control is unsupported; resume retains canonical quote and billing checks. |
 | `create_remix_concept` | inspiration | user | `brandId`, `sourcePostId` | no | Create or reuse a canonical saved remix concept from an imported source post for an explicit brand. Saving does not generate or publish. |
 | `create_storyboard_remix` | inspiration | user | `brandId`, `assetId`, `clientRequestId` | no | Create a storyboard run from an owned Library video. Does not generate, quote, or charge credits. |
-| `get_instagram_inspiration` | inspiration | user | — | no | Discover public Instagram accounts and content patterns relevant to the selected brand niche. |
-| `get_instagram_inspiration_detail` | inspiration | user | `username` | no | Fetch latest or top public posts from one Instagram account and return provenance plus abstract hook, format, pacing, and style signals. |
+| `fetch_instagram_inspiration` | inspiration | user | — | no | Discover public Instagram accounts and content patterns relevant to the selected brand niche. |
+| `fetch_instagram_inspiration_detail` | inspiration | user | `username` | no | Fetch latest or top public posts from one Instagram account and return provenance plus abstract hook, format, pacing, and style signals. |
 | `get_remix_run` | inspiration | user | `runId` | no | Read the canonical remix revision, source lineage, saved concept, quotes, scene state, receipts and generated artifacts. Safe to repeat after reconnecting. |
 | `get_tiktok_top_performers` | inspiration | user | `credentialId`, `adAccountId` | no | Get top performing TikTok ads sorted by a specific metric (CTR, CPC, spend, etc.) |
 | `import_source_post` | inspiration | user | `brandId`, `url` | yes | Import a supported public X, Instagram or TikTok post into Imported sources for an explicit brand. Returns source/post identities and deduplication. Requires approval for external import; never generates, publishes or adds Knowledge. |
@@ -135,9 +135,9 @@ Approval means `mutationPolicy: 'approval-required'`. A pending approval is not 
 | `approve_social_draft` | social-inbox | user | `conversationId`, `messageId` | yes | Approve a social inbox draft and publish it externally as a reply or DM. Requires approval before execution. |
 | `assign_social_conversation` | social-inbox | user | `conversationId` | no | Assign or unassign a social inbox conversation. |
 | `create_social_reply_draft` | social-inbox | user | `conversationId`, `text` | no | Create a draft reply or DM in the social inbox for later approval. This does not send externally. |
+| `fetch_x_account_activity` | social-inbox | user | — | no | List recent posts from an X account. Uses the brand's connected account when no username is given. |
 | `get_social_conversation` | social-inbox | user | `conversationId` | no | Get one social inbox conversation and, by default, its recent messages. |
 | `get_social_conversations` | social-inbox | user | — | no | List social inbox conversations across connected YouTube and Instagram accounts, with filters for review state, assignee, tags, and platform. |
-| `get_x_account_activity` | social-inbox | user | — | no | List recent posts from an X account. Uses the brand's connected account when no username is given. |
 | `mark_social_conversation_resolved` | social-inbox | user | `conversationId` | no | Mark a social inbox conversation as resolved. |
 | `post_social_reply` | social-inbox | user | `conversationId`, `text` | yes | Publish a reply in a social inbox conversation. Requires approval before execution. |
 | `reject_social_draft` | social-inbox | user | `conversationId`, `messageId` | no | Reject a social inbox draft without publishing it externally. |

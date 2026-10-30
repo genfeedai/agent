@@ -1,6 +1,6 @@
 {
   "sourceRepository": "genfeedai/genfeed.ai",
-  "sourceRevision": "fdc6a6ce22f513f08d24248feb099979daeaf1da",
+  "sourceRevision": "3ac08f03c9c9c415318e125d22604c4da37dc119",
   "tools": [
     {
       "name": "compare_meta_campaigns",
@@ -271,6 +271,14 @@
       "description": "Analyze recent content performance over the last 30 days. Returns engagement rates grouped by content type, platform, and posting time, plus top-performing posts."
     },
     {
+      "name": "fetch_x_posts",
+      "toolset": "analytics",
+      "requiredRole": "user",
+      "required": [],
+      "mutationPolicy": "direct",
+      "description": "Read X posts. Costs 1 credit and requires confirmation. postIdOrUrl opens one post and returns its text and stats. query searches recent posts by topic through the brand's connected X account and returns author, text, stats, and link; it explains clearly if that account cannot search. Pass exactly one of postIdOrUrl or query."
+    },
+    {
       "name": "get_analytics",
       "toolset": "analytics",
       "requiredRole": "user",
@@ -324,14 +332,6 @@
       ],
       "mutationPolicy": null,
       "description": "Get detailed analytics for a specific video"
-    },
-    {
-      "name": "get_x_posts",
-      "toolset": "analytics",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": "direct",
-      "description": "Read X posts. Costs 1 credit and requires confirmation. postIdOrUrl opens one post and returns its text and stats. query searches recent posts by topic through the brand's connected X account and returns author, text, stats, and link; it explains clearly if that account cannot search. Pass exactly one of postIdOrUrl or query."
     },
     {
       "name": "track_post_link",
@@ -822,21 +822,21 @@
       "description": "Create a storyboard run from an owned Library video. Does not generate, quote, or charge credits."
     },
     {
-      "name": "get_instagram_inspiration",
+      "name": "fetch_instagram_inspiration",
       "toolset": "inspiration",
       "requiredRole": "user",
       "required": [],
-      "mutationPolicy": null,
+      "mutationPolicy": "direct",
       "description": "Discover public Instagram accounts and content patterns relevant to the selected brand niche."
     },
     {
-      "name": "get_instagram_inspiration_detail",
+      "name": "fetch_instagram_inspiration_detail",
       "toolset": "inspiration",
       "requiredRole": "user",
       "required": [
         "username"
       ],
-      "mutationPolicy": null,
+      "mutationPolicy": "direct",
       "description": "Fetch latest or top public posts from one Instagram account and return provenance plus abstract hook, format, pacing, and style signals."
     },
     {
@@ -1257,6 +1257,14 @@
       "description": "Create a draft reply or DM in the social inbox for later approval. This does not send externally."
     },
     {
+      "name": "fetch_x_account_activity",
+      "toolset": "social-inbox",
+      "requiredRole": "user",
+      "required": [],
+      "mutationPolicy": "direct",
+      "description": "List recent posts from an X account. Uses the brand's connected account when no username is given."
+    },
+    {
       "name": "get_social_conversation",
       "toolset": "social-inbox",
       "requiredRole": "user",
@@ -1273,14 +1281,6 @@
       "required": [],
       "mutationPolicy": null,
       "description": "List social inbox conversations across connected YouTube and Instagram accounts, with filters for review state, assignee, tags, and platform."
-    },
-    {
-      "name": "get_x_account_activity",
-      "toolset": "social-inbox",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": "direct",
-      "description": "List recent posts from an X account. Uses the brand's connected account when no username is given."
     },
     {
       "name": "mark_social_conversation_resolved",
