@@ -17,7 +17,7 @@ The MCP server is hosted. This skill is the playbook. Tool names, arguments, and
 ## Hard rules
 
 1. Authenticate first. If a call returns 401, stop. Do not search the filesystem, the environment, or the chat for a credential. Do not put a key, token, or secret in the URL. OAuth is the default. An API key is sent only as an `Authorization: Bearer` header, after the user creates one with `genfeed login` and `genfeed keys create -n "<label>" -p mcp` (`gf` is the same CLI).
-2. Never guess a brand or a channel. Call `get_brands` and pass the selected brand's returned `id` as `brandId`. Take `credentialId` from `list_brand_publishing_readiness` for a brand that is already connected, and from `get_connection_status` while polling a connection you just started. `get_connection_status` and `connect_social_account` belong to `onboarding`, included in this package’s profile. If a connected client still lacks them, check its profile and permissions and report the limitation. The user can connect the channel at app.genfeed.ai and re-run `list_brand_publishing_readiness`. Do not invent either id.
+2. Never guess a brand or a channel. Call `get_brands` and pass the selected brand's returned `id` as `brandId`. Take `credentialId` from `get_brand_publishing_readiness` for a brand that is already connected, and from `get_connection_status` while polling a connection you just started. `get_connection_status` and `connect_social_account` belong to `onboarding`, included in this package’s profile. If a connected client still lacks them, check its profile and permissions and report the limitation. The user can connect the channel at app.genfeed.ai and re-run `get_brand_publishing_readiness`. Do not invent either id.
 3. Before scheduling, call `check_channel` with `action: capabilities` and `input: {platform}`, then `action: validate` with the proposed target in `input`. Do not schedule a target that comes back with errors.
 4. Headless publishing goes through `create_scheduled_release`, `get_scheduled_release`, and `control_scheduled_release`. `create_post` is a draft tool. Never set its `confirmed` flag. An MCP client does not render the publish card that flag expects.
 5. Media comes from `generate` with `type` set to `image`, `video`, `voice`, or `music`, or from a URL the user already has. Inspect `get_generation_options` before choosing models, settings or a credit budget. Local-file uploads use `upload_media` with `action: request` and the file details in `input`, transfer bytes to the returned upload URL using its method and headers (`PUT` for bytes or `POST_JSON` for `localUpload` with base64 bytes in `localUpload.source.data`), then `upload_media` with `action: complete` and `input: {assetId}`; never invent an asset ID or URL.
@@ -35,7 +35,7 @@ The bare URL lists the bounded `default` profile (core, generation, content and 
 
 ## Library and missing tools
 
-Use `list_assets` to show the Library as native gallery cards. Its required `type` selects image, video, music, avatar or character; `limit` and `offset` paginate media. Use the intended brand's returned `id` as `brandId`, or omit it for the connection's current scope. Use the tool's gallery before opening the browser.
+Use `get_assets` to show the Library as native gallery cards. Its required `type` selects image, video, music, avatar or character; `limit` and `offset` paginate media. Use the intended brand's returned `id` as `brandId`, or omit it for the connection's current scope. Use the tool's gallery before opening the browser.
 
 If a discovered tool is absent from the client's callable tools, describe it with `find_tools` and `name`. On servers returning `connection.isListed`, true means refresh the client's MCP tools or reconnect to the same URL; false means include the returned toolset alongside the existing selection before reconnecting. On older servers, compare the server's `tools/list` with the client list. Discovery describes tools but does not load them into the client. Preserve endpoint restrictions and authentication. Reinstallation and wider permissions do not repair a stale list.
 
@@ -50,7 +50,7 @@ API key, only when the client has no OAuth. The user runs `genfeed login`, then 
 ## Schedule
 
 1. `get_brands`, then keep `brandId`.
-2. `list_brand_publishing_readiness` with that `brandId`. Keep `credentialId` for a healthy channel. If the user still needs to connect, start `connect_social_account` or `initiate_oauth_connect` and poll `get_connection_status`.
+2. `get_brand_publishing_readiness` with that `brandId`. Keep `credentialId` for a healthy channel. If the user still needs to connect, start `connect_social_account` or `initiate_oauth_connect` and poll `get_connection_status`.
 3. `check_channel` with `action: capabilities` and `input: {platform}`, then `action: validate` with the target in `input`.
 4. `get_account` with `include: ["credits"]` when this is one of several posts.
 5. `create_scheduled_release` with `release.title`, `release.baseContent`, `release.timezone`, and `release.targets` (`credentialId`, `platform`). Pass `idempotencyKey` on retries.

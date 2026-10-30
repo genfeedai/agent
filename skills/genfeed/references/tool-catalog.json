@@ -50,6 +50,14 @@
       "description": "Get performance insights for one ad set on any connected ads platform (Meta ad set, Google Ads ad group, TikTok ad group, or X ad group) through the platform-generic ads gateway"
     },
     {
+      "name": "get_ads_research",
+      "toolset": "ads",
+      "requiredRole": "user",
+      "required": [],
+      "mutationPolicy": null,
+      "description": "List top-performing public and connected ads by niche, platform, source, metric, and timeframe."
+    },
+    {
       "name": "get_google_ads_adgroup_insights",
       "toolset": "ads",
       "requiredRole": "user",
@@ -72,6 +80,24 @@
       "description": "Get detailed metrics for a Google Ads campaign including impressions, clicks, cost, conversions, CTR, and CPC"
     },
     {
+      "name": "get_google_ads_campaigns",
+      "toolset": "ads",
+      "requiredRole": "user",
+      "required": [
+        "customerId"
+      ],
+      "mutationPolicy": null,
+      "description": "List Google Ads campaigns with optional status filter"
+    },
+    {
+      "name": "get_google_ads_customers",
+      "toolset": "ads",
+      "requiredRole": "user",
+      "required": [],
+      "mutationPolicy": null,
+      "description": "List accessible Google Ads customer accounts"
+    },
+    {
       "name": "get_google_ads_keyword_performance",
       "toolset": "ads",
       "requiredRole": "user",
@@ -91,6 +117,24 @@
       ],
       "mutationPolicy": null,
       "description": "Get search terms report showing actual search queries that triggered your ads"
+    },
+    {
+      "name": "get_meta_ad_accounts",
+      "toolset": "ads",
+      "requiredRole": "user",
+      "required": [],
+      "mutationPolicy": null,
+      "description": "List connected Meta (Facebook) ad accounts"
+    },
+    {
+      "name": "get_meta_ad_creatives",
+      "toolset": "ads",
+      "requiredRole": "user",
+      "required": [
+        "adAccountId"
+      ],
+      "mutationPolicy": null,
+      "description": "List creative assets (headlines, body text, CTAs, images) for Meta ads"
     },
     {
       "name": "get_meta_ad_insights",
@@ -123,6 +167,16 @@
       "description": "Get detailed performance insights for a Meta ad campaign including spend, impressions, clicks, CTR, CPC, CPM, and conversions"
     },
     {
+      "name": "get_meta_campaigns",
+      "toolset": "ads",
+      "requiredRole": "user",
+      "required": [
+        "adAccountId"
+      ],
+      "mutationPolicy": null,
+      "description": "List Meta ad campaigns with optional status filter and pagination"
+    },
+    {
       "name": "get_meta_top_performers",
       "toolset": "ads",
       "requiredRole": "user",
@@ -132,6 +186,39 @@
       ],
       "mutationPolicy": null,
       "description": "Get top performing Meta ads sorted by a specific metric (CTR, ROAS, CPC, etc.)"
+    },
+    {
+      "name": "get_tiktok_ad_accounts",
+      "toolset": "ads",
+      "requiredRole": "user",
+      "required": [
+        "credentialId"
+      ],
+      "mutationPolicy": null,
+      "description": "List TikTok advertiser accounts for a connected credential"
+    },
+    {
+      "name": "get_tiktok_adgroups",
+      "toolset": "ads",
+      "requiredRole": "user",
+      "required": [
+        "credentialId",
+        "adAccountId",
+        "campaignId"
+      ],
+      "mutationPolicy": null,
+      "description": "List TikTok ad groups within a campaign"
+    },
+    {
+      "name": "get_tiktok_ads",
+      "toolset": "ads",
+      "requiredRole": "user",
+      "required": [
+        "credentialId",
+        "adAccountId"
+      ],
+      "mutationPolicy": null,
+      "description": "List TikTok ads, optionally narrowed to a single ad group. Returns creative details alongside each ad"
     },
     {
       "name": "get_tiktok_campaign_insights",
@@ -146,94 +233,7 @@
       "description": "Get detailed performance insights for a TikTok ad campaign including spend, impressions, clicks, CTR, CPC, CPM, and conversions"
     },
     {
-      "name": "list_ads_research",
-      "toolset": "ads",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "List top-performing public and connected ads by niche, platform, source, metric, and timeframe."
-    },
-    {
-      "name": "list_google_ads_campaigns",
-      "toolset": "ads",
-      "requiredRole": "user",
-      "required": [
-        "customerId"
-      ],
-      "mutationPolicy": null,
-      "description": "List Google Ads campaigns with optional status filter"
-    },
-    {
-      "name": "list_google_ads_customers",
-      "toolset": "ads",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "List accessible Google Ads customer accounts"
-    },
-    {
-      "name": "list_meta_ad_accounts",
-      "toolset": "ads",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "List connected Meta (Facebook) ad accounts"
-    },
-    {
-      "name": "list_meta_ad_creatives",
-      "toolset": "ads",
-      "requiredRole": "user",
-      "required": [
-        "adAccountId"
-      ],
-      "mutationPolicy": null,
-      "description": "List creative assets (headlines, body text, CTAs, images) for Meta ads"
-    },
-    {
-      "name": "list_meta_campaigns",
-      "toolset": "ads",
-      "requiredRole": "user",
-      "required": [
-        "adAccountId"
-      ],
-      "mutationPolicy": null,
-      "description": "List Meta ad campaigns with optional status filter and pagination"
-    },
-    {
-      "name": "list_tiktok_ad_accounts",
-      "toolset": "ads",
-      "requiredRole": "user",
-      "required": [
-        "credentialId"
-      ],
-      "mutationPolicy": null,
-      "description": "List TikTok advertiser accounts for a connected credential"
-    },
-    {
-      "name": "list_tiktok_adgroups",
-      "toolset": "ads",
-      "requiredRole": "user",
-      "required": [
-        "credentialId",
-        "adAccountId",
-        "campaignId"
-      ],
-      "mutationPolicy": null,
-      "description": "List TikTok ad groups within a campaign"
-    },
-    {
-      "name": "list_tiktok_ads",
-      "toolset": "ads",
-      "requiredRole": "user",
-      "required": [
-        "credentialId",
-        "adAccountId"
-      ],
-      "mutationPolicy": null,
-      "description": "List TikTok ads, optionally narrowed to a single ad group. Returns creative details alongside each ad"
-    },
-    {
-      "name": "list_tiktok_campaigns",
+      "name": "get_tiktok_campaigns",
       "toolset": "ads",
       "requiredRole": "user",
       "required": [
@@ -497,7 +497,7 @@
       "description": "Read a clip project by ID: status, progress, highlights, and generated clip results (with playable video URLs when ready). Poll this after analyze or generate."
     },
     {
-      "name": "list_clipper_projects",
+      "name": "get_clipper_projects",
       "toolset": "clipper",
       "requiredRole": "user",
       "required": [],
@@ -678,7 +678,7 @@
       "description": "Build a cited preparation brief for a brand, a campaign or a topic. Every fact comes from a stored record and carries its citation: Knowledge passages (source and version), memories, recent published posts and recent performance totals. Evidence it could not find is listed as missing, and follow-up suggestions only point to existing screens. It writes nothing and changes nothing."
     },
     {
-      "name": "list_stalled_items",
+      "name": "get_stalled_items",
       "toolset": "engagement",
       "requiredRole": "user",
       "required": [],
@@ -708,15 +708,7 @@
       "description": "Generate an image, video, voice (text-to-speech) or music track. Set type; a parameter marked for another type is rejected. For model, pass a key from get_generation_options models, or omit it so the router picks. Image and video results include generationHarness with the exact submitted prompt and enhancement status: show that prompt with the result instead of reconstructing it. Image and video require a resolved model-specific quote and confirmation. The endpoint bills the prepared request; an unresolved quote never means free generation. Variable cost: 10\u2013300 credits per generation."
     },
     {
-      "name": "get_generation_options",
-      "toolset": "generation",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "Read what generation can do right now, for free and without paid confirmation. models is always returned: this account's callable catalog. Pass an image, video or music models key as generate.model, and an image-edit key as transform_media.model. Voice rows are not generate.model; voice generation uses voiceId. settings is the effective image/video prompt enhancement with organization or brand overrides, always returned. cost is the Studio credit estimate and organization balance, only when type is given. Returns the same catalog estimate the Generate composer shows and the same Genfeed balance as the credits bar. Does not charge credits, change a price, or authorize a generation. Omit modelKey, or pass Auto, for image, image-edit and video estimate status auto. Music Auto quotes the registry music default. Voice, unsupported, missing or unpriced models return estimate status unavailable with credits null. balance is null when the wallet cannot be read; a numeric 0 is a real empty balance. Threaded Agent calls use the validated current thread brand; brandId must match it. In threadless MCP calls, brandId selects the brand scope for settings."
-    },
-    {
-      "name": "list_assets",
+      "name": "get_assets",
       "toolset": "generation",
       "requiredRole": "user",
       "required": [
@@ -724,6 +716,14 @@
       ],
       "mutationPolicy": null,
       "description": "List library assets of one type, newest first, for one brand: brandId, else the thread brand, else your current brand; with none of those it lists the whole organization. Failed, archived and rejected assets are left out. Types image, video, music and avatar return id, category, status, url, label or prompt, origin, tags (id and label) and createdAt. Type character lists the active named characters the brand can use, including characters another organization granted to yours for use only (handle, label, description, whether a reference image exists, and who granted it). A revoked grant disappears on the next call."
+    },
+    {
+      "name": "get_generation_options",
+      "toolset": "generation",
+      "requiredRole": "user",
+      "required": [],
+      "mutationPolicy": null,
+      "description": "Read what generation can do right now, for free and without paid confirmation. models is always returned: this account's callable catalog. Pass an image, video or music models key as generate.model, and an image-edit key as transform_media.model. Voice rows are not generate.model; voice generation uses voiceId. settings is the effective image/video prompt enhancement with organization or brand overrides, always returned. cost is the Studio credit estimate and organization balance, only when type is given. Returns the same catalog estimate the Generate composer shows and the same Genfeed balance as the credits bar. Does not charge credits, change a price, or authorize a generation. Omit modelKey, or pass Auto, for image, image-edit and video estimate status auto. Music Auto quotes the registry music default. Voice, unsupported, missing or unpriced models return estimate status unavailable with credits null. balance is null when the wallet cannot be read; a numeric 0 is a real empty balance. Threaded Agent calls use the validated current thread brand; brandId must match it. In threadless MCP calls, brandId selects the brand scope for settings."
     },
     {
       "name": "set_generation_settings",
@@ -794,6 +794,14 @@
       "description": "Create a storyboard run from an owned Library video. Does not generate, quote, or charge credits."
     },
     {
+      "name": "get_instagram_inspiration",
+      "toolset": "inspiration",
+      "requiredRole": "user",
+      "required": [],
+      "mutationPolicy": null,
+      "description": "Discover public Instagram accounts and content patterns relevant to the selected brand niche."
+    },
+    {
       "name": "get_instagram_inspiration_detail",
       "toolset": "inspiration",
       "requiredRole": "user",
@@ -834,14 +842,6 @@
       ],
       "mutationPolicy": "approval-required",
       "description": "Import a supported public X, Instagram or TikTok post into Imported sources for an explicit brand. Returns source/post identities and deduplication. Requires approval for external import; never generates, publishes or adds Knowledge."
-    },
-    {
-      "name": "list_instagram_inspiration",
-      "toolset": "inspiration",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "Discover public Instagram accounts and content patterns relevant to the selected brand niche."
     },
     {
       "name": "quote_remix_generation",
@@ -965,7 +965,7 @@
       "description": "Report whether the context behind an answer is complete: per source family (Knowledge by purpose, social connections) whether it is available, partial, stale, disconnected, failed or empty, with the last success time and recovery steps. Call it when a search returns nothing or before claiming something does not exist."
     },
     {
-      "name": "list_knowledge_sources",
+      "name": "get_knowledge_sources",
       "toolset": "knowledge",
       "requiredRole": "user",
       "required": [],
@@ -1021,6 +1021,14 @@
       "description": "Get connection status for a social platform or a durable connection request id. Safe to poll."
     },
     {
+      "name": "get_orgs",
+      "toolset": "onboarding",
+      "requiredRole": "user",
+      "required": [],
+      "mutationPolicy": null,
+      "description": "List every organization you belong to, which one this connection works inside, and the brands in it. get_account, get_brands and every other tool act only in the active organization. When the connection allows switching, use switch_org to change it; otherwise reconnect and choose another on the consent screen."
+    },
+    {
       "name": "initiate_oauth_connect",
       "toolset": "onboarding",
       "requiredRole": "user",
@@ -1031,14 +1039,6 @@
       "description": "Start connecting a social account and return a durable connection request plus a connect button."
     },
     {
-      "name": "list_orgs",
-      "toolset": "onboarding",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "List every organization you belong to, which one this connection works inside, and the brands in it. get_account, get_brands and every other tool act only in the active organization. When the connection allows switching, use switch_org to change it; otherwise reconnect and choose another on the consent screen."
-    },
-    {
       "name": "switch_org",
       "toolset": "onboarding",
       "requiredRole": "user",
@@ -1046,7 +1046,7 @@
         "organization"
       ],
       "mutationPolicy": "direct",
-      "description": "Switch which organization this connection works inside, by its name, slug or id from list_orgs. Only available when the connection was approved with organization switching on. Your role in the organization is checked on every request."
+      "description": "Switch which organization this connection works inside, by its name, slug or id from get_orgs. Only available when the connection was approved with organization switching on. Your role in the organization is checked on every request."
     },
     {
       "name": "check_channel",
@@ -1080,6 +1080,16 @@
       "description": "Create a multi-channel release from prepared content and existing media. Use after check_channel(action=validate) for each channel. status draft (the default) saves for review; status scheduled or a scheduledDate requests future publishing, including recurring releases. Scheduling waits for server-enforced approval. If this connection cannot resolve approvals, review and release it in Genfeed."
     },
     {
+      "name": "get_brand_publishing_readiness",
+      "toolset": "scheduler",
+      "requiredRole": "user",
+      "required": [
+        "brandId"
+      ],
+      "mutationPolicy": null,
+      "description": "List a brand connected publishing channels with credential ID, schedulability, health, and diagnostics. Read-only; check before scheduling."
+    },
+    {
       "name": "get_scheduled_release",
       "toolset": "scheduler",
       "requiredRole": "user",
@@ -1088,16 +1098,6 @@
       ],
       "mutationPolicy": null,
       "description": "Get one scheduled release by ID: channel targets, validation/execution state, attachments, recurrence, and transition history."
-    },
-    {
-      "name": "list_brand_publishing_readiness",
-      "toolset": "scheduler",
-      "requiredRole": "user",
-      "required": [
-        "brandId"
-      ],
-      "mutationPolicy": null,
-      "description": "List a brand connected publishing channels with credential ID, schedulability, health, and diagnostics. Read-only; check before scheduling."
     },
     {
       "name": "update_scheduled_release",
@@ -1239,7 +1239,7 @@
       "description": "Get one social inbox conversation and, by default, its recent messages."
     },
     {
-      "name": "list_social_conversations",
+      "name": "get_social_conversations",
       "toolset": "social-inbox",
       "requiredRole": "user",
       "required": [],
@@ -1247,7 +1247,7 @@
       "description": "List social inbox conversations across connected YouTube and Instagram accounts, with filters for review state, assignee, tags, and platform."
     },
     {
-      "name": "list_x_account_activity",
+      "name": "get_x_account_activity",
       "toolset": "social-inbox",
       "requiredRole": "user",
       "required": [],
@@ -1454,6 +1454,14 @@
       "description": "Execute an existing workflow immediately. Select nodeIds to rerun edited steps while reusing locked outputs; pass required variables for full or partial execution."
     },
     {
+      "name": "get_system_workflow_catalog",
+      "toolset": "workflows",
+      "requiredRole": "user",
+      "required": [],
+      "mutationPolicy": null,
+      "description": "List the code-owned Genfeed system workflow catalog with per-organization install state. Use this to discover official automations before installing one."
+    },
+    {
       "name": "get_workflow_run",
       "toolset": "workflows",
       "requiredRole": "user",
@@ -1464,6 +1472,14 @@
       "description": "Inspect a single workflow run, including status, trigger, node results, progress, timing, errors, and metadata."
     },
     {
+      "name": "get_workflow_runs",
+      "toolset": "workflows",
+      "requiredRole": "user",
+      "required": [],
+      "mutationPolicy": null,
+      "description": "List workflow run history with optional workflow, status, trigger, limit, and offset filters."
+    },
+    {
       "name": "get_workflow_status",
       "toolset": "workflows",
       "requiredRole": "user",
@@ -1472,6 +1488,22 @@
       ],
       "mutationPolicy": null,
       "description": "Get the current status and progress of a workflow, including step completion details."
+    },
+    {
+      "name": "get_workflow_templates",
+      "toolset": "workflows",
+      "requiredRole": "user",
+      "required": [],
+      "mutationPolicy": null,
+      "description": "List available workflow templates that can be used to quickly create new workflows."
+    },
+    {
+      "name": "get_workflows",
+      "toolset": "workflows",
+      "requiredRole": "user",
+      "required": [],
+      "mutationPolicy": null,
+      "description": "List all workflows in your organization with optional status filtering."
     },
     {
       "name": "inspect_workflow",
@@ -1492,38 +1524,6 @@
       ],
       "mutationPolicy": "direct",
       "description": "Install one system workflow catalog entry into the current organization as an editable, schedulable copy. Installing the same entry twice returns the existing workflow."
-    },
-    {
-      "name": "list_system_workflow_catalog",
-      "toolset": "workflows",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "List the code-owned Genfeed system workflow catalog with per-organization install state. Use this to discover official automations before installing one."
-    },
-    {
-      "name": "list_workflow_runs",
-      "toolset": "workflows",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "List workflow run history with optional workflow, status, trigger, limit, and offset filters."
-    },
-    {
-      "name": "list_workflow_templates",
-      "toolset": "workflows",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "List available workflow templates that can be used to quickly create new workflows."
-    },
-    {
-      "name": "list_workflows",
-      "toolset": "workflows",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "List all workflows in your organization with optional status filtering."
     },
     {
       "name": "set_workflow_schedule",
