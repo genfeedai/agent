@@ -1,5 +1,6 @@
 """Refresh the public tool snapshot from a clean monorepo actions catalog."""
 import argparse
+import csv
 import json
 from pathlib import Path
 import subprocess
@@ -28,6 +29,36 @@ def render_tools(catalog):
     return '\n'.join(lines) + '\n'
 
 
+def sync_acceptance(catalog, path):
+    """Keep one worksheet row per tool; rows of tools that stay keep their recorded results."""
+    with path.open(newline='') as file:
+        reader = csv.DictReader(file)
+        fields = reader.fieldnames
+        existing = {row['tool']: row for row in reader}
+    rows = []
+    for tool in catalog['tools']:
+        row = existing.get(tool['name']) or {
+            **dict.fromkeys(fields, ''),
+            'tool': tool['name'],
+            'inventory_source': 'repository snapshot; reconcile to authenticated scan',
+            'verdict': 'NOT RUN',
+        }
+        row['catalog_toolset'] = tool['toolset']
+        row['catalog_approval'] = 'yes' if tool['mutationPolicy'] == 'approval-required' else 'no'
+        rows.append(row)
+    with path.open('w', newline='') as file:
+        writer = csv.DictWriter(file, fieldnames=fields, lineterminator='\n')
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def tool_names(path):
+    try:
+        return {tool['name'] for tool in json.loads(path.read_text())['tools']}
+    except (OSError, ValueError, KeyError):
+        return set()
+
+
 def refresh(monorepo):
     monorepo = monorepo.resolve()
     dirty = subprocess.check_output(
@@ -54,9 +85,14 @@ def refresh(monorepo):
     tools.sort(key=lambda tool: (tool['toolset'], tool['name']))
     catalog = {'sourceRepository': 'genfeedai/genfeed.ai', 'sourceRevision': revision, 'tools': tools}
     reference = ROOT / 'skills/genfeed/references'
+    before = tool_names(reference / 'tool-catalog.json')
     (reference / 'tool-catalog.json').write_text(json.dumps(catalog, indent=2) + '\n')
     (reference / 'tools.md').write_text(render_tools(catalog))
+    sync_acceptance(catalog, ROOT / 'submissions/tool-acceptance.csv')
+    after = {tool['name'] for tool in tools}
     print(f'Refreshed {len(tools)} MCP tools from actions revision {revision}.')
+    print('Added: ' + (', '.join(sorted(after - before)) or 'none'))
+    print('Removed: ' + (', '.join(sorted(before - after)) or 'none'))
 
 
 if __name__ == '__main__':

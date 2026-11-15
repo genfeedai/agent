@@ -4,7 +4,7 @@ This repository packages Genfeed for AI agents: the playbook skill, client manif
 and the MCP Registry entry. The server lives in `genfeedai/genfeed.ai` at
 `apps/server/mcp` and is hosted at `https://mcp.genfeed.ai/mcp`.
 
-- Do not invent tool names. `skills/genfeed/references/tools.md` is generated from the monorepo curated catalog. Live schemas and caller permissions take precedence over this snapshot.
+- Do not invent tool names. `skills/genfeed/references/tools.md` is generated from the monorepo curated catalog. Live schemas and caller permissions take precedence over this snapshot. `python3 scripts/refresh_tools.py <main repo checkout>` regenerates it (check out the latest release first); the `tool-snapshot` workflow fails daily when it is behind that release.
 - Never commit credentials or put them in URLs. Reviewer credentials belong only in the platform's private submission fields.
 - Root `plugin.json` is the release-version authority. Match every client manifest and skill `metadata.version` to it.
 - `create_post` stays a draft tool. Publishing uses scheduler tools and existing approval gates. Do not weaken those gates through skill wording.
