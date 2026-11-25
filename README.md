@@ -31,7 +31,7 @@ See [the playbook](skills/genfeed/SKILL.md) and [reviewer setup](submissions/rev
 
 Requires Claude Code 2.1.275 or newer. On older versions, run `/plugin marketplace add genfeedai/agent`, then `/plugin install genfeed@genfeed`.
 
-The Claude plugin lives in `plugins/claude` and loads only its content-operations playbook and `https://mcp.genfeed.ai/mcp/claude` connector. Create images, video and audio in [Genfeed Studio](https://app.genfeed.ai/studio/generate). Open `/mcp`, select Genfeed, and
+The Claude plugin lives in `plugins/claude` and loads only its content-operations playbook and `https://mcp.genfeed.ai/mcp/claude` connector. It does not generate images, video or audio. Open `/mcp`, select Genfeed, and
 complete OAuth. Direct MCP-only alternative:
 
 ```bash
@@ -84,7 +84,7 @@ local testing, use OpenAI's registered connection workflow in
 
 ### Claude chat / Cowork
 
-Add a custom remote connector using `https://mcp.genfeed.ai/mcp/claude` and complete browser OAuth. Use brands, drafts, existing assets, scheduling and analytics here; create media separately in Genfeed Studio. Install the dedicated Claude playbook where plugins are supported. Read [Claude’s guide](submissions/claude.md) for the separate plugin and connector submissions.
+Add a custom remote connector using `https://mcp.genfeed.ai/mcp/claude` and complete browser OAuth. Use brands, drafts, existing assets, scheduling and analytics here. This connector does not generate media. Install the dedicated Claude playbook where plugins are supported. Read [Claude’s guide](submissions/claude.md) for the separate plugin and connector submissions.
 
 ### Grok
 
@@ -152,6 +152,6 @@ acceptance or directory approval. License: [MIT](LICENSE).
 
 ### Claude content connector
 
-Claude, Claude Code and Cowork use the dedicated content connector at `https://mcp.genfeed.ai/mcp/claude` for brands, drafts, existing assets, scheduling and analytics. Create media in Genfeed Studio. This server restriction follows the OAuth grant and cannot be removed by changing toolsets or transports. The standalone skills-only package and other clients retain the full creative playbook; Claude users should install the dedicated Claude plugin.
+Claude, Claude Code and Cowork use the dedicated content connector at `https://mcp.genfeed.ai/mcp/claude` for brands, drafts, existing assets, scheduling and analytics. This connector does not generate media. This server restriction follows the OAuth grant and cannot be removed by changing toolsets or transports. The standalone skills-only package and other clients retain the full creative playbook; Claude users should install the dedicated Claude plugin.
 
 The endpoint must be deployed and verified before submitting the directory listing. Public approval/publication is not claimed by this package.

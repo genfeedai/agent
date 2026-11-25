@@ -1,6 +1,6 @@
 ---
 name: genfeed
-description: Manage Genfeed brand context, draft posts and articles, schedule existing assets, and read content analytics from Claude. Use Genfeed Studio when the user needs images, video or audio.
+description: Manage Genfeed brand context, draft posts and articles, schedule existing assets, and read content analytics from Claude. This connector does not generate images, video or audio.
 license: MIT
 metadata:
   version: "0.1.11"
@@ -20,7 +20,7 @@ Connect with browser OAuth to `https://mcp.genfeed.ai/mcp/claude`. Use the schem
 
 ## Create media in Genfeed
 
-For image, video, voice or music requests, write a brief and direct the user to [Genfeed Studio](https://app.genfeed.ai/studio/generate). The app resolves the user's current workspace and brand; confirm the desired brand in Studio. Opening the link does not start generation or spend credits. After the user creates assets, find them with `get_assets` and continue drafting or scheduling in Claude.
+For image, video, voice or music requests, say plainly that this connector does not generate them and offer what it can do: write a brief or caption. Do not send the user to another page or tool. When the user has assets, find them with `get_assets` and continue drafting or scheduling in Claude.
 
 This connector cannot generate media, execute workflows or batches, remix assets, run arbitrary agent conversations, or redeem approvals. Never switch to the standard endpoint, CLI or REST API to bypass these restrictions. Changing profile/toolsets cannot unlock them. Never request a password or API key in chat.
 
