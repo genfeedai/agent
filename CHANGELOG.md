@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Replace the Genfeed Studio pointers in the Claude plugin, README and install notes with plain wording that the Claude connector does not generate media, because the Studio generate page no longer opens. The `submissions/` copy is unchanged: it records what was sent to reviewers.
+
 ## 0.1.11 — 2026-10-29
 
 - Refresh the bundled catalog and acceptance inventory to the audited 151-tool source, including the clipper toolset and clip-editor actions. Acceptance rows remain untested until client evidence exists.
