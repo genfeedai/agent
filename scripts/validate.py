@@ -23,6 +23,15 @@ URL_PATTERN = re.compile(r'https?://[^\s)\]>"\x27`]+')
 CREDENTIAL_PATTERN = re.compile(
     r'gf_(?:live|test)_|(?:[?&#])(?:api[_-]?key|access[_-]?token|refresh[_-]?token|token|key|secret|password)=|://[^/\s:]+:[^/\s@]+@', re.I
 )
+# Hand-written files that tell an agent or a reviewer which tools to call. Every
+# backticked snake_case name in them must be a tool in the catalog snapshot.
+PLAYBOOKS = (
+    'skills/genfeed/SKILL.md', 'plugins/claude/skills/genfeed/SKILL.md', 'plugins/claude/README.md',
+    'GEMINI.md', 'llms-install.md', 'README.md', 'AGENTS.md', 'CONTRIBUTING.md',
+    'submissions/test-cases.md', 'submissions/reviewer-setup.md', 'submissions/demo-script.md',
+)
+# Backticked snake_case words in those files that are not tools: response states.
+NOT_TOOLS = {'approval_pending'}
 SKIP = {'.git', '.venv', '__pycache__', '.worktrees', 'build'}
 
 
@@ -50,11 +59,9 @@ def validate_tool_catalog(root):
             errors.append('tool catalog: duplicate names or invalid source revision')
         if render_tools(catalog) != (root / 'skills/genfeed/references/tools.md').read_text():
             errors.append('tool catalog: generated Markdown drift; rerun refresh_tools.py')
-        for filename in ('skills/genfeed/SKILL.md', 'GEMINI.md', 'llms-install.md', 'README.md',
-                         'submissions/test-cases.md', 'submissions/reviewer-setup.md',
-                         'plugins/claude/skills/genfeed/SKILL.md', 'plugins/claude/README.md'):
+        for filename in PLAYBOOKS:
             references = re.findall(r'`([a-z][a-z0-9]*_[a-z0-9_]+)`', (root / filename).read_text())
-            for name in sorted(set(references) - names):
+            for name in sorted(set(references) - names - NOT_TOOLS):
                 errors.append(f'{filename}: unknown MCP tool {name}')
         with (root / 'submissions/tool-acceptance.csv').open(newline='') as file:
             rows = list(csv.DictReader(file))

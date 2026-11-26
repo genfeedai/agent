@@ -73,7 +73,7 @@ synthetic test history, show it; do not fabricate analytics for visual polish.
 > fictional product for this connector demonstration. #GenfeedConnectorDemo”.
 > Do not publish or schedule it. Preserve any required Genfeed approval.
 
-Show the real create_post response. If pending, have the authorized reviewer
+Show the real `save_post` response. If pending, have the authorized reviewer
 inspect the queued action off camera: it must create only the intended draft in
 the review workspace, with no publish/schedule operation or unexpected target.
 Decline any mismatch. Approve only that verified draft operation, then show the
@@ -104,20 +104,22 @@ authorization. Check the date remains in the future and leave time for cancellat
 
 > On the authorized connected test channel I selected, request this approved demo
 > text for tomorrow at 10:00 Europe/Malta. Resolve the exact calendar date and show
-> the target and time before execution. Preserve the required approval process.
+> the target and time before execution. Do not confirm until I agree.
 
-Show the request. Off camera, the authorized reviewer must inspect the exact
-action, review workspace, authorized test target and future timestamp; decline
-any publish-now action or other mismatch. Approve only this verified schedule.
-Read the release back and show its ID, target, future time and scheduled state.
-Immediately request cancellation. Before approving it, the reviewer must verify
-that the action is cancel for that exact release, not resume or publish-now.
-Complete the approval off camera and read back
-the canceled state. Confirm the calendar no longer contains an active release.
+Show the first `schedule_release` call. It changes nothing and returns what to
+confirm: check the exact action, review workspace, authorized test target and
+future timestamp on camera, and refuse any publish-now action or other mismatch.
+Only then say you agree to exactly that call, and let the assistant repeat it with
+`confirmed: true`. Read the release back with `get_content` and `action: release`
+and show its ID, target, future time and scheduled state.
+Immediately request cancellation with `control_release` and `action: control`
+(cancel needs no confirmation). Read back the canceled state. Confirm the calendar
+no longer contains an active release.
 Keep that proof with the test result. If cancellation fails, stop the recording
-and resolve it before leaving the test. A queued approval alone does not pass P5.
+and resolve it before leaving the test. A first call that only returns what to
+confirm does not pass P5.
 
-Say: “The release was scheduled only after approval. I have now canceled it, so
+Say: “The release was scheduled only after I confirmed it. I have now canceled it, so
 this demonstration does not post publicly.” Say this only after both readbacks.
 
 If the account has no authorized channel, show readiness's missing-channel

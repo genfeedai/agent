@@ -5,7 +5,7 @@ import shutil
 import tempfile
 import unittest
 
-from validate import ROOT, validate
+from validate import PLAYBOOKS, ROOT, validate
 from build_submission import archive, skill_package_files
 import zipfile
 
@@ -42,12 +42,12 @@ class PackageValidationTests(unittest.TestCase):
 
     def test_claude_skill_null_metadata_rejected(self):
         path = self.root / 'plugins/claude/skills/genfeed/SKILL.md'
-        path.write_text(path.read_text().replace('metadata:\n  version: "0.1.11"', 'metadata: null'))
+        path.write_text(path.read_text().replace('metadata:\n  version: "0.1.12"', 'metadata: null'))
         self.assertIn('Claude skill release version drift', validate(self.root))
 
     def test_claude_skill_version_drift_rejected(self):
         path = self.root / 'plugins/claude/skills/genfeed/SKILL.md'
-        path.write_text(path.read_text().replace('0.1.11', '0.0.0'))
+        path.write_text(path.read_text().replace('0.1.12', '0.0.0'))
         self.assertIn('Claude skill release version drift', validate(self.root))
 
     def test_claude_skill_unknown_tool_rejected(self):
@@ -93,7 +93,7 @@ class PackageValidationTests(unittest.TestCase):
 
     def test_scalar_skill_metadata_rejected(self):
         path = self.root / 'skills/genfeed/SKILL.md'
-        path.write_text(path.read_text().replace('metadata:\n  version: "0.1.11"', 'metadata: invalid'))
+        path.write_text(path.read_text().replace('metadata:\n  version: "0.1.12"', 'metadata: invalid'))
         self.assertIn('SKILL.md: metadata must map strings to strings', validate(self.root))
 
     def test_invalid_yaml_rejected(self):
@@ -144,6 +144,19 @@ class PackageValidationTests(unittest.TestCase):
         path.write_text(path.read_text() + '\nCall `get_account_info`.\n')
         self.assertIn('skills/genfeed/SKILL.md: unknown MCP tool get_account_info', validate(self.root))
 
+    def test_retired_tool_in_every_playbook_rejected(self):
+        for filename in PLAYBOOKS:
+            with self.subTest(filename=filename):
+                path = self.root / filename
+                original = path.read_text()
+                path.write_text(original + '\nCall `create_post`.\n')
+                self.assertIn(f'{filename}: unknown MCP tool create_post', validate(self.root))
+                path.write_text(original)
+
+    def test_playbook_files_exist(self):
+        for filename in PLAYBOOKS:
+            self.assertTrue((ROOT / filename).is_file(), filename)
+
     def test_gemini_unknown_tool_rejected(self):
         path = self.root / 'GEMINI.md'
         path.write_text(path.read_text() + '\nCall `unknown_tool_fixture`.\n')
@@ -151,7 +164,7 @@ class PackageValidationTests(unittest.TestCase):
 
     def test_generated_tool_table_drift_rejected(self):
         path = self.root / 'skills/genfeed/references/tools.md'
-        path.write_text(path.read_text().replace('`get_account`', '`get_account_info`'))
+        path.write_text(path.read_text().replace('`get_context`', '`get_account_info`'))
         self.assertIn('tool catalog: generated Markdown drift; rerun refresh_tools.py', validate(self.root))
 
     def test_missing_acceptance_tool_rejected(self):
@@ -162,8 +175,8 @@ class PackageValidationTests(unittest.TestCase):
 
     def test_acceptance_approval_drift_rejected(self):
         path = self.root / 'submissions/tool-acceptance.csv'
-        path.write_text(path.read_text().replace('get_account,core,no,', 'get_account,core,yes,'))
-        self.assertIn('tool catalog: acceptance metadata drift for get_account', validate(self.root))
+        path.write_text(path.read_text().replace('get_context,core,no,', 'get_context,core,yes,'))
+        self.assertIn('tool catalog: acceptance metadata drift for get_context', validate(self.root))
 
 
 class SubmissionArchiveTests(unittest.TestCase):

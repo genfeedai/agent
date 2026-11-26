@@ -12,9 +12,9 @@ https://mcp.genfeed.ai/mcp?toolsets=core,scheduler,content,generation,analytics,
 ```
 
 Use Streamable HTTP and sign in with Genfeed OAuth when prompted. A Genfeed account,
-workspace access and sufficient credits for paid generation are required. The shared
-profile includes brand readiness, brand Knowledge search and social-account onboarding. Tool availability
-also depends on the deployed server and your role; counts are not fixed.
+workspace access and sufficient credits for paid generation are required. The server lists every tool your endpoint and role allow and ignores the `toolsets` query, which the
+packaged URL keeps so installed clients stay valid. Tool availability
+depends on the deployed server and your role; counts are not fixed.
 
 OAuth opens a browser for authorization. Social-channel linking also requires the
 channel owner's browser consent. A pending Genfeed approval is not a completed
@@ -128,8 +128,8 @@ paste them into a chat, or append them to a URL. On 401, stop and sign in again.
 
 ## Verify and troubleshoot
 
-Call `get_account`, then `get_brands`. Both must succeed. Do not generate,
-schedule, publish, or resolve an approval during setup. On an unknown toolset error,
+Call `get_context` with `action: account`, then with `action: brands`. Both must succeed. Do not generate,
+schedule, or publish during setup, and do not decide an approval; those are decided in the Genfeed review inbox. If a tool is missing,
 inspect the [public server card](https://mcp.genfeed.ai/.well-known/mcp/server-card.json)
 and report a deployment mismatch. On 403, check the account's role/scopes; do not
 retry with another account. Check availability and schemas with `find_tools` (use `name` for an exact tool).

@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+## 0.1.12 — 2026-11-26
+
+- Rewrite the skill, the Claude plugin skill, `GEMINI.md`, `README.md`, `llms-install.md` and `AGENTS.md` to the merged MCP tools the server lists since v0.3.4 (each takes `action` plus one `input` object), for example `save_post`, `schedule_release`, `get_context`, `check_channel`, `generate_media` and `check_job`. Scheduling and publishing now follow the server's confirmation step (`confirmed: true` only after the person agrees), and approvals are decided in the Genfeed review inbox: `resolve_approval` is listed only on the staff endpoint.
+- State that the server ignores the `toolsets` query and lists every tool the endpoint and role allow.
+- Update `submissions/test-cases.md`, `submissions/reviewer-setup.md` and `submissions/demo-script.md` to the current tools. The rest of `submissions/` is unchanged: it records what was sent to reviewers.
+- Refresh the tool snapshot and the acceptance worksheet from genfeedai/genfeed.ai v0.3.8 (catalog revision `9e77b08`): 31 tools. Rows for the retired tools are gone and the 25 new rows are `NOT RUN`.
+- `scripts/validate.py` now checks every backticked tool name in the skill, both playbooks, `GEMINI.md`, `README.md`, `llms-install.md`, `AGENTS.md`, `CONTRIBUTING.md` and the three submission instruction files against the snapshot.
 - Replace the Genfeed Studio pointers in the Claude plugin, README and install notes with plain wording that the Claude connector does not generate media, because the Studio generate page no longer opens. The `submissions/` copy is unchanged: it records what was sent to reviewers.
 
 ## 0.1.11 — 2026-10-29

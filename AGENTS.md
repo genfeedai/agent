@@ -7,6 +7,6 @@ and the MCP Registry entry. The server lives in `genfeedai/genfeed.ai` at
 - Do not invent tool names. `skills/genfeed/references/tools.md` is generated from the monorepo curated catalog. Live schemas and caller permissions take precedence over this snapshot. `python3 scripts/refresh_tools.py <main repo checkout>` regenerates it (check out the latest release first); the `tool-snapshot` workflow fails daily when it is behind that release.
 - Never commit credentials or put them in URLs. Reviewer credentials belong only in the platform's private submission fields.
 - Root `plugin.json` is the release-version authority. Match every client manifest and skill `metadata.version` to it.
-- `create_post` stays a draft tool. Publishing uses scheduler tools and existing approval gates. Do not weaken those gates through skill wording.
+- `save_post` stays a draft tool. Publishing goes through `schedule_release` and `control_release`, which change nothing until the person agrees in the conversation and the call repeats with `confirmed: true`, and through the approvals decided in the Genfeed review inbox. Do not weaken those gates through skill wording.
 - Run `python3 scripts/validate.py` and `python3 -m unittest discover -s scripts -p 'test_*.py'` on an authorized verification host after installing `scripts/requirements.txt`.
 - `submissions/` contains reusable publishing materials, not a task backlog. Do not mark authenticated checks, identity verification, approvals, or directory publication complete without evidence.
