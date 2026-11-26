@@ -1,381 +1,16 @@
 {
   "sourceRepository": "genfeedai/genfeed.ai",
-  "sourceRevision": "23099fa0911b9508ca432d49a41592cb133218a9",
+  "sourceRevision": "9e77b084561b9b90d21f709bd95f4217c7160fc1",
   "tools": [
     {
-      "name": "compare_meta_campaigns",
+      "name": "get_ads",
       "toolset": "ads",
       "requiredRole": "user",
       "required": [
-        "campaignIds"
+        "action"
       ],
       "mutationPolicy": null,
-      "description": "Compare performance metrics side-by-side for multiple Meta campaigns"
-    },
-    {
-      "name": "get_ad_research_detail",
-      "toolset": "ads",
-      "requiredRole": "user",
-      "required": [
-        "adId",
-        "source"
-      ],
-      "mutationPolicy": null,
-      "description": "Inspect one ad from ads research and return its creative, metrics, and reusable pattern explanation."
-    },
-    {
-      "name": "get_ads_ad_insights",
-      "toolset": "ads",
-      "requiredRole": "user",
-      "required": [
-        "platform",
-        "credentialId",
-        "adAccountId",
-        "adId"
-      ],
-      "mutationPolicy": null,
-      "description": "Get performance insights for a single ad on any connected ads platform (Meta ad, Google Ads ad, TikTok ad, or X ad) through the platform-generic ads gateway"
-    },
-    {
-      "name": "get_ads_adset_insights",
-      "toolset": "ads",
-      "requiredRole": "user",
-      "required": [
-        "platform",
-        "credentialId",
-        "adAccountId",
-        "adSetId"
-      ],
-      "mutationPolicy": null,
-      "description": "Get performance insights for one ad set on any connected ads platform (Meta ad set, Google Ads ad group, TikTok ad group, or X ad group) through the platform-generic ads gateway"
-    },
-    {
-      "name": "get_ads_research",
-      "toolset": "ads",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "List top-performing public and connected ads by niche, platform, source, metric, and timeframe."
-    },
-    {
-      "name": "get_google_ads_adgroup_insights",
-      "toolset": "ads",
-      "requiredRole": "user",
-      "required": [
-        "customerId",
-        "adGroupId"
-      ],
-      "mutationPolicy": null,
-      "description": "Get performance insights for a Google Ads ad group"
-    },
-    {
-      "name": "get_google_ads_campaign_metrics",
-      "toolset": "ads",
-      "requiredRole": "user",
-      "required": [
-        "customerId",
-        "campaignId"
-      ],
-      "mutationPolicy": null,
-      "description": "Get detailed metrics for a Google Ads campaign including impressions, clicks, cost, conversions, CTR, and CPC"
-    },
-    {
-      "name": "get_google_ads_campaigns",
-      "toolset": "ads",
-      "requiredRole": "user",
-      "required": [
-        "customerId"
-      ],
-      "mutationPolicy": null,
-      "description": "List Google Ads campaigns with optional status filter"
-    },
-    {
-      "name": "get_google_ads_customers",
-      "toolset": "ads",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "List accessible Google Ads customer accounts"
-    },
-    {
-      "name": "get_google_ads_keyword_performance",
-      "toolset": "ads",
-      "requiredRole": "user",
-      "required": [
-        "customerId"
-      ],
-      "mutationPolicy": null,
-      "description": "Get keyword performance report with quality scores, clicks, impressions, and cost"
-    },
-    {
-      "name": "get_google_ads_search_terms",
-      "toolset": "ads",
-      "requiredRole": "user",
-      "required": [
-        "customerId",
-        "campaignId"
-      ],
-      "mutationPolicy": null,
-      "description": "Get search terms report showing actual search queries that triggered your ads"
-    },
-    {
-      "name": "get_meta_ad_accounts",
-      "toolset": "ads",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "List connected Meta (Facebook) ad accounts"
-    },
-    {
-      "name": "get_meta_ad_creatives",
-      "toolset": "ads",
-      "requiredRole": "user",
-      "required": [
-        "adAccountId"
-      ],
-      "mutationPolicy": null,
-      "description": "List creative assets (headlines, body text, CTAs, images) for Meta ads"
-    },
-    {
-      "name": "get_meta_ad_insights",
-      "toolset": "ads",
-      "requiredRole": "user",
-      "required": [
-        "adId"
-      ],
-      "mutationPolicy": null,
-      "description": "Get performance insights for an individual Meta ad including creative details"
-    },
-    {
-      "name": "get_meta_adset_insights",
-      "toolset": "ads",
-      "requiredRole": "user",
-      "required": [
-        "adSetId"
-      ],
-      "mutationPolicy": null,
-      "description": "Get performance insights for a Meta ad set"
-    },
-    {
-      "name": "get_meta_campaign_insights",
-      "toolset": "ads",
-      "requiredRole": "user",
-      "required": [
-        "campaignId"
-      ],
-      "mutationPolicy": null,
-      "description": "Get detailed performance insights for a Meta ad campaign including spend, impressions, clicks, CTR, CPC, CPM, and conversions"
-    },
-    {
-      "name": "get_meta_campaigns",
-      "toolset": "ads",
-      "requiredRole": "user",
-      "required": [
-        "adAccountId"
-      ],
-      "mutationPolicy": null,
-      "description": "List Meta ad campaigns with optional status filter and pagination"
-    },
-    {
-      "name": "get_meta_top_performers",
-      "toolset": "ads",
-      "requiredRole": "user",
-      "required": [
-        "adAccountId",
-        "metric"
-      ],
-      "mutationPolicy": null,
-      "description": "Get top performing Meta ads sorted by a specific metric (CTR, ROAS, CPC, etc.)"
-    },
-    {
-      "name": "get_tiktok_ad_accounts",
-      "toolset": "ads",
-      "requiredRole": "user",
-      "required": [
-        "credentialId"
-      ],
-      "mutationPolicy": null,
-      "description": "List TikTok advertiser accounts for a connected credential"
-    },
-    {
-      "name": "get_tiktok_adgroups",
-      "toolset": "ads",
-      "requiredRole": "user",
-      "required": [
-        "credentialId",
-        "adAccountId",
-        "campaignId"
-      ],
-      "mutationPolicy": null,
-      "description": "List TikTok ad groups within a campaign"
-    },
-    {
-      "name": "get_tiktok_ads",
-      "toolset": "ads",
-      "requiredRole": "user",
-      "required": [
-        "credentialId",
-        "adAccountId"
-      ],
-      "mutationPolicy": null,
-      "description": "List TikTok ads, optionally narrowed to a single ad group. Returns creative details alongside each ad"
-    },
-    {
-      "name": "get_tiktok_campaign_insights",
-      "toolset": "ads",
-      "requiredRole": "user",
-      "required": [
-        "credentialId",
-        "adAccountId",
-        "campaignId"
-      ],
-      "mutationPolicy": null,
-      "description": "Get detailed performance insights for a TikTok ad campaign including spend, impressions, clicks, CTR, CPC, CPM, and conversions"
-    },
-    {
-      "name": "get_tiktok_campaigns",
-      "toolset": "ads",
-      "requiredRole": "user",
-      "required": [
-        "credentialId",
-        "adAccountId"
-      ],
-      "mutationPolicy": null,
-      "description": "List TikTok ad campaigns for an advertiser account"
-    },
-    {
-      "name": "create_chat",
-      "toolset": "agent-chat",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": "direct",
-      "description": "Start a new agent conversation"
-    },
-    {
-      "name": "send_chat_message",
-      "toolset": "agent-chat",
-      "requiredRole": "user",
-      "required": [
-        "threadId",
-        "message"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Send a message in an existing agent conversation"
-    },
-    {
-      "name": "analyze_performance",
-      "toolset": "analytics",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "Analyze recent content performance over the last 30 days. Returns engagement rates grouped by content type, platform, and posting time, plus top-performing posts."
-    },
-    {
-      "name": "fetch_x_posts",
-      "toolset": "analytics",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": "direct",
-      "description": "Read X posts. Costs 1 credit. postIdOrUrl opens one post and returns its text and stats. query searches recent posts by topic through the brand's connected X account and returns author, text, stats, and link; it explains clearly if that account cannot search. Pass exactly one of postIdOrUrl or query."
-    },
-    {
-      "name": "get_analytics",
-      "toolset": "analytics",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "Get organization analytics, a post analytics snapshot, or analytics for the latest published post related to a selected content item."
-    },
-    {
-      "name": "get_content_analytics",
-      "toolset": "analytics",
-      "requiredRole": "user",
-      "required": [
-        "contentId",
-        "contentType"
-      ],
-      "mutationPolicy": null,
-      "description": "Get analytics for a specific piece of content (article, video, or image)"
-    },
-    {
-      "name": "get_linkedin_analytics",
-      "toolset": "analytics",
-      "requiredRole": "user",
-      "required": [
-        "contentId"
-      ],
-      "mutationPolicy": null,
-      "description": "Get analytics for LinkedIn posts including impressions, engagement rate, reactions, comments, and shares. Requires a content ID."
-    },
-    {
-      "name": "get_linkedin_connection_status",
-      "toolset": "analytics",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "Check whether a LinkedIn account is connected for the current user. Returns connection status, handle, and avatar if connected."
-    },
-    {
-      "name": "get_trends",
-      "toolset": "analytics",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "Get trending topics and content ideas based on current trends across social media and news."
-    },
-    {
-      "name": "get_video_analytics",
-      "toolset": "analytics",
-      "requiredRole": "user",
-      "required": [
-        "videoId"
-      ],
-      "mutationPolicy": null,
-      "description": "Get detailed analytics for a specific video"
-    },
-    {
-      "name": "track_post_link",
-      "toolset": "analytics",
-      "requiredRole": "user",
-      "required": [
-        "brandId",
-        "url"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Import an already published X or YouTube post by URL and track analytics when its author matches a connected account. LinkedIn posts and articles are saved as links without metrics until API access is approved. This never publishes content."
-    },
-    {
-      "name": "create_article_draft",
-      "toolset": "articles",
-      "requiredRole": "user",
-      "required": [
-        "label",
-        "slug",
-        "summary",
-        "content"
-      ],
-      "mutationPolicy": "approval-required",
-      "description": "Import a complete reviewed HTML article into the connected organization as an unpublished draft. Preserves supplied content without generation. Review the draft before publishing it separately."
-    },
-    {
-      "name": "get_article_preview",
-      "toolset": "articles",
-      "requiredRole": "user",
-      "required": [
-        "articleId"
-      ],
-      "mutationPolicy": null,
-      "description": "Get an expiring signed preview URL for an owned article in the connected organization. Treat the URL as a bearer credential; do not send it to analytics or logs."
-    },
-    {
-      "name": "publish_article",
-      "toolset": "articles",
-      "requiredRole": "user",
-      "required": [
-        "articleId"
-      ],
-      "mutationPolicy": "approval-required",
-      "description": "Publish an owned reviewed article on the public website. Requires approval. Review the article before requesting publication. Changes publication status without regenerating the body or replacing an existing publication date."
+      "description": "Read ad accounts, campaigns, ad groups, creatives, insights and top performers for Meta, Google and TikTok, and public ad research. Read-only."
     },
     {
       "name": "create_brand_from_url",
@@ -388,210 +23,56 @@
       "description": "Create a brand from a website URL with a draft guide and analyzed voice. Organization owners and admins only. Costs one credit on success. Set approve explicitly to approve the guide. Poll get_brand_scan_status if scanStatus is running."
     },
     {
-      "name": "get_brand_completeness",
-      "toolset": "brand",
-      "requiredRole": "user",
-      "required": [
-        "brandId"
-      ],
-      "mutationPolicy": null,
-      "description": "Get the current brand context completeness score and a list of fields that still have gaps. Read-only, no credits charged."
-    },
-    {
-      "name": "get_brand_context",
-      "toolset": "brand",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "Read structured brand context for writing or reviewing on-brand content: identity, guidelines, the visual kit (colors, named palette, fonts by role, logo variants and platform banners with their URLs), voice, strategy, topics, persona, prompt seeds, performance insights, knowledge, recent posts, saved memories and active skills. Includes context diagnostics and model metadata. Rendered system and memory prompts are omitted unless explicitly requested for diagnostics. Read-only, no credits charged."
-    },
-    {
-      "name": "get_brand_scan_status",
-      "toolset": "brand",
-      "requiredRole": "user",
-      "required": [
-        "brandId"
-      ],
-      "mutationPolicy": null,
-      "description": "Read the current website scan, guide revision and completeness for a brand created from a URL."
-    },
-    {
-      "name": "skip_brand_interview_question",
-      "toolset": "brand",
-      "requiredRole": "user",
-      "required": [
-        "interviewId"
-      ],
-      "mutationPolicy": "approval-required",
-      "description": "Skip the current interview question (e.g. the user doesn't know or wants to skip). Returns the next question and updated progress."
-    },
-    {
-      "name": "start_brand_interview",
-      "toolset": "brand",
-      "requiredRole": "user",
-      "required": [
-        "brandId"
-      ],
-      "mutationPolicy": "approval-required",
-      "description": "Start a brand context interview for the given brand. Charges 10 credits once (idempotent \u2014 resuming an active session does not re-charge). Returns the first question to ask the user, plus progress and completeness info."
-    },
-    {
-      "name": "submit_brand_interview_answer",
-      "toolset": "brand",
-      "requiredRole": "user",
-      "required": [
-        "interviewId",
-        "answer"
-      ],
-      "mutationPolicy": "approval-required",
-      "description": "Submit the user's answer to the current interview question. Pass the interviewId from start_brand_interview. Returns the next question (if any) and updated progress."
-    },
-    {
-      "name": "analyze_clipper_project",
+      "name": "get_video_projects",
       "toolset": "clipper",
       "requiredRole": "user",
       "required": [
-        "youtubeUrl"
+        "action"
+      ],
+      "mutationPolicy": null,
+      "description": "Read clip and editor projects: lists, one project, highlights and clip context. Read-only."
+    },
+    {
+      "name": "run_video_project",
+      "toolset": "clipper",
+      "requiredRole": "user",
+      "required": [
+        "action",
+        "input"
       ],
       "mutationPolicy": "approval-required",
-      "description": "Analyze a YouTube video for viral highlights: downloads audio, transcribes, and LLM-detects segments. Analysis does not charge credits. Poll with get_clipper_project or get_clipper_highlights."
+      "description": "Start and change clip and editor projects. create starts a clip project from a YouTube link; analyze finds highlights for free; run cuts the chosen highlights into clips (avatar clips are held per second and settle to the rendered length); recut moves a finished clip to a new start and end; editor_draft opens clips in the video editor; render exports an editor project. Read projects with get_video_projects. Variable cost: 0\u201340 credits per call."
     },
     {
-      "name": "create_clipper_project_from_youtube",
-      "toolset": "clipper",
-      "requiredRole": "user",
-      "required": [
-        "youtubeUrl"
-      ],
-      "mutationPolicy": "approval-required",
-      "description": "Create a clip project from a YouTube URL and run the AI clip factory async. HeyGen avatar clips are held per clip at the per-second avatar rate and settle to the rendered length. HeyGen/Argil need avatarId+voiceId; GenfeedAI needs a brand character reference. Poll get_clipper_project. Variable cost: 0\u201340 credits per second of HeyGen avatar clip."
-    },
-    {
-      "name": "edit_clip",
-      "toolset": "clipper",
-      "requiredRole": "user",
-      "required": [
-        "clipperResultId"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Re-cut a finished raw-cut clip to a new window of its source video. The original clip is kept and the edit is queued as a new version on the same clip project, with its captions rebuilt from the transcript for the new window. Use it when the user wants a clip to start or end somewhere else, or to retitle it. Read the clip and its transcript first with get_clip_context so the new times land on sentence boundaries, and tell the user the exact new window before you call this. Times are source-video seconds. Only raw-cut clips can be edited; avatar clips are regenerated from their script. An edited clip runs 1 to 180 seconds and must contain speech. Local video processing, no credits."
-    },
-    {
-      "name": "get_clip_context",
-      "toolset": "clipper",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "Read a clip before editing it. With clipperResultId it returns the clip (title, source-video start and end in seconds, mode, status, whether edit_clip can re-cut it) and the transcript lines around it with their source-video times, so a new window can start and end on sentence boundaries. With projectId it lists the clips of that clip project so you can find the one the user means. Pass exactly one of the two."
-    },
-    {
-      "name": "get_clipper_highlights",
-      "toolset": "clipper",
-      "requiredRole": "user",
-      "required": [
-        "projectId"
-      ],
-      "mutationPolicy": null,
-      "description": "Get the detected highlights for a clip project after analysis. Returns the highlights array plus the project's current status."
-    },
-    {
-      "name": "get_clipper_project",
-      "toolset": "clipper",
-      "requiredRole": "user",
-      "required": [
-        "projectId"
-      ],
-      "mutationPolicy": null,
-      "description": "Read a clip project by ID: status, progress, highlights, and generated clip results (with playable video URLs when ready). Poll this after analyze or generate."
-    },
-    {
-      "name": "get_clipper_projects",
-      "toolset": "clipper",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "List clip projects in your organization, most recent first. Returns id, name, status, and progress for each."
-    },
-    {
-      "name": "run_clipper",
-      "toolset": "clipper",
-      "requiredRole": "user",
-      "required": [
-        "projectId",
-        "selectedHighlightIds",
-        "editedHighlights"
-      ],
-      "mutationPolicy": "approval-required",
-      "description": "Generate clips from selected highlights. HeyGen avatar clips are held per clip at the per-second avatar rate and settle to the rendered length. Avatar: avatarId+voiceId (HeyGen/Argil) or character ref (GenfeedAI); raw-cut: neither. Variable cost: 0\u201340 credits per second of HeyGen avatar clip."
-    },
-    {
-      "name": "create_post",
-      "toolset": "content",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": "approval-required",
-      "description": "Create a post draft from supplied text for review. On MCP this never publishes or schedules: confirmed and existing-content publishing are rejected, and scheduledAt is ignored. Use create_scheduled_release for release drafts or approval-gated scheduling. Existing-content publishing is available only in the Genfeed app."
-    },
-    {
-      "name": "generate_content",
-      "toolset": "content",
-      "requiredRole": "user",
-      "required": [
-        "topic",
-        "type"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Generate content for a topic or brief. Social types (caption, post, thread, article_outline) return ready-to-publish text written in the brand voice, with a brand receipt (receiptId) and hashtags, and are not scheduled or published; the exact text is kept on that receipt; use platform linkedin for LinkedIn posts and variationsCount for alternatives. type script returns a long-form video script written against the composed brand brief (voice, guardrails, criteria), not saved or published; save it as a script work object. type newsletter creates a saved newsletter draft. type article (or x-article) generates and saves an article draft with an id, ready to review and publish. Each field lists the types it applies to."
-    },
-    {
-      "name": "generate_turbo_content",
-      "toolset": "content",
-      "requiredRole": "user",
-      "required": [
-        "count",
-        "platforms"
-      ],
-      "mutationPolicy": "approval-required",
-      "description": "Generate a Turbo run of content (images, videos, carousels) for a brand. Specify count, platforms, and date range. Use handle param to resolve @username to a credential. Requires approval: the first call returns a credit estimate and nothing is spent until the run is approved. Returns a Turbo run ID for tracking. Credits scale by item format and caption model tier \u2014 not a flat fee. Variable cost: 4\u20134800 credits per Turbo run."
-    },
-    {
-      "name": "get_articles",
-      "toolset": "content",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "Get one article by articleId, or search published articles by query (optionally filtered by category). Pass exactly one of articleId or query."
-    },
-    {
-      "name": "get_posts",
-      "toolset": "content",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "Read posts. postId returns one post (exclusive with the other fields). days returns the content calendar for the coming days: scheduled and draft posts with gap analysis showing days without content. With neither, lists recent posts, optionally filtered by executionState and capped by limit. Post items carry channel target, execution state, media, and timestamps."
-    },
-    {
-      "name": "manage_campaign",
+      "name": "generate_text",
       "toolset": "content",
       "requiredRole": "user",
       "required": [
         "action",
         "input"
       ],
-      "mutationPolicy": "direct",
-      "description": "Manage a native content campaign inside an explicit brand. action list reads campaigns; get reads a campaign and its reusable context/assets; create saves a draft (name and idempotencyKey required); update changes context or replaces asset membership (campaignId required). Campaign objective, audience, tone and creative direction complement inherited brand context. Read the campaign before generating assets, then save returned Library IDs as assetIds. Schedule through the scheduler toolset with the same brandId and campaignId; existing publishing approval still applies. This tool never publishes or starts ad spend."
+      "mutationPolicy": "approval-required",
+      "description": "Write copy for a brand. content writes a post or article draft and saves it; turbo runs a batch and needs approval; repurpose turns an existing post into new ones; enhance rewrites a prompt before media generation. Pass brandId. Saved drafts are never published. Variable cost: 0\u20134800 credits per call."
     },
     {
-      "name": "repurpose_post",
+      "name": "get_content",
       "toolset": "content",
       "requiredRole": "user",
       "required": [
-        "postId",
-        "platform",
-        "mode"
+        "action"
       ],
-      "mutationPolicy": "direct",
-      "description": "Repurpose an existing post into a draft for another channel. Deterministic mode adapts the caption instantly through the channel capability catalog (length, hashtags, links, media compatibility); agent mode rewrites it with the content engine and lands the draft in the review queue. Never publishes or schedules anything. Variable cost: 0\u20131 credits per repurpose."
+      "mutationPolicy": null,
+      "description": "Read posts, scheduled releases, articles and article previews. Read-only."
+    },
+    {
+      "name": "save_post",
+      "toolset": "content",
+      "requiredRole": "user",
+      "required": [
+        "action"
+      ],
+      "mutationPolicy": "approval-required",
+      "description": "Save content for review. Never publishes or schedules. post saves a reviewable draft from text or media; article imports reviewed HTML unchanged as an unpublished article draft in the chosen brand; article_update edits an existing article (label, slug, summary, HTML content with inline images, cover image, publication date) without publishing; campaign manages native content campaigns; track_link tracks an already published X or YouTube post by URL."
     },
     {
       "name": "upload_media",
@@ -602,7 +83,18 @@
         "input"
       ],
       "mutationPolicy": "direct",
-      "description": "Upload existing media for the selected brand. request reserves a pending asset and returns uploadUrl, assetId, method and constraints. PUT sends bytes with returned headers; POST_JSON sends localUpload with base64 bytes in localUpload.source.data. Then complete finalizes the upload and returns assetId and any hosted URL. Does not publish or attach media."
+      "description": "Upload existing media for the selected brand. request reserves a pending asset and returns uploadUrl, assetId, method and constraints. PUT sends bytes with returned headers; POST_JSON sends localUpload with base64 bytes in localUpload.source.data. Then complete finalizes the upload and returns assetId and any hosted URL; complete with publicImage true also returns a permanent publicUrl for an image that an article uses as its cover or inline image. Does not attach media to anything; publicImage makes that one image publicly readable. To delete Library media use control_release(action=remove_asset)."
+    },
+    {
+      "name": "check_job",
+      "toolset": "core",
+      "requiredRole": "user",
+      "required": [
+        "action",
+        "input"
+      ],
+      "mutationPolicy": null,
+      "description": "Check an asynchronous job or project until it finishes: media jobs, 3D renders, coded visual projects, workflow runs. Read-only."
     },
     {
       "name": "find_tools",
@@ -610,43 +102,27 @@
       "requiredRole": "user",
       "required": [],
       "mutationPolicy": null,
-      "description": "Find tools callable on this connection, filtered by its endpoint permissions and caller role. Tools excluded from this endpoint are never returned. Can discover callable tools outside the current ?toolsets= selection. No arguments: list available toolsets and counts. query and/or toolset: search by name, description or toolset. name: describe one callable tool with its input schema, mutation policy, credit cost and required role."
+      "description": "Find tools callable on this connection, filtered by its endpoint permissions and caller role. No arguments: list every tool. query: search by tool name, description or the name of an action it runs. name: describe one tool, or a retired tool name, with its input schema, mutation policy, credit cost and required role."
     },
     {
-      "name": "get_account",
-      "toolset": "core",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "Get account details in one call: profile (user, organization, scoped brand, role, isOnboardingCompleted), credits (current balance) and usage (balance, 7 and 30 day credit spend, trend and spend breakdown by source). Defaults to all three; pass include to fetch fewer."
-    },
-    {
-      "name": "get_brands",
-      "toolset": "core",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "Read the organization's brands. Without brand it lists every brand with name, description and tone profile. With brand it returns that one brand, matched by id, slug, name or label. When more than one brand exists, pass the chosen brand's id as brandId to other tools; the first brand is never used implicitly."
-    },
-    {
-      "name": "get_job_status",
+      "name": "get_assets",
       "toolset": "core",
       "requiredRole": "user",
       "required": [
-        "jobId"
+        "type"
       ],
       "mutationPolicy": null,
-      "description": "Check the status and result of any generation (image, video, voice, music) by the job id returned when the generation started. Auto-detects content type."
+      "description": "List library assets of one type, newest first, for one brand: brandId, else the thread brand, else your current brand; with none of those it lists the whole organization. Failed, archived and rejected assets are left out. Types image, video, music and avatar return id, category, status, url, label or prompt, origin, tags (id and label) and createdAt. Type character lists the active named characters the brand can use, including characters another organization granted to yours for use only (handle, label, description, whether a reference image exists, and who granted it). A revoked grant disappears on the next call. Type voice lists the organization's own saved personal voices (id, name, provider, previewUrl, isBrandDefault); pass that id as voiceId when generating voice. With source account it browses the voices of the ElevenLabs account the organization connected, with search and paging, and reports connection status (connected, disconnected or invalid): personal voices need the customer's own connected account and never fall back to a platform account. Stock catalog voices are not listed here. Type digital_twin lists the digital twins the caller recorded of themselves (newest first, or one with twinId), after re-reading training and consent at HeyGen: id, name, status (UPLOADING, TRAINING, AWAITING_CONSENT, CONSENT_REJECTED, READY or FAILED), consent (pending, accepted or rejected), consentLinkExpiresAt, failure, previewImageUrl, voiceId, isBrandDefault and nextStep. Only READY twins can be used; relay nextStep, and never call a twin ready before status is READY."
     },
     {
-      "name": "onboard_brand",
+      "name": "get_context",
       "toolset": "core",
       "requiredRole": "user",
       "required": [
         "action"
       ],
-      "mutationPolicy": "direct",
-      "description": "Set up a brand inside this conversation. Organization owners and admins can use create_from_url to create a new brand from a website for one credit on success. For an existing brand, scan_url prefills its guide, save_answers stores goals, audience, offer, competitors, platforms, cadence and tone, and complete finishes account onboarding."
+      "mutationPolicy": null,
+      "description": "Read the account and its brands: profile, credits, usage, organizations, brand context, completeness and scan status. Read-only. Start with action account, then brands."
     },
     {
       "name": "resolve_approval",
@@ -660,507 +136,97 @@
       "description": "Owners/admins: decline a pending MCP write action, or run one a person has already approved in the Genfeed review inbox. Approving itself only happens in the inbox, never through MCP. Pass the approvalId returned by the original (pending) tool call."
     },
     {
-      "name": "get_editor_project",
-      "toolset": "editor",
+      "name": "setup_brand",
+      "toolset": "core",
       "requiredRole": "user",
       "required": [
-        "projectId"
-      ],
-      "mutationPolicy": null,
-      "description": "Get one Studio Editor project by id: tracks, clips in timeline order, render status, the rendered video id once a render finishes, and the /editor path."
-    },
-    {
-      "name": "get_editor_projects",
-      "toolset": "editor",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "List Studio Editor projects, newest first, with name, status and clip count. Open one with get_editor_project."
-    },
-    {
-      "name": "open_in_editor",
-      "toolset": "editor",
-      "requiredRole": "user",
-      "required": [
-        "sourceVideoIds"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Open existing videos in the Studio Editor. Creates a draft Editor project seeded with sourceVideoIds in order (one clip each, up to 50) and returns its id and /editor path. Does not generate, render, or publish."
-    },
-    {
-      "name": "start_editor_render",
-      "toolset": "editor",
-      "requiredRole": "user",
-      "required": [
-        "projectId"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Queue the render of an Editor project into a new video, the same export the Editor runs. Costs no credits. Returns the render status; check progress and the finished video with get_editor_project (status and renderedVideo). Fails if the project is already rendering or has no clips."
-    },
-    {
-      "name": "build_prep_brief",
-      "toolset": "engagement",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "Build a cited preparation brief for a brand, a campaign or a topic. Every fact comes from a stored record and carries its citation: Knowledge passages (source and version), memories, recent published posts and recent performance totals. Evidence it could not find is listed as missing, and follow-up suggestions only point to existing screens. It writes nothing and changes nothing."
-    },
-    {
-      "name": "get_stalled_items",
-      "toolset": "engagement",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "List posts that are stuck: drafts nobody reviewed, drafts sent back for changes, approved drafts never scheduled, scheduled posts that passed their slot, and posts whose publish failed. Each item gives its last meaningful event (creation, review decision, scheduled time or publish attempt) and how many days ago it was. Editing or renaming a post does not count as activity. Read only; it changes nothing."
-    },
-    {
-      "name": "enhance_prompt",
-      "toolset": "generation",
-      "requiredRole": "user",
-      "required": [
-        "prompt",
-        "contentType"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Preview a media prompt using the same Enhance implementation as Studio and Agent, with effective organization/brand settings and contributing pack metadata. Costs 1 credit; does not generate media. To generate the reviewed prompt unchanged, pass the returned prompt with harness:false. Model compilation during normal generation may add format-specific instructions; the generation receipt records the final submitted prompt."
-    },
-    {
-      "name": "generate",
-      "toolset": "generation",
-      "requiredRole": "user",
-      "required": [
-        "type",
-        "prompt"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Generate an image, video, voice (text-to-speech) or music track. Set type; a parameter marked for another type is rejected. For model, pass a key from get_generation_options models, or omit it so the router picks. Image and video results include generationHarness with the exact submitted prompt and enhancement status: show that prompt with the result instead of reconstructing it. Image and video require a resolved model-specific quote and confirmation. The endpoint bills the prepared request; an unresolved quote never means free generation. Type avatar renders a talking-head video of the brand's saved identity (default avatar plus voice): prompt is the topic Genfeed writes a spoken script for, or the exact words when isVerbatim is true. It needs a saved default avatar and voice and is billed per second of the rendered clip, not from a frozen quote; get_job_status polls it with the returned id. Variable cost: 10\u2013300 credits per generation."
-    },
-    {
-      "name": "get_assets",
-      "toolset": "generation",
-      "requiredRole": "user",
-      "required": [
-        "type"
-      ],
-      "mutationPolicy": null,
-      "description": "List library assets of one type, newest first, for one brand: brandId, else the thread brand, else your current brand; with none of those it lists the whole organization. Failed, archived and rejected assets are left out. Types image, video, music and avatar return id, category, status, url, label or prompt, origin, tags (id and label) and createdAt. Type character lists the active named characters the brand can use, including characters another organization granted to yours for use only (handle, label, description, whether a reference image exists, and who granted it). A revoked grant disappears on the next call. Type voice lists the organization's own saved personal voices (id, name, provider, previewUrl, isBrandDefault); pass that id as generate.voiceId. With source account it browses the voices of the ElevenLabs account the organization connected, with search and paging, and reports connection status (connected, disconnected or invalid): personal voices need the customer's own connected account and never fall back to a platform account. Stock catalog voices are not listed here. Type digital_twin lists the digital twins the caller recorded of themselves (newest first, or one with twinId), after re-reading training and consent at HeyGen: id, name, status (UPLOADING, TRAINING, AWAITING_CONSENT, CONSENT_REJECTED, READY or FAILED), consent (pending, accepted or rejected), consentLinkExpiresAt, failure, previewImageUrl, voiceId, isBrandDefault and nextStep. Only READY twins can be used; relay nextStep, and never call a twin ready before status is READY."
-    },
-    {
-      "name": "get_generation_options",
-      "toolset": "generation",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "Read what generation can do right now, for free and without paid confirmation. models is always returned: this account's callable catalog. Pass an image, video or music models key as generate.model, and an image-edit key as transform_media.model. Voice rows are not generate.model; voice generation uses voiceId. settings is the effective image/video prompt enhancement with organization or brand overrides, always returned. cost is the Studio credit estimate and organization balance, only when type is given. Returns the same catalog estimate the Generate composer shows and the same Genfeed balance as the credits bar. Does not charge credits, change a price, or authorize a generation. Omit modelKey, or pass Auto, for image, image-edit and video estimate status auto. Music Auto quotes the registry music default. Voice, unsupported, missing or unpriced models return estimate status unavailable with credits null. balance is null when the wallet cannot be read; a numeric 0 is a real empty balance. Threaded Agent calls use the validated current thread brand; brandId must match it. In threadless MCP calls, brandId selects the brand scope for settings. With type voice, voices lists the organization's saved personal voices (id, name, provider, previewUrl, isBrandDefault) and hasConnectedAccount says whether a personal ElevenLabs account is connected; browse that account with get_assets type voice source account."
-    },
-    {
-      "name": "set_generation_settings",
-      "toolset": "generation",
-      "requiredRole": "user",
-      "required": [
-        "scope"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Set organization or brand prompt enhancement. Use null to restore inheritance. Threaded Agent calls use the validated current thread brand; brandId must match it. In threadless MCP calls, brandId selects the brand scope. Generation pricing is unchanged. Also sets the brand default voice: defaultVoice (brand scope) takes voiceId for a saved voice, or externalVoiceId to first save a voice from the connected ElevenLabs account as an organization-owned reference; it never uses a platform account. defaultAvatar (brand scope) makes a READY digital twin from get_assets type digital_twin the brand default avatar and, unless isTwinVoiceUsed is false, its HeyGen voice the brand default voice; generate type avatar then renders with it. A twin that is not READY is refused."
-    },
-    {
-      "name": "transform_media",
-      "toolset": "generation",
-      "requiredRole": "user",
-      "required": [
-        "operation"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Change existing media or join clips. operation edit: apply an exact instruction to a Library image (the original stays unchanged; imageId is the primary source, references adds up to four ordered images for Ideogram or nine for FLUX.3; FLUX.3 supports one output, resolution and aspectRatio, with no mask or seed; optional maskId must match the primary dimensions, black changes and white stays; uses the image-editing category default, never the generation model; do not enhance or rewrite the instruction). operation reframe: re-crop an image to a new aspect ratio. operation upscale: upscale an image to higher resolution from its URL. operation merge: join two or more existing videos into one clip with transitions, captions, resizing, mute and background music (with music, isBeatSyncEnabled trims each clip so every cut lands on a beat; the brand end card, when the brand has one switched on, is appended automatically); slideshow zoom (zoomEaseCurve and zoomConfigs) is not supported and is rejected before any merge starts. Each field lists the operations it applies to; a field for another operation is rejected. Edit, reframe and upscale spend credits through the shared generation settlement; merge runs locally and is free. operation digital_twin: start training a digital twin (avatar plus cloned voice) from videoId, the caller's own private Library recording of themselves (an uploaded or recorded Library video; 15 s to 10 min, one person facing the camera, clear speech). The twin is made in the organization's own connected HeyGen account, never a platform account; it costs no Genfeed credits, and HeyGen bills its own account. The result includes a consentUrl: the person on camera must open it and record a consent statement on HeyGen's page before the twin can be used. Give them the link, and say plainly that the twin is not ready until HeyGen reports status READY; check with get_assets type digital_twin. Starting again from the same videoId returns the same twin. operation digital_twin_consent: a fresh consent link for twinId, when the last one expired (links last 24 hours) or HeyGen declined the consent. Variable cost: 0\u201350 credits per transform."
-    },
-    {
-      "name": "attach_remix_analysis_source",
-      "toolset": "inspiration",
-      "requiredRole": "user",
-      "required": [
-        "runId",
-        "expectedRevision",
-        "assetId"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Select an eligible same-brand USER Library video for scene analysis, or clear with null. The selected Library media is analyzed; the original imported URL remains provenance. This does not infer permission or start paid analysis."
-    },
-    {
-      "name": "control_remix_generation",
-      "toolset": "inspiration",
-      "requiredRole": "user",
-      "required": [
-        "runId",
-        "expectedRevision",
         "action"
       ],
       "mutationPolicy": "approval-required",
-      "description": "Cancel or resume an existing canonical video/avatar scene pipeline after approval. Image/copy control is unsupported; resume retains canonical quote and billing checks."
+      "description": "Set a brand up. onboard creates a brand from a URL or details; interview_start, interview_answer and interview_skip run the brand interview; connect_account and connect_oauth link a social account; brand_kit manages the kit: the brand name, visual identity, writing voice and strategy sections, and approving the draft (input.action picks what); voice_draft and voice_save draft and save the brand voice; generation_settings sets the brand defaults for generation. Variable cost: 0\u201310 credits per call."
     },
     {
-      "name": "create_remix_concept",
-      "toolset": "inspiration",
+      "name": "generate_media",
+      "toolset": "generation",
       "requiredRole": "user",
       "required": [
-        "brandId",
-        "sourcePostId"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Create or reuse a canonical saved remix concept from an imported source post for an explicit brand. Saving does not generate or publish."
-    },
-    {
-      "name": "create_storyboard_remix",
-      "toolset": "inspiration",
-      "requiredRole": "user",
-      "required": [
-        "brandId",
-        "assetId",
-        "clientRequestId"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Create a storyboard run from an owned Library video. Does not generate, quote, or charge credits."
-    },
-    {
-      "name": "fetch_instagram_inspiration",
-      "toolset": "inspiration",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": "direct",
-      "description": "Discover public Instagram accounts and content patterns relevant to the selected brand niche."
-    },
-    {
-      "name": "fetch_instagram_inspiration_detail",
-      "toolset": "inspiration",
-      "requiredRole": "user",
-      "required": [
-        "username"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Fetch latest or top public posts from one Instagram account and return provenance plus abstract hook, format, pacing, and style signals."
-    },
-    {
-      "name": "get_preset",
-      "toolset": "inspiration",
-      "requiredRole": "user",
-      "required": [
-        "key"
-      ],
-      "mutationPolicy": null,
-      "description": "Read one preset by key: its fields and, for a cinematic short, the slots to fill and a worked example. Pass slots on a cinematic short to also get the compiled prompt, timed shot plan, negative prompt and sound spec. Read only; nothing is generated. Pass the compiled prompt to generate."
-    },
-    {
-      "name": "get_presets",
-      "toolset": "inspiration",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "List the presets you can use for images, videos, storyboards, ads, playbooks and cinematic shorts. Each row has a key, a kind, a label and a one-line description. Read only; spends no credits."
-    },
-    {
-      "name": "get_remix_run",
-      "toolset": "inspiration",
-      "requiredRole": "user",
-      "required": [
-        "runId"
-      ],
-      "mutationPolicy": null,
-      "description": "Read the canonical remix revision, source lineage, saved concept, quotes, scene state, receipts and generated artifacts. Safe to repeat after reconnecting."
-    },
-    {
-      "name": "get_tiktok_top_performers",
-      "toolset": "inspiration",
-      "requiredRole": "user",
-      "required": [
-        "credentialId",
-        "adAccountId"
-      ],
-      "mutationPolicy": null,
-      "description": "Get top performing TikTok ads sorted by a specific metric (CTR, CPC, spend, etc.)"
-    },
-    {
-      "name": "import_source_post",
-      "toolset": "inspiration",
-      "requiredRole": "user",
-      "required": [
-        "brandId",
-        "url"
+        "action",
+        "input"
       ],
       "mutationPolicy": "approval-required",
-      "description": "Import a supported public X, Instagram or TikTok post into Imported sources for an explicit brand. Returns source/post identities and deduplication. Requires approval for external import; never generates, publishes or adds Knowledge."
+      "description": "Generate and transform media; every action that renders spends credits, so check get_generation_catalog first and poll check_job until the job ends. media makes an image, video, voice or music; transform edits existing media; model_3d makes a 3D model; visual_code, visual_code_revise, visual_code_retry, visual_code_export and visual_code_cancel run coded visuals; plan_video, plan_slideshow and plan_long_form plan a piece and start_video, start_slideshow and start_long_form run the approved plan. Cost comes from the approved find_tools quote."
     },
     {
-      "name": "quote_remix_generation",
+      "name": "get_generation_catalog",
+      "toolset": "generation",
+      "requiredRole": "user",
+      "required": [
+        "action"
+      ],
+      "mutationPolicy": null,
+      "description": "Read what generation can do: models and prices, presets, storyboard capabilities, the coded visual catalog and a coded visual quote. Read-only; call before generate_media."
+    },
+    {
+      "name": "get_insights",
+      "toolset": "insights",
+      "requiredRole": "user",
+      "required": [
+        "action"
+      ],
+      "mutationPolicy": null,
+      "description": "Read performance: overview analytics, content and video analytics, LinkedIn analytics, performance analysis and trending topics. Read-only."
+    },
+    {
+      "name": "find_inspiration",
       "toolset": "inspiration",
       "requiredRole": "user",
       "required": [
-        "runId",
-        "expectedRevision",
-        "operation"
+        "action"
       ],
       "mutationPolicy": "direct",
-      "description": "Save a concrete generation quote for this revision without dispatch. Image requires an explicit model; copy uses its canonical model. Video/avatar uses scene analysis, generate or repair quotes and rejects model. Inspect the quote before approval. BYOK can still incur external provider costs."
+      "description": "Fetch outside content to learn from. instagram and instagram_detail read Instagram inspiration for a brand; x_posts and x_account_activity read X posts and the activity of an account. Each call spends provider credits, so say what it costs before calling. Variable cost: 0\u20131 credits per call."
     },
     {
-      "name": "replace_storyboard_character",
-      "toolset": "inspiration",
-      "requiredRole": "user",
-      "required": [
-        "brandId",
-        "runId",
-        "shotId",
-        "imageAssetIds"
-      ],
-      "mutationPolicy": "approval-required",
-      "description": "Replace the character in one storyboard shot using Higgsfield Genjutsu motion transfer. Does not preserve source audio, does not guarantee lip-sync, and does not charge credits while the catalog row is inactive at cost 0."
-    },
-    {
-      "name": "start_remix_generation",
-      "toolset": "inspiration",
-      "requiredRole": "user",
-      "required": [
-        "runId",
-        "expectedRevision",
-        "quoteId"
-      ],
-      "mutationPolicy": "approval-required",
-      "description": "Execute the exact persisted quote and revision after explicit approval. Routes by canonical output/quote; repeated accepted execution retrieves the same run rather than buying another attempt. Cost comes from the approved quote_remix_generation quote."
-    },
-    {
-      "name": "start_storyboard_long_form",
-      "toolset": "inspiration",
-      "requiredRole": "user",
-      "required": [
-        "brandId",
-        "runId",
-        "stage",
-        "expectedRevision",
-        "inputHash"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Start one quoted paid stage of a long-form storyboard after the user accepts the price from storyboard_long_form quote. Pass the quote inputHash; a changed plan is refused, and finished renders are not charged again. Then call storyboard_long_form reconcile until the stage is ready. Cost comes from the approved storyboard_long_form quote."
-    },
-    {
-      "name": "start_storyboard_slideshow",
-      "toolset": "inspiration",
-      "requiredRole": "user",
-      "required": [
-        "brandId",
-        "runId",
-        "expectedRevision",
-        "inputHash"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Start the quoted slide images of a slideshow after the user accepts the price from storyboard_slideshow quote. Pass the quote inputHash; a changed plan is refused, and finished images are not charged again. Then call storyboard_slideshow reconcile until the slides are ready. Cost comes from the approved storyboard_slideshow quote."
-    },
-    {
-      "name": "start_storyboard_video",
-      "toolset": "inspiration",
-      "requiredRole": "user",
-      "required": [
-        "brandId",
-        "runId",
-        "stage",
-        "expectedRevision",
-        "inputHash"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Start one quoted paid stage of a realistic video after the user accepts the price from storyboard_video quote. Pass the quote inputHash and the same stage and targets; a changed plan is refused. Then call storyboard_video reconcile until the stage is ready. Check drafts before quoting finals: a final that follows a current draft reuses its prompt and references. Cost comes from the approved storyboard_video quote."
-    },
-    {
-      "name": "storyboard_long_form",
+      "name": "run_remix",
       "toolset": "inspiration",
       "requiredRole": "user",
       "required": [
         "action",
-        "brandId"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Work on a long-form storyboard (voice note to presenter video). create starts one from a transcript or idea dump (brief); get reads the run and plan; draft_plan drafts or revises the plan from the brief (instruction); edit_script rewrites segment narration and cutaway briefs by id; approve_plan locks it; quote prices one paid stage and returns its inputHash; estimate prices every stage still left for the whole video without holding credits; translate copies the storyboard into a new one with the script in another language, keeping the presenter, cutaways and stills, and returns the copy; reconcile picks up finished renders; assemble opens the animatic or final edit as an Editor project. Never charges credits."
-    },
-    {
-      "name": "storyboard_run_capabilities",
-      "toolset": "inspiration",
-      "requiredRole": "user",
-      "required": [
-        "brandId",
-        "runId"
-      ],
-      "mutationPolicy": null,
-      "description": "Read the current brand-scoped storyboard video model, supported durations, interpolation eligibility and capability version without generating or changing defaults."
-    },
-    {
-      "name": "storyboard_slideshow",
-      "toolset": "inspiration",
-      "requiredRole": "user",
-      "required": [
-        "action",
-        "brandId"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Work on a photo slideshow (a swipeable 4:5 carousel for Instagram, TikTok or LinkedIn). create starts one from an idea (brief) with optional styleReferenceAssetIds and cast reference images that keep every slide consistent; get reads the run, slides and any draft post; draft_plan drafts or revises the slides (instruction); edit_slides changes slide text, the caption, or the swipe order (order lists every slide id; slides left out are removed); approve_plan locks the slides; quote prices the slide images (all, or slideIds to redo some) and returns its inputHash; reconcile picks up finished images; save_draft_post saves one draft post with the slides in order. Never charges credits, schedules or publishes."
-    },
-    {
-      "name": "storyboard_video",
-      "toolset": "inspiration",
-      "requiredRole": "user",
-      "required": [
-        "action",
-        "brandId"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Work on a realistic shot-by-shot video (up to 12 shots, under a minute). Follow the video-realism skill when it is installed. create starts one from an idea, script or shot list (brief) with optional format, runtimeBudgetSeconds, styleReferenceAssetIds and cast reference images; get reads the run, every shot with its still, draft and final render and QA, and the asset bible; draft_plan drafts or revises the shots (instruction); edit_shots changes shots by id (action, dialogue, durationSeconds, timed cuts, sfx, referenceRoles, or an exact videoPrompt; an empty one restores the compiled prompt); assets adds, changes or removes asset bible entries (faces, bodies and costumes, props, places) and picks each one's chosenAssetId; approve_plan locks the shots; quote prices one paid stage and returns its inputHash (assets: entryId with assetAction variants, angles, costume or edit; stills, draft or final: shotIds, or omit for every shot that needs it); estimate prices the stills, drafts and finals still left without holding credits; reconcile picks up finished images and renders and checks new finals; assemble opens the checked finals as an Editor project. Never charges credits, schedules or publishes."
-    },
-    {
-      "name": "update_remix_concept",
-      "toolset": "inspiration",
-      "requiredRole": "user",
-      "required": [
-        "runId",
-        "expectedRevision",
-        "edits"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Save canonical concept and recipe edits at the expected revision. Stale revisions fail; does not generate or replace the imported source."
-    },
-    {
-      "name": "archive_knowledge_source",
-      "toolset": "knowledge",
-      "requiredRole": "user",
-      "required": [
-        "sourceId"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Archive a Knowledge source so it never appears in retrieval again. Its receipts on past outputs are kept."
-    },
-    {
-      "name": "assign_knowledge_purpose",
-      "toolset": "knowledge",
-      "requiredRole": "user",
-      "required": [
-        "sourceId"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Change the purpose of a Knowledge source (Brand Truth, Inspiration, Research) and optionally hide it from retrieval."
-    },
-    {
-      "name": "capture_knowledge",
-      "toolset": "knowledge",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": "direct",
-      "description": "Save a page, document, feed, media or pasted text into the brand Knowledge library and start ingestion. Pass sourceId to refresh an existing URL or RSS source. Default purpose is INSPIRATION; pass BRAND_TRUTH only for material the brand owns and vouches for."
-    },
-    {
-      "name": "get_context_coverage",
-      "toolset": "knowledge",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "Report whether the context behind an answer is complete: per source family (Knowledge by purpose, social connections) whether it is available, partial, stale, disconnected, failed or empty, with the last success time and recovery steps. Call it when a search returns nothing or before claiming something does not exist."
-    },
-    {
-      "name": "get_knowledge_sources",
-      "toolset": "knowledge",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "List the brand Knowledge sources with their purpose, processing state and failure reason."
-    },
-    {
-      "name": "read_knowledge_source",
-      "toolset": "knowledge",
-      "requiredRole": "user",
-      "required": [
-        "sourceId"
-      ],
-      "mutationPolicy": null,
-      "description": "Read one Knowledge source: metadata, current version state, provenance, a bounded text preview and the spaces it belongs to."
-    },
-    {
-      "name": "retry_knowledge_ingestion",
-      "toolset": "knowledge",
-      "requiredRole": "user",
-      "required": [
-        "sourceId"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Requeue ingestion for a Knowledge source whose last attempt failed. Never creates a duplicate."
-    },
-    {
-      "name": "search_knowledge",
-      "toolset": "knowledge",
-      "requiredRole": "user",
-      "required": [
-        "query"
-      ],
-      "mutationPolicy": null,
-      "description": "Search the brand Knowledge library (saved pages, documents and notes) and return cited passages with their source, purpose, capture time and relevance. Exact names, product codes and quoted phrases in the query are matched verbatim as well as by meaning. Filter by source kind and capture date; when more results exist the answer carries nextCursor, which you pass back with the same query and filters for the next page. Use it before writing anything that must be accurate about the brand."
-    },
-    {
-      "name": "get_model3d",
-      "toolset": "models3d",
-      "requiredRole": "user",
-      "required": [
-        "id"
-      ],
-      "mutationPolicy": null,
-      "description": "Read a 3D render: status (sheet_pending, sheet_ready, building, ready, failed), the angle sheet URL and, once ready, the GLB URL. Does not charge credits."
-    },
-    {
-      "name": "render_3d",
-      "toolset": "models3d",
-      "requiredRole": "user",
-      "required": [
-        "imageUrl"
+        "input"
       ],
       "mutationPolicy": "approval-required",
-      "description": "Render a photo as a 3D model. First makes a 3x3 angle sheet of the subject, and with build=true also turns it into a GLB. Holds 50 credits for the sheet plus 27 for a standard build (77 total, or 184 with quality=high), refunded if a step fails. Returns the render id and status; poll get_model3d until it is ready. This is a side output, not a Studio generation. Variable cost: 50\u2013184 credits per 3D render."
+      "description": "Run a saved remix. quote saves a price quote for a revision without starting it; start runs the exact quote after approval and spends credits; control cancels or resumes a video or avatar run (input.action is cancel or resume); replace_character swaps a storyboard character; status reads the run, its revision, quotes and artifacts and is safe to repeat. Cost comes from the approved find_tools quote."
     },
     {
-      "name": "connect_social_account",
-      "toolset": "onboarding",
+      "name": "save_remix",
+      "toolset": "inspiration",
       "requiredRole": "user",
       "required": [
-        "platform"
+        "action",
+        "input"
       ],
-      "mutationPolicy": "direct",
-      "description": "Start a resumable social-account connection. Returns a connectionId and browser authorization URL. Poll get_connection_status until authorized."
+      "mutationPolicy": "approval-required",
+      "description": "Prepare a remix without generating anything. import_source imports a public X, Instagram or TikTok post as a source and needs approval; concept saves a remix concept from an imported source; concept_update edits it at the expected revision; attach_source picks the Library video to analyze; storyboard_remix saves a storyboard remix."
     },
     {
-      "name": "get_connection_status",
-      "toolset": "onboarding",
+      "name": "get_knowledge",
+      "toolset": "knowledge",
       "requiredRole": "user",
-      "required": [],
+      "required": [
+        "action"
+      ],
       "mutationPolicy": null,
-      "description": "Get connection status for a social platform or a durable connection request id. Safe to poll."
+      "description": "Read the knowledge base: search it, list sources, read a source, or check context coverage. Read-only."
     },
     {
-      "name": "get_orgs",
-      "toolset": "onboarding",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "List every organization you belong to, which one this connection works inside, and the brands in it. Every other tool acts in the active organization unless the connection allows all organizations: then each listing includes its brand ids, and any tool accepts an optional organization (name, slug or id) to act in that one for a single call. switch_org changes the default; a connection limited to one organization must be reconnected to choose another."
-    },
-    {
-      "name": "initiate_oauth_connect",
-      "toolset": "onboarding",
+      "name": "manage_knowledge",
+      "toolset": "knowledge",
       "requiredRole": "user",
       "required": [
-        "platform"
+        "action"
       ],
       "mutationPolicy": "direct",
-      "description": "Start connecting a social account and return a durable connection request plus a connect button."
-    },
-    {
-      "name": "switch_org",
-      "toolset": "onboarding",
-      "requiredRole": "user",
-      "required": [
-        "organization"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Switch which organization this connection works inside, by its name, slug or id from get_orgs. Only available when the connection was approved for all organizations. Your role in the organization is checked on every request."
+      "description": "Change a brand's Knowledge. capture saves a page, document, feed, media or text and ingests it; assign_purpose changes a source's purpose (Brand Truth, Inspiration, Research) or hides it from retrieval; archive removes a source from retrieval for good; retry requeues a failed ingestion. Pass brandId when the connection has no selected brand."
     },
     {
       "name": "check_channel",
@@ -1170,529 +236,91 @@
         "action"
       ],
       "mutationPolicy": null,
-      "description": "Check publishing channel capabilities or validate a proposed target. capabilities lists channels when input is omitted; validate checks input.platform and returns errors/warnings/validationState. Read-only."
+      "description": "Check publishing channels. capabilities lists channels and limits when input is omitted; validate checks input.platform and returns errors/warnings/validationState; readiness lists a brand's connected channels and their health; music searches the Instagram music catalog for a Reel (input.credentialId, optional input.query); connection_status and linkedin_connection report account connections. Read-only."
     },
     {
-      "name": "control_scheduled_release",
+      "name": "control_release",
       "toolset": "scheduler",
       "requiredRole": "user",
       "required": [
-        "releaseId",
+        "action",
+        "input"
+      ],
+      "mutationPolicy": "approval-required",
+      "description": "Control a release. control requests cancel, pause, resume or publish-now of a scheduled release; publish publishes an owned, reviewed article publicly; remove_post deletes a post from Genfeed, a published one included, and with deleteMedia the Library media only it uses (the social network copy is not touched); remove_asset deletes one Library asset by assetId from every post that uses it. Review first with get_content, and check_channel(action=validate) before publish-now. publish-now, resume, publish, remove_post and remove_asset change nothing on the first call: show the person what returns, and after they agree in this conversation repeat it with confirmed true in the input. cancel and pause need no confirmation. After a delete read back with get_content(action=posts) and get_assets."
+    },
+    {
+      "name": "schedule_release",
+      "toolset": "scheduler",
+      "requiredRole": "user",
+      "required": [
         "action"
       ],
       "mutationPolicy": "approval-required",
-      "description": "Request cancel, pause, resume or publish-now for an existing release. Use get_scheduled_release to review exact content, channels and timing; check check_channel(action=validate) before publish-now, and confirm the selected publishing credential is still connected before resume. publish-now requests immediate public posting and resume may restart scheduled or recurring posting. Every action waits for server-enforced approval; review and release in Genfeed."
+      "description": "Create or update a multi-channel release from prepared text and media. Run check_channel(action=validate) for each channel first. create takes input={release:{...}} for one release or input={releases:[...]} for a batch, never the release fields at the top of input, and saves a draft by default; a scheduled status or date requests future or recurring publishing. update changes content, media, recurrence, timing or one target. Scheduling or changing a release never waits in the web approvals queue: the first call changes nothing and returns what to confirm; after the person agrees in this conversation, repeat it with confirmed true in the input. Drafts need no confirmation."
     },
     {
-      "name": "create_scheduled_release",
-      "toolset": "scheduler",
-      "requiredRole": "user",
-      "required": [
-        "release"
-      ],
-      "mutationPolicy": "approval-required",
-      "description": "Create a multi-channel release from prepared content and existing media. Use after check_channel(action=validate) for each channel. status draft (the default) saves for review; status scheduled or a scheduledDate requests future publishing, including recurring releases. Scheduling waits for server-enforced approval. If this connection cannot resolve approvals, review and release it in Genfeed."
-    },
-    {
-      "name": "get_brand_publishing_readiness",
-      "toolset": "scheduler",
-      "requiredRole": "user",
-      "required": [
-        "brandId"
-      ],
-      "mutationPolicy": null,
-      "description": "List a brand connected publishing channels with credential ID, schedulability, health, and diagnostics. Read-only; check before scheduling."
-    },
-    {
-      "name": "get_scheduled_release",
-      "toolset": "scheduler",
-      "requiredRole": "user",
-      "required": [
-        "releaseId"
-      ],
-      "mutationPolicy": null,
-      "description": "Get one scheduled release by ID: channel targets, validation/execution state, attachments, recurrence, and transition history."
-    },
-    {
-      "name": "update_scheduled_release",
-      "toolset": "scheduler",
-      "requiredRole": "user",
-      "required": [
-        "releaseId",
-        "scope",
-        "changes"
-      ],
-      "mutationPolicy": "approval-required",
-      "description": "Change content, media, recurrence or timing on an existing release, or scheduling/settings on one target. Use get_scheduled_release to inspect its current content and state, then check_channel(action=validate) before changing publishing settings. Changes to already-live content may update public posts. Every update waits for server-enforced approval; review and apply in Genfeed."
-    },
-    {
-      "name": "archive_skill",
+      "name": "manage_skill",
       "toolset": "skills-pro",
       "requiredRole": "user",
       "required": [
-        "skillId"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Uninstall a skill the caller governs."
-    },
-    {
-      "name": "create_skill",
-      "toolset": "skills-pro",
-      "requiredRole": "user",
-      "required": [
-        "name",
-        "slug",
-        "description",
-        "instructions"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Create a personal, organization, or brand skill. The default owner is the caller."
-    },
-    {
-      "name": "export_skill",
-      "toolset": "skills-pro",
-      "requiredRole": "user",
-      "required": [
-        "skillId"
-      ],
-      "mutationPolicy": null,
-      "description": "Export instruction text when the caller is allowed to export it."
-    },
-    {
-      "name": "fork_skill",
-      "toolset": "skills-pro",
-      "requiredRole": "user",
-      "required": [
-        "skillId"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Fork a skill into the caller personal library."
-    },
-    {
-      "name": "install_skills_pro_skill",
-      "toolset": "skills-pro",
-      "requiredRole": "user",
-      "required": [
-        "receiptId",
-        "skillSlug"
-      ],
-      "mutationPolicy": "approval-required",
-      "description": "Install one entitled Skills Pro pack into the authenticated organization runtime after integrity verification."
-    },
-    {
-      "name": "publish_skill",
-      "toolset": "skills-pro",
-      "requiredRole": "user",
-      "required": [
-        "skillId"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Publish the current skill version to the organization or publicly."
-    },
-    {
-      "name": "rollback_skill",
-      "toolset": "skills-pro",
-      "requiredRole": "user",
-      "required": [
-        "skillId",
-        "versionId"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Restore a governed skill to an earlier captured version. A Skills Pro reinstall is the update path."
-    },
-    {
-      "name": "verify_skills_pro_entitlement",
-      "toolset": "skills-pro",
-      "requiredRole": "user",
-      "required": [
-        "receiptId"
-      ],
-      "mutationPolicy": null,
-      "description": "Verify a Skills Pro receipt for the authenticated organization and list the exact skill slugs it grants."
-    },
-    {
-      "name": "approve_social_draft",
-      "toolset": "social-inbox",
-      "requiredRole": "user",
-      "required": [
-        "conversationId",
-        "messageId"
-      ],
-      "mutationPolicy": "approval-required",
-      "description": "Approve a social inbox draft and publish it externally as a reply or DM. Requires approval before execution."
-    },
-    {
-      "name": "assign_social_conversation",
-      "toolset": "social-inbox",
-      "requiredRole": "user",
-      "required": [
-        "conversationId"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Assign or unassign a social inbox conversation."
-    },
-    {
-      "name": "create_social_reply_draft",
-      "toolset": "social-inbox",
-      "requiredRole": "user",
-      "required": [
-        "conversationId",
-        "text"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Create a draft reply or DM in the social inbox for later approval. This does not send externally."
-    },
-    {
-      "name": "fetch_x_account_activity",
-      "toolset": "social-inbox",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": "direct",
-      "description": "List recent posts from an X account. Uses the brand's connected account when no username is given."
-    },
-    {
-      "name": "get_social_conversation",
-      "toolset": "social-inbox",
-      "requiredRole": "user",
-      "required": [
-        "conversationId"
-      ],
-      "mutationPolicy": null,
-      "description": "Get one social inbox conversation and, by default, its recent messages."
-    },
-    {
-      "name": "get_social_conversations",
-      "toolset": "social-inbox",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "List social inbox conversations across connected YouTube and Instagram accounts, with filters for review state, assignee, tags, and platform."
-    },
-    {
-      "name": "mark_social_conversation_resolved",
-      "toolset": "social-inbox",
-      "requiredRole": "user",
-      "required": [
-        "conversationId"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Mark a social inbox conversation as resolved."
-    },
-    {
-      "name": "post_social_reply",
-      "toolset": "social-inbox",
-      "requiredRole": "user",
-      "required": [
-        "conversationId",
-        "text"
-      ],
-      "mutationPolicy": "approval-required",
-      "description": "Publish a reply in a social inbox conversation. Requires approval before execution."
-    },
-    {
-      "name": "reject_social_draft",
-      "toolset": "social-inbox",
-      "requiredRole": "user",
-      "required": [
-        "conversationId",
-        "messageId"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Reject a social inbox draft without publishing it externally."
-    },
-    {
-      "name": "send_social_dm",
-      "toolset": "social-inbox",
-      "requiredRole": "user",
-      "required": [
-        "conversationId",
-        "text"
-      ],
-      "mutationPolicy": "approval-required",
-      "description": "Send a direct message from a social inbox conversation. Requires approval before execution."
-    },
-    {
-      "name": "tag_social_conversation",
-      "toolset": "social-inbox",
-      "requiredRole": "user",
-      "required": [
-        "conversationId",
-        "tags"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Replace tags on a social inbox conversation."
-    },
-    {
-      "name": "cancel_visual_code_project",
-      "toolset": "visual-code",
-      "requiredRole": "user",
-      "required": [
-        "projectId",
-        "revision"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Request cancellation of the current visual revision. Consumed work is charged and unused held credits are released."
-    },
-    {
-      "name": "export_visual_code_project",
-      "toolset": "visual-code",
-      "requiredRole": "user",
-      "required": [
-        "projectId",
-        "revision",
-        "expectedRevision",
-        "maximumCredits"
-      ],
-      "mutationPolicy": "approval-required",
-      "description": "Export retained source to MP4, PNG or JPEG Library outputs using an approved quote and expectedRevision. Cost comes from the approved quote_visual_code_generation quote."
-    },
-    {
-      "name": "generate_visual_code",
-      "toolset": "visual-code",
-      "requiredRole": "user",
-      "required": [
-        "brandId",
-        "label",
-        "settings",
-        "maximumCredits"
-      ],
-      "mutationPolicy": "approval-required",
-      "description": "Create a versioned visual project from a prompt or directly supplied React/Remotion source. Requires a prior quote and approved maximumCredits. Untrusted code runs only in an isolated renderer; completed outputs enter the brand Library. Cost comes from the approved quote_visual_code_generation quote."
-    },
-    {
-      "name": "get_visual_code_catalog",
-      "toolset": "visual-code",
-      "requiredRole": "user",
-      "required": [
-        "brandId"
-      ],
-      "mutationPolicy": null,
-      "description": "List available visual-code models, rendering limits, rates and inspection support for this brand."
-    },
-    {
-      "name": "get_visual_code_project",
-      "toolset": "visual-code",
-      "requiredRole": "user",
-      "required": [
-        "projectId"
-      ],
-      "mutationPolicy": null,
-      "description": "Read visual project revision history, diagnostics, costs, previews and completed Library outputs. Source is available through the authenticated source download."
-    },
-    {
-      "name": "quote_visual_code_generation",
-      "toolset": "visual-code",
-      "requiredRole": "user",
-      "required": [
-        "operation",
+        "action",
         "input"
       ],
-      "mutationPolicy": null,
-      "description": "Quote a visual-code request without spending credits. Show the selected model, inspection uncertainty, output formats and maximum credits before requesting approval."
+      "mutationPolicy": "approval-required",
+      "description": "Manage skills. create, fork, publish, rollback and archive change a skill; export reads its instructions when allowed; verify_pro checks a Skills Pro receipt and lists the skills it grants; install_pro installs one entitled pack after approval."
     },
     {
-      "name": "retry_visual_code_project",
-      "toolset": "visual-code",
+      "name": "manage_social",
+      "toolset": "social-inbox",
       "requiredRole": "user",
       "required": [
-        "projectId",
-        "revision",
-        "expectedRevision",
-        "maximumCredits"
+        "action",
+        "input"
       ],
       "mutationPolicy": "approval-required",
-      "description": "Explicitly retry retained source from a failed or cancelled visual revision using a new requestId and approved quote. No automatic source repair occurs; inspect prior diagnostics for uncertain provider work. Cost comes from the approved quote_visual_code_generation quote."
+      "description": "Work the social inbox. draft_reply saves a reply or DM draft without sending; approve_draft and reject_draft decide a draft; reply and dm publish externally and need approval; assign, tag and resolve organize a conversation."
     },
     {
-      "name": "revise_visual_code_project",
-      "toolset": "visual-code",
+      "name": "find_workflows",
+      "toolset": "workflows",
       "requiredRole": "user",
       "required": [
-        "projectId",
-        "expectedRevision",
-        "maximumCredits"
+        "action"
+      ],
+      "mutationPolicy": null,
+      "description": "Read workflows: list them, templates, the system catalog, runs, or inspect one (the status of a run is read with check_job). Read-only."
+    },
+    {
+      "name": "manage_workflow",
+      "toolset": "workflows",
+      "requiredRole": "user",
+      "required": [
+        "action",
+        "input"
       ],
       "mutationPolicy": "approval-required",
-      "description": "Create an immutable visual revision using exactly one prompt, sourceCode or props change and an approved quote. expectedRevision prevents overwriting newer work. Cost comes from the approved quote_visual_code_generation quote."
+      "description": "Change workflows. create saves one; duplicate copies one without touching the source; install adds a system workflow to the workspace; schedule turns its schedule on or off; execute runs it and spends credits, so inspect it first with find_workflows; create_ad_remix and create_instagram_remix build a remix workflow from a source ad or Instagram post."
     },
     {
-      "name": "create_ad_remix_workflow",
-      "toolset": "workflows",
-      "requiredRole": "user",
-      "required": [
-        "adId",
-        "source"
-      ],
-      "mutationPolicy": "approval-required",
-      "description": "Create a draft, review-only ad remix workflow from a selected public or connected ad. This never launches an ad."
-    },
-    {
-      "name": "create_instagram_remix_workflow",
-      "toolset": "workflows",
-      "requiredRole": "user",
-      "required": [
-        "username",
-        "shortcode"
-      ],
-      "mutationPolicy": "approval-required",
-      "description": "Create a draft, review-only Instagram remix workflow that adapts a public post pattern to the selected brand. This is prompt-based reinterpretation, not video style transfer."
-    },
-    {
-      "name": "create_workflow",
-      "toolset": "workflows",
-      "requiredRole": "user",
-      "required": [
-        "label"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Create a workflow: direct graph, a recurring scaffold, or natural-language generation. Editable in the Workflows app."
-    },
-    {
-      "name": "duplicate_workflow",
-      "toolset": "workflows",
-      "requiredRole": "user",
-      "required": [
-        "workflowId"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Duplicate a workflow into the current organization and brand scope so the copy can be edited or scheduled without mutating the source workflow."
-    },
-    {
-      "name": "execute_workflow",
-      "toolset": "workflows",
-      "requiredRole": "user",
-      "required": [
-        "workflowId"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Execute an existing workflow immediately. Select nodeIds to rerun edited steps while reusing locked outputs; pass required variables for full or partial execution."
-    },
-    {
-      "name": "get_system_workflow_catalog",
-      "toolset": "workflows",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "List the code-owned Genfeed system workflow catalog with per-organization install state. Use this to discover official automations before installing one."
-    },
-    {
-      "name": "get_workflow_run",
-      "toolset": "workflows",
-      "requiredRole": "user",
-      "required": [
-        "runId"
-      ],
-      "mutationPolicy": null,
-      "description": "Inspect a single workflow run, including status, trigger, node results, progress, timing, errors, and metadata."
-    },
-    {
-      "name": "get_workflow_runs",
-      "toolset": "workflows",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "List workflow run history with optional workflow, status, trigger, limit, and offset filters."
-    },
-    {
-      "name": "get_workflow_status",
-      "toolset": "workflows",
-      "requiredRole": "user",
-      "required": [
-        "workflowId"
-      ],
-      "mutationPolicy": null,
-      "description": "Get the current status and progress of a workflow, including step completion details."
-    },
-    {
-      "name": "get_workflow_templates",
-      "toolset": "workflows",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "List available workflow templates that can be used to quickly create new workflows."
-    },
-    {
-      "name": "get_workflows",
-      "toolset": "workflows",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "List all workflows in your organization with optional status filtering."
-    },
-    {
-      "name": "inspect_workflow",
-      "toolset": "workflows",
-      "requiredRole": "user",
-      "required": [
-        "workflowId"
-      ],
-      "mutationPolicy": null,
-      "description": "Inspect one workflow, including schedule, lifecycle, inputs, graph summary, and immutable system-workflow metadata when present."
-    },
-    {
-      "name": "install_system_workflow",
-      "toolset": "workflows",
-      "requiredRole": "user",
-      "required": [
-        "canonicalId"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Install one system workflow catalog entry into the current organization as an editable, schedulable copy. Installing the same entry twice returns the existing workflow."
-    },
-    {
-      "name": "set_workflow_schedule",
-      "toolset": "workflows",
-      "requiredRole": "user",
-      "required": [
-        "workflowId",
-        "enabled"
-      ],
-      "mutationPolicy": "direct",
-      "description": "Enable, disable, or update the schedule on an editable workflow duplicate. Disabling requires no new cron expression when the workflow already has one."
-    },
-    {
-      "name": "create_task",
+      "name": "get_workspace",
       "toolset": "workspace",
       "requiredRole": "user",
       "required": [
-        "title"
+        "action"
       ],
-      "mutationPolicy": "direct",
-      "description": "Create a workspace task. Only records the task; it does not start work, generate, or publish."
-    },
-    {
-      "name": "get_activity",
-      "toolset": "workspace",
-      "requiredRole": "user",
-      "required": [],
       "mutationPolicy": null,
-      "description": "List recent account activity, newest first: generations, publishing and credit events. Set activeOnly to see only work still processing."
+      "description": "Read what needs attention: tasks, activity, the inbox, the review queue, stalled items, a prep brief and social conversations. Read-only."
     },
     {
-      "name": "get_inbox",
-      "toolset": "workspace",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "List what is waiting for review in the workspace inbox: workflow review gates and queued MCP approvals. Read-only; decisions are made in the app."
-    },
-    {
-      "name": "get_task",
+      "name": "manage_workspace",
       "toolset": "workspace",
       "requiredRole": "user",
       "required": [
-        "taskId"
+        "action"
       ],
-      "mutationPolicy": null,
-      "description": "Get one workspace task by id: description, status, priority, assignee, outputs and linked content."
-    },
-    {
-      "name": "get_tasks",
-      "toolset": "workspace",
-      "requiredRole": "user",
-      "required": [],
-      "mutationPolicy": null,
-      "description": "List workspace tasks, newest first. Filter by status or priority. Returns title, status, priority and assignee for each task."
+      "mutationPolicy": "direct",
+      "description": "Work in the workspace. new_task records a task and task updates, comments on or completes one; neither starts work. new_chat and chat_message talk to the agent."
     }
   ]
 }
