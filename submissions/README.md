@@ -6,6 +6,8 @@ client acceptance results, or an approved marketplace listing.
 
 ## Files to use
 
+Start with [directories.md](directories.md): it holds the state of every listing and the next step for each.
+
 | Destination | Guide | Submission input |
 | --- | --- | --- |
 | Cursor Marketplace | [Cursor](cursor.md) | Public repository URL, listing copy and logo |
@@ -15,6 +17,7 @@ client acceptance results, or an approved marketplace listing.
 | Grok Build marketplace | [Grok](grok.md) | Generated SHA-pinned catalog entry and upstream PR |
 | Grok chat custom connector | [Grok](grok.md) | Remote endpoint; separate from Grok Build listing |
 | MCP Registry | [Registry](registry.md) | `server.json` and publisher ownership verification |
+| Meta Muse | [Muse](muse.md) | Form answers and tool classification |
 
 [listing.json](listing.json) contains ready-to-copy product copy and public URLs.
 Use [reviewer setup](reviewer-setup.md), [acceptance cases](test-cases.md),

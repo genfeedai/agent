@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Add `submissions/directories.md` (state of every directory listing and the next step) and `submissions/muse.md` (Meta Muse form answers and tool classification).
+- Build `genfeed-openai-<version>.zip` for OpenAI's upload-a-ZIP portal and put the review cases and release notes in `plugin.json` so the portal imports them.
+
 ## 0.1.12 — 2026-11-26
 
 - Rewrite the skill, the Claude plugin skill, `GEMINI.md`, `README.md`, `llms-install.md` and `AGENTS.md` to the merged MCP tools the server lists since v0.3.4 (each takes `action` plus one `input` object), for example `save_post`, `schedule_release`, `get_context`, `check_channel`, `generate_media` and `check_job`. Scheduling and publishing now follow the server's confirmation step (`confirmed: true` only after the person agrees), and approvals are decided in the Genfeed review inbox: `resolve_approval` is listed only on the staff endpoint.

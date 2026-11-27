@@ -1,14 +1,16 @@
 # ChatGPT and Codex submission
 
+> The portal flow changed after this page was written: it is now upload a ZIP, connect the server, complete the
+> review details, submit. Follow [directories.md](directories.md) for the current steps; the field notes below
+> still apply.
+
 Portal: https://platform.openai.com/plugins
 Sources: [submission](https://developers.openai.com/plugins/deploy/submission),
 [packaging](https://developers.openai.com/plugins/build/plugins),
 [server review](https://developers.openai.com/plugins/deploy/app-review).
 
-Choose **With MCP**, then the universal HTTPS URL in [listing.json](listing.json).
-Add the packaged skills alongside the server, either through upload or MCP skill import.
-This repository builds an upload bundle with a root manifest, skill and referenced
-assets. MCP import is an alternative only when the deployed server implements
+Upload `genfeed-openai-<version>.zip` (root manifest, `mcp.json`, skill and referenced assets), whose
+`mcp.json` carries the universal HTTPS URL in [listing.json](listing.json). MCP import is an alternative only when the deployed server implements
 OpenAI’s static-skills extension; the existing resource catalog alone does not prove it. Root `plugin.json` uses the
 portable format; `extensions.com.openai.interface` contains presentation metadata.
 The current official packaging guide (checked 2026-09-23) supports this layout

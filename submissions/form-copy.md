@@ -48,9 +48,9 @@ contact-only personal information belong in private form fields, never the repo.
 ## OpenAI — ChatGPT and Codex
 
 Use the [With MCP route](openai.md) at https://platform.openai.com/plugins.
-Attach genfeed-skills-0.1.12.zip from the final clean build if including the skill.
-The repository URL alone is not that upload. The package build also creates a full
-ZIP for other review needs; do not replace the skills upload with that full bundle.
+Upload genfeed-openai-0.1.12.zip from the final clean build. The repository URL alone is not that
+upload. The build also creates a skills-only ZIP and a full ZIP for other reviews; do not use either
+for the OpenAI portal.
 
 Paste the common fields, three prompts and release notes from [openai.md](openai.md).
 Provide five positive and three negative cases from [test-cases.md](test-cases.md),
