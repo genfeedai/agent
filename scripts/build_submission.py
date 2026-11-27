@@ -24,6 +24,10 @@ def skill_package_files(files):
             or file.relative_to(ROOT).parts[0] in {'skills', 'assets'}]
 
 
+def openai_package_files(files):
+    return skill_package_files(files) + [ROOT / 'mcp.json']
+
+
 def main():
     failures = validate()
     if failures:
@@ -52,6 +56,7 @@ def main():
                 files.append(ROOT / name)
     archive(output / f'genfeed-{version}.zip', files)
     archive(output / f'genfeed-skills-{version}.zip', skill_package_files(files))
+    archive(output / f'genfeed-openai-{version}.zip', openai_package_files(files))
     for file in files:
         relative = file.relative_to(ROOT)
         if relative.parts[0] in {'submissions', 'assets'}:
